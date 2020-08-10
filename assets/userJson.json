@@ -1,0 +1,14 @@
+{
+    "result": {
+      "ID": "1",
+      "ADMIN": true,
+      "NAME": "Techno",
+      "LAST_NAME": "Unit",
+      "EMAIL": "mail@mail.com",
+      "PERSONAL_GENDER": "",
+      "PERSONAL_PHOTO": "https://madad.4u.uz/upload/main/9c4/trebuetsya-operator-call-centr-call-centr-rabota-s-klientami-photo-d095.jpg",
+      "TIME_ZONE": "",
+      "TIME_ZONE_OFFSET": 18000
+    } 
+ 
+  }

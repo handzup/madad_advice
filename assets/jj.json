@@ -1,0 +1,144 @@
+{
+    "ru": [
+      {
+        "id": "90",
+        "title": "Организационная форма и управление деятельностью",
+        "icon": "fad fa-chart-network",
+        "path": "organizatsionnaya-forma-i-upravlenie-deyatelnostyu",
+        "sort": "500"
+      },
+      {
+        "id": "91",
+        "title": "Государственная регистрация",
+        "icon": "fad fa-box-check",
+        "path": "gosudarstvennaya-registratsiya",
+        "sort": "500"
+      },
+      {
+        "id": "92",
+        "title": "Выбор места для бизнеса",
+        "icon": "fad fa-clipboard-list-check",
+        "path": "vybor-mesta-dlya-biznesa",
+        "sort": "500"
+      },
+      {
+        "id": "93",
+        "title": "Лицензии и сертификаты",
+        "icon": "fad fa-file-certificate",
+        "path": "litsenzii-i-sertifikaty",
+        "sort": "500"
+      },
+      {
+        "id": "94",
+        "title": "Инфраструктура",
+        "icon": "fad fa-faucet-drip",
+        "path": "infrastruktura",
+        "sort": "500"
+      },
+      {
+        "id": "95",
+        "title": "Банк и Финансы",
+        "icon": "fad fa-analytics",
+        "path": "bank-i-finansy",
+        "sort": "500"
+      },
+      {
+        "id": "96",
+        "title": "Вопросы налогооблажения",
+        "icon": "fad fa-money-check-edit-alt",
+        "path": "voprosy-nalogooblazheniya",
+        "sort": "500"
+      },
+      {
+        "id": "97",
+        "title": "Таможенное оформление",
+        "icon": "fad fa-luggage-cart",
+        "path": "tamozhennoe-oformlenie",
+        "sort": "500"
+      },
+      {
+        "id": "98",
+        "title": "Льготы",
+        "icon": "fad fa-hand-receiving",
+        "path": "lgoty",
+        "sort": "500"
+      },
+      {
+        "id": "99",
+        "title": "Логистика",
+        "icon": "fad fa-person-dolly",
+        "path": "logistika",
+        "sort": "500"
+      },
+      {
+        "id": "100",
+        "title": "Экспорт и импорт",
+        "icon": "fad fa-globe",
+        "path": "eksport-i-import",
+        "sort": "500"
+      },
+      {
+        "id": "102",
+        "title": "Работа с персоналом",
+        "icon": "fad fa-file-user",
+        "path": "rabota-s-personalom",
+        "sort": "500"
+      },
+      {
+        "id": "103",
+        "title": "Защита прав предпринимателей",
+        "icon": "fad fa-user-shield",
+        "path": "zashchita-prav-predprinimateley",
+        "sort": "500"
+      },
+      {
+        "id": "104",
+        "title": "Прекращение предпринимательской деятельности",
+        "icon": "fad fa-sad-tear",
+        "path": "prekrashchenie-predprinimatelskoy-deyatelnosti",
+        "sort": "500"
+      },
+      {
+        "id": "105",
+        "title": "Проверки",
+        "icon": "fad fa-user-secret",
+        "path": "proverki",
+        "sort": "500"
+      },
+      {
+        "id": "106",
+        "title": "Свободные эконом. и малые пром.зоны",
+        "icon": "fad fa-city",
+        "path": "svobodnye-ekonom-i-malye-prom-zony",
+        "sort": "500"
+      },
+      {
+        "id": "107",
+        "title": "Фермерское хозяйство",
+        "icon": "fad fa-carrot",
+        "path": "fermerskoe-khozyaystvo",
+        "sort": "500"
+      },
+      {
+        "id": "108",
+        "title": "Интеллектуальная собственность",
+        "icon": "fad fa-lightbulb-exclamation",
+        "path": "intellektualnaya-sobstvennost",
+        "sort": "500"
+      },
+      {
+        "id": "109",
+        "title": "Страхование",
+        "icon": "fad fa-car-crash",
+        "path": "strakhovanie",
+        "sort": "500"
+      },
+      {
+        "id": "143",
+        "title": "Электронная коммерция",
+        "icon": "fab fa-cc-amazon-pay",
+        "path": "elektronnaya-kommertsiya",
+        "sort": "500"
+      }
+    ]
+}

@@ -1,0 +1,72 @@
+str,en_US,ru_RU,uz_UZ
+spheresList,List of spheres,Список сфер,Сохалар рўйхати
+emptyPage,While it's empty here,Пока тут пусто,Ҳозирча бу ерда ҳечинима йўқ
+search,Search,Поиск,Излаш
+signIn,Sign In,Войти,Тизимга кириш
+furtherActions,For further actions you must sign in,Для дальнейших действий необходимо авторизоваться,Кейинги ҳаракатлар амалга ошириш учун тизимга кириш керак
+email,E-mail,E-mail,E-mail
+password,Password,Пароль,Парол
+forgotPassword,Forgot Password ?,Забыли пароль?,Паролни унутдингизми?
+signUp,Sign Up,Регистрация,Рўйхатдан ўтиш
+searchActicles,Search articles,Поиск статей,Мақолаларни қидириш
+name,Name,Имя,Исмингиз
+haveAnAcc,Already have an account?,У Вас уже есть аккаунт?,Аккаунтингиз борми?
+successfulLogin,Successful login,Успешный вход,Муваффақиятли кириш
+signOut,Sign out,Выйти,Чиқиш
+questionsHistory,History of questions,История вопросов,Саволлар тарихи
+viewedArticels,Viewed articles,Просмотренные статьи,Кўрилган мақолалар
+editProfile,Edit profile,Редактировать профиль,Профилни таҳрирлаш
+enterName,Enter your name,Введите имя,Исмингизни киритинг
+enterLastName,Enter last name,Введите фамилию,Фамилиянгизни киритинг
+men,Men,Муж,Еркак
+woman,Woman,Женщина,Аёл
+Hide,Hide,Скрыт,Яширин
+selectGender,Select gender,Выбрать пол,Жинсни танланг
+edit,Edit,Редактировать,Таҳрирлаш
+takePhoto,Take a photo,Сделать снимок,Суратга олиш
+chooseFromGallery,Choose from gallery,Выбрать из галереи,Галереядан танланг
+deletePhoto,Delete photo,Удалить фото,Фотосуратни ўчириш
+rlySignOut,Do you really want to sign out of your account?,Вы реально хотите выйти из аккаунта?,Ҳақиқатан ҳам аккаунтингиздан чиқмоқчимисиз?
+yes,Yes,Да,Ҳа
+no,No,Нет,Йўқ
+resPassword,Reset Your Password,Сбросить пароль,Паролни тиклаш
+helpful,Was this article helpful?,Эта статья была полезной?,Ушбу мақола фойдали бўлдими?
+ty,"Thank you for your comment, it is very important for us!","Спасибо за Ваш отзыв, он очень Важен для нас!","Фикр-мулоҳазангиз учун раҳмат, бу биз учун жуда муҳим!"
+norma,Normative acts,Нормативные акты,Норматив ҳужжатлар
+pinnedFiles,Attached files,Прикрепленные файлы,Бириктирилган файллар
+download,Download,Загрузить,Юклаб олиш
+open,Open,Открыть,Очиш
+writeComment,Write a comment,Написать коментарий,Фикр ёзинг
+comments,Commetns,Коментарии,Фикр-мулоҳазалар
+sections,Sections,Разделы,Бўлимлар
+spheres,Spheres,Сферы,Соҳалар
+recentArticels,Recent articles,Недавние статьи,Сўнгги мақолалар
+feedback,Feedback,Обратная связь,Фикр-мулоҳаза
+noInternet,No internet connection,Нет соединения с интернетом,Интернетга уланмаган
+error,Error,Ошибка,Хато
+whappened,Write what happened \n or ask a question,"Напишите,что случилось \n или задайте вопрос",Нима бўлганини ёзинг \n ёки савол беринг
+writeSmth,Write something,Напишите что нибудь,Нимадир ёзинг
+followsteps,Follow the simple steps,Следуйте простым шагам,Оддий амалларни бажаринг
+emailAdress,Email Address,Адрес электронной почты,Электрон почта манзили
+emailcant,Email can't be empty,Электронная почта не может быть пустой,Э-почта манзили бўш бўлиши мумкин эмас
+submit,Submit,Отправить,Юбориш
+notifications,Notifications,Уведомления,Билдиришномалар
+notificationDetails,Notification Details,Детали уведомления,Хабарнома тафсилотлари
+save,Save,Сохранить,Сақлаш
+passwordCantBe,Password cannot be empty,Пароль не может быть пустым,Парол бўш бўлиши мумкин эмас
+answersOnQuestions,Answers on questions,Ответы на Вопросы,Саволларга жавоблар
+askAQuestion,Ask a Question,Задать вопрос,Савол бериш
+question,Question,Вопрос,Савол
+from,From:,От:,Кимдан
+answer,Answer,Ответ,Жавоб
+ask,Ask,Задать,Сўраш
+nameCantBe,Name cannot be empty,Имя не может быть пустым,Исм бўш бўлиши мумкин эмас
+enterPassword,Enter password,Введите Пароль,Паролни киритинг
+welcomeTo,"Welcome to ",Добро пожаловать в,"Welcome to "
+auth,Sign In,Авторизоваться,Кириш
+recent,Recent,Последние,Охирги
+tryAgain,Try again,Попробовать снова,Қайта уриниб кўринг
+haveNotAcc,Don't have an account?,У вас нет аккаунта ?,Акаунт йўқми?
+succesReg,Successful registration!,Успешная Регистрация!,Рўйхатдан ўтиш муваффақиятли ўтди!
+tags,Tags,Теги,Теглар
+lang,Language,Язык,Тилни танлаш

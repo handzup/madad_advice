@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "262293506219",
+    "firebase_url": "https://madadadvice4business.firebaseio.com",
+    "project_id": "madadadvice4business",
+    "storage_bucket": "madadadvice4business.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262293506219:android:22b1ed886a76b893998fee",
+        "android_client_info": {
+          "package_name": "madad.advice4business"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262293506219-lp34msssmr7fjiihqkm3hblupjke3p3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4z08CeUG288l2A5YKN5O14Fdvssv4Jhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262293506219-lp34msssmr7fjiihqkm3hblupjke3p3k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "262293506219-qls1co2tutdhc29ls14voivtiir8bntk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "madad.advice4business"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
