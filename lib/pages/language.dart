@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
+import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/pages/home.dart';
 import 'package:madad_advice/styles.dart';
+import 'package:madad_advice/utils/locator.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 
 class LanguageView extends StatelessWidget {
+  final lang = locator<Langs>();
+
   @override
   Widget build(BuildContext context) {
     print(context.locale.countryCode);
@@ -76,6 +80,7 @@ class LanguageView extends StatelessWidget {
           onTap: () {
             context.locale = locale; //BuildContext extension method
             //EasyLocalization.of(context).locale = locale;
+            lang.setLang(locale.languageCode);
             nextScreenCloseOthers(context, HomePage());
           }),
     );

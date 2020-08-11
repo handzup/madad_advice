@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:madad_advice/blocs/question_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/pages/sign_in.dart';
@@ -11,7 +12,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:madad_advice/widgets/file_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:file_picker/file_picker.dart';
 
 class QandAPage extends StatefulWidget {
   QandAPage({Key key}) : super(key: key);
@@ -28,8 +28,9 @@ class _QandAPageState extends State<QandAPage> {
   }
 
   ScrollController _scrollController =
-      new ScrollController(); // set controller on scrolling
+      ScrollController(); // set controller on scrolling
   bool _show = true;
+
   @override
   void dispose() {
     _scrollController.removeListener(() {});
@@ -63,11 +64,23 @@ class _QandAPageState extends State<QandAPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of<QuestionBloc>(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text(LocaleKeys.answersOnQuestions.tr()),
           elevation: 1,
+          actions: <Widget>[
+            bloc.inProgress
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CupertinoActivityIndicator(
+                      animating: true,
+                      radius: 12,
+                    ),
+                  )
+                : SizedBox.shrink()
+          ],
         ),
         floatingActionButton: Visibility(
           visible: _show,
@@ -94,11 +107,16 @@ class _QandAPageState extends State<QandAPage> {
   Widget _buildList(snap) {
     return CustomScrollView(
       controller: _scrollController,
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: ClampingScrollPhysics(),
       slivers: <Widget>[
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
-            return QandACard();
+            return QandACard(
+              answerText: 'daasd',
+              answeredTime: DateTime.now(),
+              whoAnswered: 'Ким Кардашян',
+              question: 'Как ты отрастила такую жепу?!',
+            );
           }, childCount: 10),
         )
       ],
@@ -109,77 +127,108 @@ class _QandAPageState extends State<QandAPage> {
 class QandACard extends StatelessWidget {
   const QandACard({
     Key key,
+    this.question,
+    this.whoAnswered,
+    this.answerText,
+    this.answeredTime,
+    this.answered = false,
   }) : super(key: key);
-
+  final String question;
+  final String whoAnswered;
+  final String answerText;
+  final DateTime answeredTime;
+  final bool answered;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey[300], blurRadius: 10, offset: Offset(3, 3))
-            ]),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ExpandablePanel(
-                  theme: ExpandableThemeData(
-                    animationDuration: const Duration(microseconds: 300),
-                  ),
-                  header: Text(
-                    LocaleKeys.question.tr(),
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: ThemeColors.primaryColor),
-                  ),
-                  collapsed: Text(
-                    'ExpandablePanel has a number of properties to customize its behavior, but its restricted by having a title at the top and an expand icon shown as a down arrow (on the right or on the left). If that s not enough, you can implement custom expandable widgets by using a combination of Expandable, ExpandableNotifier, and ExpandableButton',
-                    softWrap: true,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  expanded: Text(
-                    'ExpandablePanel has a number of properties to customize its behavior, but its restricted by having a title at the top and an expand icon shown as a down arrow (on the right or on the left). If that s not enough, you can implement custom expandable widgets by using a combination of Expandable, ExpandableNotifier, and ExpandableButton',
-                    softWrap: true,
-                  ),
-                ),
-                Divider(
-                  color: ThemeColors.dividerColor,
-                  endIndent: 100,
-                  indent: 1,
-                  thickness: 2,
-                ),
-                Text(
-                  LocaleKeys.answer.tr(),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: ThemeColors.primaryColor),
-                ),
-                ExpandablePanel(
-                  theme: ExpandableThemeData(
-                      animationDuration: const Duration(microseconds: 300)),
-                  header: Text('${LocaleKeys.from.tr()} Иван Иванов'),
-
-                  // header: Text("${LocaleKeys.from.tr()} Иван Иванов"),
-                  collapsed: Text(
-                    'ExpandablePanel has a number of properties to customize its behavior, but its restricted by having a title at the top and an expand icon shown as a down arrow (on the right or on the left). If that s not enough, you can implement custom expandable widgets by using a combination of Expandable, ExpandableNotifier, and ExpandableButton',
-                    softWrap: true,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  expanded: Text(
-                    'ExpandablePanel has a number of properties to customize its behavior, but its restricted by having a title at the top and an expand icon shown as a down arrow (on the right or on the left). If that s not enough, you can implement custom expandable widgets by using a combination of Expandable, ExpandableNotifier, and ExpandableButton',
-                    softWrap: true,
-                  ),
-                ),
-              ]),
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, top: 5.0, right: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[Text('Статус'), Text('Ожидание ответа')],
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey[300],
+                      blurRadius: 10,
+                      offset: Offset(3, 3))
+                ]),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExpandablePanel(
+                      theme: ExpandableThemeData(
+                        animationDuration: const Duration(microseconds: 300),
+                      ),
+                      header: Text(
+                        LocaleKeys.question.tr(),
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: ThemeColors.primaryColor),
+                      ),
+                      collapsed: Text(
+                        question,
+                        softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      expanded: Text(
+                        question,
+                        softWrap: true,
+                      ),
+                    ),
+                    Divider(
+                      color: ThemeColors.dividerColor,
+                      endIndent: 100,
+                      indent: 1,
+                      thickness: 2,
+                    ),
+                    answered
+                        ? Column(
+                            children: <Widget>[
+                              Text(
+                                LocaleKeys.answer.tr(),
+                                textAlign: TextAlign.left,
+                                style:
+                                    TextStyle(color: ThemeColors.primaryColor),
+                              ),
+                              ExpandablePanel(
+                                theme: ExpandableThemeData(
+                                    animationDuration:
+                                        const Duration(microseconds: 300)),
+                                header: Text(
+                                    '${LocaleKeys.from.tr()} $whoAnswered'),
+
+                                // header: Text("${LocaleKeys.from.tr()} Иван Иванов"),
+                                collapsed: Text(
+                                  answerText,
+                                  softWrap: true,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                expanded: Text(
+                                  answerText,
+                                  softWrap: true,
+                                ),
+                              )
+                            ],
+                          )
+                        : SizedBox.shrink()
+                  ]),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -221,7 +270,10 @@ Widget singIn(context) {
   ));
 }
 
+var formKey = GlobalKey<FormState>();
+
 Widget ask(sc, context) {
+  final questionBloc = Provider.of<QuestionBloc>(context);
   return Material(
     child: CupertinoPageScaffold(
       child: SafeArea(
@@ -235,18 +287,38 @@ Widget ask(sc, context) {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey[300])),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: 'Задайте свой вопрос',
-                            alignLabelWithHint: true,
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.all(10)),
-                        maxLines: 4,
-                      )),
+                  Form(
+                    key: formKey,
+                    child: TextFormField(
+                      onChanged: (value) {
+                        questionBloc.setMessage(value);
+                      },
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Задайте вопрос';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          hintText: 'Задайте свой вопрос',
+                          alignLabelWithHint: true,
+                 
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                         
+                             
+                            ),
+                          ),
+       
+             
+                          contentPadding: const EdgeInsets.all(10)),
+                      maxLines: 4,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     child: FilePickerDemo(),
                   ),
@@ -263,7 +335,7 @@ Widget ask(sc, context) {
                       child: Material(
                         child: InkWell(
                           onTap: () {
-                            print('tapped');
+                            handleSubmit(context, questionBloc);
                           },
                           child: Container(
                             height: 50,
@@ -287,6 +359,13 @@ Widget ask(sc, context) {
       ),
     ),
   );
+}
+
+handleSubmit(context, questionBloc) {
+  if (formKey.currentState.validate()) {
+    questionBloc.sendQuestion();
+    Navigator.pop(context);
+  }
 }
 
 class _ModalFitState extends State<ModalFit> {

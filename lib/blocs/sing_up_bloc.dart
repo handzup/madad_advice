@@ -52,8 +52,7 @@ class SignUpBloc extends ChangeNotifier {
   Future<bool> checkPhone(String phone) async {
     final result = await apiService.fetch(
         'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.checktelephone?telephone=$phone');
-    final jsonData = json.decode(result);
-    if ((jsonData['result'] is bool)) {
+    if ((result['result'] is bool)) {
       return false;
     }
     return true;

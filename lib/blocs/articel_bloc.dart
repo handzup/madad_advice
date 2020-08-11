@@ -58,8 +58,7 @@ class ArticleBloc extends ChangeNotifier {
     var data = SphereModel();
     final result = await apiService.fetch(
         'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?path=$code');
-    final jsonData = json.decode(result);
-    data = (SphereModel.fromJson(jsonData['result']));
+     data = (SphereModel.fromJson(result['result']));
     return data;
   }
 

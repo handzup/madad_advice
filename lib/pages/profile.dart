@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
@@ -185,8 +186,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.grey[300],
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
-                            onPressed: () =>
-                                nextScreenReplace(context, SignInPage()),
+                            onPressed: () => nextScreenReplace(
+                                context, SignInPage(firstSingIn: false)),
                             icon: Icon(Icons.exit_to_app),
                             label: Text(LocaleKeys.signIn.tr()),
                             textColor: Colors.grey[900],
@@ -330,6 +331,13 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
   String uGender;
   String uPhotoUrl;
   int initialGenderIndex;
+  String phoneNumberMasked;
+  String phoneNumber;
+
+  var phoneCtrl = TextEditingController();
+  var label = 'Phone Number';
+  String prefix = '+';
+  bool phoneExists = false;
   @override
   Widget build(BuildContext context) {
     final ub = Provider.of<UserBloc>(context);
@@ -441,6 +449,67 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                         });
                       },
                     ),
+                    TextFormField(
+                      autofocus: false,
+                      decoration: InputDecoration(
+                          prefix: Text(
+                            prefix,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          alignLabelWithHint: true,
+                          hintText: '1234566789',
+                          //prefixIcon: Icon(Icons.email),
+                          labelText: label),
+                      initialValue: ub.phone,
+                      //   controller: phoneCtrl,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        PhoneInputFormatter(
+                            onCountrySelected: (PhoneCountryData countryData) {
+                          setState(() {
+                            label =
+                                countryData != null ? countryData.country : '';
+                          });
+                        })
+                      ],
+                      autocorrect: false,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Номер телефона не может быть пустым!';
+                        } else {
+                          if (value.length >= 8) {
+                            if (phoneExists) {
+                              return 'Такой номер уже зарегистрирован в системе';
+                            }
+                          } else {
+                            return 'Введите корректный номер';
+                          }
+                        }
+
+                        return null;
+                      },
+                      onChanged: (String value) {
+                        if (value.length >= 3) {
+                          setState(() {
+                            prefix = '';
+                          });
+                        }
+                        if (value.isEmpty) {
+                          setState(() {
+                            prefix = '+';
+                          });
+                        }
+                        setState(() {
+                          phoneExists = false;
+                          phoneNumberMasked = value;
+                          phoneNumber = value
+                              .replaceFirst('+', '')
+                              .replaceAll('(', '')
+                              .replaceAll(')', '')
+                              .replaceAll(' ', '');
+                        });
+                      },
+                    ),
                     SizedBox(height: 15),
                     SizedBox(
                       height: 5,
@@ -491,7 +560,11 @@ class _ModalFitState extends State<ModalFit> {
 
   Future getImageCamera() async {
     final ub = Provider.of<UserBloc>(context);
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(
+        source: ImageSource.camera,
+        maxHeight: 512,
+        maxWidth: 512,
+        imageQuality: 50);
 
     if (pickedFile != null) {
       setState(() {
@@ -506,7 +579,11 @@ class _ModalFitState extends State<ModalFit> {
   Future getImageGallery() async {
     final ub = Provider.of<UserBloc>(context);
 
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery,
+        maxHeight: 512,
+        maxWidth: 512,
+        imageQuality: 50);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);

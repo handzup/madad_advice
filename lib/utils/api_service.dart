@@ -1,15 +1,50 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:madad_advice/models/file.dart';
 
 var dio = Dio();
 
 class ApiService {
   fetch(String reqUrl) async {
-    final response = await http.get(reqUrl);
-    if (response.statusCode != 200) {
-      throw "Err";
+    var response;
+    try {
+      // throw OSError('dasdasd', 51);
+      response = await dio.get(reqUrl);
+      if (response.statusCode != 200) {
+        throw "Err";
+      }
+    } on DioError catch (e) {
+      print(e.error);
+      return null;
+    } on SocketException catch (e) {
+      print(e.message);
+    } catch (e) {
+      print(e);
     }
-    return response.body;
+    return response.data;
+  }
+
+  Future sendQuestion(
+      {String reqUrl,
+      String uid,
+      String uName,
+      String qMessage,
+      List<FileTo> files}) async {
+    var mPartFIles = [];
+    files.forEach((element) {
+      mPartFIles
+          .add(MultipartFile.fromFile(element.path, filename: element.name));
+    });
+    var formData = FormData.fromMap({
+      'uid': uid,
+      'uName': uName,
+      'qMessage': qMessage,
+      'files': mPartFIles
+    });
+    var response = await dio.post(reqUrl, data: formData);
+    return response.data;
   }
 
   Future fetchPostRegister(
@@ -26,7 +61,7 @@ class ApiService {
       'name': name,
       'last_name': lastName,
       'email': email,
-      'firebase':firebase
+      'firebase': firebase
     });
     var response = await dio.post(reqUrl, data: formData);
 
@@ -38,12 +73,12 @@ class ApiService {
   }
 
   Future fetchPosLogIn(
-      {String reqUrl, String phoneNumber, String password,String firebase}) async {
-    var formData = FormData.fromMap({
-      'telephone': phoneNumber,
-      'password': password,
-      'firebase':firebase
-    });
+      {String reqUrl,
+      String phoneNumber,
+      String password,
+      String firebase}) async {
+    var formData = FormData.fromMap(
+        {'telephone': phoneNumber, 'password': password, 'firebase': firebase});
     var response = await dio.post(reqUrl, data: formData);
 
     if (response.statusCode != 200) {
@@ -65,6 +100,7 @@ class ApiService {
 
     return response.data;
   }
+
   Future fetchClearFirebaseToken({String reqUrl, String id}) async {
     var formData = FormData.fromMap({
       'uid': id,
@@ -77,10 +113,11 @@ class ApiService {
 
     return response.data;
   }
+
   Future fetchGetSmsCode({String reqUrl, String phoneNumber}) async {
     var formData = FormData.fromMap({
       'telephone': phoneNumber,
-      'withsms':'Y',
+      'withsms': 'Y',
     });
     var response = await dio.post(reqUrl, data: formData);
 

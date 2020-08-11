@@ -97,109 +97,85 @@ class _SearchPageState extends State<SearchPage> {
         );
       },
       itemBuilder: (BuildContext context, int index) {
-        return 
-          AnimationConfiguration.staggeredList(
-            position: index,
-            duration: Duration(milliseconds: 300),
-            child: SlideAnimation(
-              verticalOffset: 50,
-              child: FadeInAnimation(
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: InkWell(
-                    child: Container(
-                        height: 110,
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: Colors.grey[300],
-                                  blurRadius: 10,
-                                  offset: Offset(3, 3))
-                            ]),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Flexible(
-                              flex: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      pb.recentData.elements[index].title,
+        return AnimationConfiguration.staggeredList(
+          position: index,
+          duration: Duration(milliseconds: 300),
+          child: SlideAnimation(
+            verticalOffset: 50,
+            child: FadeInAnimation(
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: InkWell(
+                  child: Container(
+                      height: 110,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.grey[300],
+                                blurRadius: 10,
+                                offset: Offset(3, 3))
+                          ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    pb.recentData.elements[index].title,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.w500),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    child: Text(
+                                      pb.recentData.elements[index].preview_text
+                                          .replaceAll(
+                                              RegExp(
+                                                  '(&[A-Za-z]+?;)|(<.+?>)|([\w-]+)'),
+                                              ''),
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey[800],
-                                          fontWeight: FontWeight.w500),
-                                      maxLines: 1,
+                                          fontSize: 12, color: Colors.black54),
+                                      maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Spacer(),
-                                    Container(
-                                      child: Text(
-                                       pb.recentData.elements[index].preview_text
-                                            .replaceAll(
-                                                RegExp(
-                                                    '(&[A-Za-z]+?;)|(<.+?>)|([\w-]+)'),
-                                                ''),
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black54),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    // Row(
-                                    //   children: <Widget>[
-                                    //     Icon(
-                                    //       Icons.access_time,
-                                    //       color: Colors.grey,
-                                    //       size: 20,
-                                    //     ),
-                                    //     SizedBox(
-                                    //       width: 5,
-                                    //     ),
-                                    //     // Text(
-                                    //     //   format.format(format.parse(pb
-                                    //     //       .searchData[index].datetime
-                                    //     //       .toString())),
-                                    //     //   style: TextStyle(
-                                    //     //       color: Colors.grey[600],
-                                    //     //       fontSize: 13),
-                                    //     // ),
-                                    //     Spacer(),
-                                    //   ],
-                                    // )
-                                  ],
-                                ),
+                                  ),
+                                  Spacer(),
+                                ],
                               ),
-                            )
-                          ],
-                        )),
-                    onTap: () {
-                      nextScreen(
-                          context,
-                          DetailsFromSearchPage(
-                            id: pb.recentData.elements[index].id,
-                            category: pb.recentData.elements[index].title,
-                            code: pb.recentData.elements[index].code,
-                            title: pb.recentData.elements[index].title,
-                          ));
-                    },
-                  ),
+                            ),
+                          )
+                        ],
+                      )),
+                  onTap: () {
+                    nextScreen(
+                        context,
+                        DetailsFromSearchPage(
+                          id: pb.recentData.elements[index].id,
+                          category: pb.recentData.elements[index].title,
+                          code: pb.recentData.elements[index].code,
+                          title: pb.recentData.elements[index].title,
+                        ));
+                  },
                 ),
               ),
             ),
-          );
-      
-       },
+          ),
+        );
+      },
     );
   }
 
@@ -215,8 +191,7 @@ class _SearchPageState extends State<SearchPage> {
       },
       itemBuilder: (BuildContext context, int index) {
         if (ableToshow(pb.searchData[index])) {
-          return 
-          AnimationConfiguration.staggeredList(
+          return AnimationConfiguration.staggeredList(
             position: index,
             duration: Duration(milliseconds: 300),
             child: SlideAnimation(
@@ -316,7 +291,6 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           );
-      
         }
       },
     );

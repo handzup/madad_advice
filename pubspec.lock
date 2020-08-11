@@ -485,6 +485,13 @@ packages:
       url: "https://github.com/handzup/font_awesome_flutter.git"
     source: git
     version: "8.8.1"
+  get_it:
+    dependency: "direct dev"
+    description:
+      name: get_it
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.4"
   glob:
     dependency: transitive
     description:
@@ -807,6 +814,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
+  progress_indicators:
+    dependency: "direct main"
+    description:
+      name: progress_indicators
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   provider:
     dependency: "direct main"
     description:

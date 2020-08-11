@@ -53,6 +53,7 @@ dependencies:
   percent_indicator: "^2.1.5"
   firebase_messaging: ^6.0.16
   flutter_local_notifications: ^1.4.4+2
+  progress_indicators: ^0.1.5
   rxdart: ^0.24.1
   firebase_core: ^0.4.5
   file_picker: ^1.13.2
@@ -68,6 +69,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.7.5
   json_serializable: ^3.3.0
   hive_generator: ^0.7.1
+  get_it: ^4.0.4
   flutter_test:
     sdk: flutter
 

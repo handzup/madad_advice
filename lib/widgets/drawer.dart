@@ -212,7 +212,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
     setState(() {
       _apiResponse = cb.menuData;
     });
-    _apiResponse.sort((a, b) => a.sort.compareTo(b.sort));
+    _apiResponse != null
+        ? _apiResponse.sort((a, b) => a.sort.compareTo(b.sort))
+        : null;
     final ub = Provider.of<UserBloc>(context);
     final sp = Provider.of<SignInBloc>(context);
 

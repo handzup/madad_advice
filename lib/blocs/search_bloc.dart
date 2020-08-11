@@ -26,8 +26,7 @@ class SearchBloc extends ChangeNotifier {
     var data = <SearchResult>[];
     final result = await apiService.fetch(
         'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?q=$value');
-    final jsonData = json.decode(result);
-    jsonData['result']['elements'].forEach((item) {
+    result['result']['elements'].forEach((item) {
       data.add(SearchResult.fromJson(item));
     });
     _hasData = true;
@@ -69,8 +68,7 @@ class SearchBloc extends ChangeNotifier {
   Future<SphereArticle> _getArticleFormApi(String code) async {
     final result = await apiService.fetch(
         'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?path=$code');
-    final jsonData = json.decode(result);
-    var data = SphereArticle.fromJson(jsonData['result']['elements'][0]);
+    var data = SphereArticle.fromJson(result['result']['elements'][0]);
     //     jsonData['result']['ru'].forEach((item) {
     //   data.add(SphereArticle.fromJson(item));
     // });
@@ -82,7 +80,7 @@ class SearchBloc extends ChangeNotifier {
     if (await isExists(articleId)) {
       _article = await _readBox(articleId);
     } else {
-      if(code !='') _article = await _getArticleFormApi(code);
+      if (code != '') _article = await _getArticleFormApi(code);
     }
     notifyListeners();
   }

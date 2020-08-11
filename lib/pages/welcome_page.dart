@@ -28,7 +28,6 @@ class _WelcomePageState extends State<WelcomePage>
     with TickerProviderStateMixin {
   var aligng = Alignment(0, 0.0);
   bool show = false;
-
   AnimationController _controller;
   Animation _animation;
   @override

@@ -14,12 +14,12 @@ import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/recived_notification.dart';
-import 'package:madad_advice/pages/profile.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:madad_advice/utils/api_service.dart';
+import 'package:madad_advice/utils/locator.dart';
 import 'package:madad_advice/utils/next_screen.dart';
-
 import 'package:madad_advice/widgets/drawer.dart';
 import 'package:madad_advice/widgets/loading_shimmer.dart';
 import 'package:madad_advice/widgets/reacent_home.dart';
@@ -27,7 +27,6 @@ import 'package:madad_advice/widgets/recent_news.dart';
 import 'package:madad_advice/widgets/sphere.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -51,7 +50,7 @@ class _HomePageState extends State<HomePage> {
       BehaviorSubject<String>();
 
   List<MyCategory> _apiResponse;
-  Widget snackBar() {
+  Widget snackBar({bool serviceError = false}) {
     return SnackBar(
       duration: Duration(minutes: 1),
       content: Container(
@@ -65,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       action: SnackBarAction(
-        label: LocaleKeys.tryAgain.tr(),
+        label: serviceError ? 'Servcie Error' : LocaleKeys.tryAgain.tr(),
         textColor: Colors.blueAccent,
         onPressed: () {
           checkInternet();
@@ -96,8 +95,7 @@ class _HomePageState extends State<HomePage> {
         priority: Priority.High,
         ticker: 'ticker',
         largeIcon: DrawableResourceAndroidBitmap('@drawable/ic_launcher'),
-        
-         color: Color(0xFF233f60),
+        color: Color(0xFF233f60),
         styleInformation: bigTextStyleInformation);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
@@ -109,8 +107,9 @@ class _HomePageState extends State<HomePage> {
         platformChannelSpecifics,
         payload: 'dasdas');
   }
-    static Future<dynamic> myBackgroundMessageHandler(
-      Map<String, dynamic> message) {
+
+  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
     if (message.containsKey('data')) {
       // Handle data message
       final dynamic data = message['data'];
@@ -125,6 +124,7 @@ class _HomePageState extends State<HomePage> {
     print('data default');
     // Or do other work.
   }
+
   final _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
@@ -165,11 +165,11 @@ class _HomePageState extends State<HomePage> {
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print('onLaunch: $message');
-       await nextScreen(context, QandAPage());
+        nextScreen(context, QandAPage());
       },
       onResume: (Map<String, dynamic> message) async {
         print('onResume: $message');
-        await nextScreen(context, QandAPage());
+        nextScreen(context, QandAPage());
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _apiResponse = cb.sphereData;
     });
-    print('render home');
+
     return Scaffold(
         drawer: DrawerMenu(),
         key: _scaffoldKey,

@@ -15,6 +15,7 @@ import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/news_data_bloc.dart';
 import 'package:madad_advice/blocs/notification_bloc.dart';
 import 'package:madad_advice/blocs/popular_bloc.dart';
+import 'package:madad_advice/blocs/question_bloc.dart';
 import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/blocs/recommanded_bloc.dart';
 import 'package:madad_advice/blocs/search_bloc.dart';
@@ -23,6 +24,7 @@ import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/sing_up_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/blocs/viewed_articles_bloc.dart';
+import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/pinned_file.dart';
 import 'package:madad_advice/models/recived_notification.dart';
 import 'package:madad_advice/models/section.dart';
@@ -30,6 +32,7 @@ import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/models/sphere_articel.dart';
 import 'package:madad_advice/pages/welcome_page.dart';
+import 'package:madad_advice/utils/locator.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,6 +53,7 @@ final BehaviorSubject<String> selectNotificationSubject =
 
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 void main() async {
+  setupLocator();
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
@@ -61,7 +65,6 @@ void main() async {
   Hive.registerAdapter(PinnedFileAdapter());
   WidgetsFlutterBinding.ensureInitialized();
 
- 
   runApp(EasyLocalization(
     child: MyApp(),
     supportedLocales: [
@@ -83,6 +86,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(context.supportedLocales.toString());
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SignInBloc>(
@@ -142,6 +146,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ViewedArticlesBloc>(
           create: (context) => ViewedArticlesBloc(),
         ),
+        ChangeNotifierProvider<QuestionBloc>(
+          create: (context) => QuestionBloc(),
+        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -180,6 +187,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String imageUrl;
   String uName;
+  var lang = locator<Langs>();
   @override
   void initState() {
     SharedPreferences.getInstance().then((sp) {
@@ -195,6 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    lang.setLang(context.locale.languageCode);
+
     //final SignInBloc sb = Provider.of<SignInBloc>(context);
     // return sb.isSignedIn == false ? WelcomePage() : HomePage();
     return WelcomePage(

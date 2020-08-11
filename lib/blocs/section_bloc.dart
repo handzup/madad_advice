@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/models/langs.dart';
 import 'dart:convert';
 import 'package:madad_advice/models/section.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
+import 'package:madad_advice/utils/locator.dart';
 
 class SectionBloc extends ChangeNotifier {
   ApiService apiService = ApiService();
+  var lang = locator<Langs>();
 
   Future<List<Section>> _readBox() async {
     final box = await Hive.openBox<Section>('section');
@@ -34,11 +37,10 @@ class SectionBloc extends ChangeNotifier {
   }
 
   Future<List<Section>> updateFromApi() async {
-   var data =  <Section>[];
+    var data = <Section>[];
     final result = await apiService.fetch(
         'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getsections');
-    final jsonData = json.decode(result);
-    jsonData['result']['ru'].forEach((item) {
+    result['result'][lang.lang.toString()].forEach((item) {
       data.add(Section.fromJson(item));
     });
     return data;

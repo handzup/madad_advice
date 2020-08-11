@@ -1,25 +1,30 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:madad_advice/models/comment.dart';
+import 'package:madad_advice/utils/api_service.dart';
 
-class CommentsBloc extends ChangeNotifier{
+class CommentsBloc extends ChangeNotifier {
+  final apiService = ApiService();
 
-  
   String date;
   String timestamp1;
 
-  
-
-  Future getData(timestamp) async {
-    // QuerySnapshot snap = await Firestore.instance.collection('contents/$timestamp/comments').getDocuments();
-    // var x = snap.documents;
-    var data = [];
-    // x.forEach((f) => data.add(f));
+  Future<List<Comment>> getCommens(code) async {
+    var data = <Comment>[];
+    final result = await apiService.fetch(
+        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?path=$code');
+    result['result']['elements'][0]['forum_messages'].forEach((item) {
+      data.add(Comment.fromJson(item));
+    });
     return data;
   }
 
-
-
+  Future getData(code) async {
+    return await getCommens(code);
+  }
 
   // Future saveNewComment(timestamp, comment)async{
 
@@ -27,7 +32,6 @@ class CommentsBloc extends ChangeNotifier{
   //   String _uid = sp.getString('uid');
   //   String _name = sp.getString('name');
   //   String _imageUrl = sp.getString('image url');
-
 
   //   await _getDate().then((_){
   //     Firestore.instance.collection('contents/$timestamp/comments').document('$_uid$timestamp1').setData({
@@ -41,18 +45,13 @@ class CommentsBloc extends ChangeNotifier{
   //   });
 
   //   getData(timestamp);
-    
+
   //  }
 
-
-  
-  
   // Future deleteComment (timestamp,uid, timestamp2) async{
   //   Firestore.instance.collection('contents/$timestamp/comments').document('$uid$timestamp2').delete();
   //   getData(timestamp);
   // }
-
-
 
   // ignore: unused_element
   Future _getDate() async {
@@ -62,8 +61,4 @@ class CommentsBloc extends ChangeNotifier{
     date = _date;
     timestamp1 = _timestamp;
   }
-
-
 }
-
-

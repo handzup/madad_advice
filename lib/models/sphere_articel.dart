@@ -1,15 +1,10 @@
-import 'dart:io';
-
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:madad_advice/models/norma.dart';
 import 'package:madad_advice/models/pinned_file.dart';
-import 'package:madad_advice/models/scope.dart';
 part 'sphere_articel.g.dart';
 
 @HiveType(typeId: 3)
 @JsonSerializable()
- 
 class SphereArticle {
   @HiveField(0)
   final String id;
@@ -44,14 +39,14 @@ class SphereArticle {
   @HiveField(15)
   final List<PinnedFile> prikreplennye_fayly;
   @HiveField(16)
-  final Map<String,String> scopes;
+  final Map<String, String> scopes;
   @HiveField(17)
   final String forum_topic_id;
   @HiveField(18)
   final String forum_message_cnt;
 
-  SphereArticle( 
-{      this.id,
+  SphereArticle(
+      {this.id,
       this.code,
       this.datetime,
       this.timestamp,
@@ -76,5 +71,3 @@ class SphereArticle {
 
   Map<String, dynamic> toJson() => _$SphereArticleToJson(this);
 }
-
- 

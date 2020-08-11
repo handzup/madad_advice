@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:madad_advice/blocs/question_bloc.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:madad_advice/utils/fa_icon.dart';
+import 'package:provider/provider.dart';
 
 class FilePickerDemo extends StatefulWidget {
   @override
@@ -11,73 +13,9 @@ class FilePickerDemo extends StatefulWidget {
 }
 
 class _FilePickerDemoState extends State<FilePickerDemo> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _fileName;
-  String _path;
-  Map<String, String> _paths;
-  String _extension;
-  bool _loadingPath = false;
-  bool _multiPick = true;
-  final _pickingType = FileType.custom;
-  final _controller = TextEditingController();
-  bool error = false;
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() => _extension = _controller.text);
-  }
-
-  void _openFileExplorer() async {
-    setState(() {
-      _loadingPath = true;
-      error = false;
-    });
-    try {
-      var tempPath = await FilePicker.getMultiFilePath(
-        type: _pickingType,
-        allowedExtensions: ['jpg', 'pdf', 'doc', 'txt', 'xlsx', 'docx', 'xls'],
-      );
-      if (_paths != null) {
-        if (_paths.length == 3) {
-          setState(() {
-            error = true;
-          });
-        }
-      }
-      if (tempPath != null &&
-          _paths != null &&
-          _paths.length < 3 &&
-          tempPath.length < 3) {
-        _paths.addAll(tempPath);
-      } else {}
-      if (tempPath != null) {
-        if (tempPath.length > 3) {
-          setState(() {
-            error = true;
-          });
-        }
-        if (tempPath.length < 3) _paths == null ? _paths = tempPath : null;
-      }
-    } on PlatformException catch (e) {
-      print('Unsupported operation' + e.toString());
-    }
-    if (!mounted) return;
-    setState(() {
-      _loadingPath = false;
-      _fileName = _path != null
-          ? _path.split('/').last
-          : _paths != null ? _paths.keys.toString() : '...';
-    });
-  }
-
-  delete(String key) {
-    _paths.remove(key);
-    setState(() {});
-    print(_paths);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final files = Provider.of<QuestionBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Column(
@@ -88,7 +26,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
             child: Row(
               children: <Widget>[
                 InkWell(
-                  onTap: () => _openFileExplorer(),
+                  onTap: () => files.openFileExplorer(),
                   child: Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
@@ -123,51 +61,52 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                 Spacer(),
                 Text(
                   "Макс. 3",
-                  style: TextStyle(color: error ? Colors.red : Colors.black),
+                  style:
+                      TextStyle(color: files.error ? Colors.red : Colors.black),
                 )
               ],
             ),
           ),
-          _paths != null
-              ? Container(
-                  height: MediaQuery.of(context).size.height * 0.30,
-                  child: ListView.builder(
-                    physics: ClampingScrollPhysics(),
-                    itemCount:
-                        _paths != null && _paths.isNotEmpty ? _paths.length : 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      final isMultiPath = _paths != null && _paths.isNotEmpty;
-                      final name = (isMultiPath
-                          ? _paths.keys.toList()[index]
-                          : _fileName ?? '...');
-                      return Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey[300], width: 1))),
-                        child: ListTile(
-                          dense: true,
-                          contentPadding: const EdgeInsets.all(0),
-                          title: Text(
-                            name,
-                          ),
-                          trailing: InkWell(
-                            child: FaIcons(
-                              'fad fa-times-circle',
-                              primaryColor: ThemeColors.primaryColor,
-                              secondaryColor: Colors.white,
-                              size: 20,
-                            ),
-                            onTap: () => delete(name),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                )
-              : SizedBox.shrink(),
+          files.files != null
+              ? (files.files.isNotEmpty
+                  ? _buildList(files.files, context, files)
+                  : SizedBox.shrink())
+              : SizedBox.shrink()
         ],
       ),
     );
   }
+}
+
+Widget _buildList(data, context, files) {
+  return Container(
+    height: MediaQuery.of(context).size.height * 0.30,
+    child: ListView.builder(
+      physics: ClampingScrollPhysics(),
+      itemCount: data.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.grey[300], width: 1))),
+          child: ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.all(0),
+            title: Text(
+              data[index].name,
+            ),
+            trailing: InkWell(
+              child: FaIcons(
+                'fad fa-times-circle',
+                primaryColor: ThemeColors.primaryColor,
+                secondaryColor: Colors.white,
+                size: 20,
+              ),
+              onTap: () => files.delete(data[index].name),
+            ),
+          ),
+        );
+      },
+    ),
+  );
 }

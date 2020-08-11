@@ -119,7 +119,7 @@ SphereArticle _$SphereArticleFromJson(Map<String, dynamic> json) {
     prikreplennye_fayly: (json['prikreplennye_fayly'] as List)
         ?.map((e) =>
             e == null ? null : PinnedFile.fromJson(e as Map<String, dynamic>))
-        ?.toList().isEmpty ? null : (json['prikreplennye_fayly'] as List)
+        ?.toList()?.isEmpty ? null : (json['prikreplennye_fayly'] as List)
         ?.map((e) =>
             e == null ? null : PinnedFile.fromJson(e as Map<String, dynamic>))
         ?.toList(),
