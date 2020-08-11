@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/models/config.dart';
 import 'dart:convert';
 import 'package:madad_advice/models/sphere.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
 
 const key = 'recent';
+final restUrl = Config().resturl;
 
 class RecentDataBloc extends ChangeNotifier {
   SphereModel _recentData;
@@ -59,7 +61,7 @@ class RecentDataBloc extends ChangeNotifier {
   Future<SphereModel> updateFromApi() async {
     SphereModel data = SphereModel();
     final result = await apiService.fetch(
-        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.lastelements');
+        '$restUrl/mobapi.lastelements');
      data = (SphereModel.fromJson(result['result']));
     return data;
   }

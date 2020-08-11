@@ -6,11 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:madad_advice/blocs/firebase_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/pages/home.dart';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+final restUrl = Config().resturl;
 
 class SignUpBloc extends ChangeNotifier {
   SignUpBloc() {
@@ -51,7 +53,7 @@ class SignUpBloc extends ChangeNotifier {
   var apiService = ApiService();
   Future<bool> checkPhone(String phone) async {
     final result = await apiService.fetch(
-        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.checktelephone?telephone=$phone');
+        '$restUrl/mobapi.checktelephone?telephone=$phone');
     if ((result['result'] is bool)) {
       return false;
     }
@@ -61,7 +63,7 @@ class SignUpBloc extends ChangeNotifier {
   Future<String> sendVerificationCode(String phone) async {
     final result = await apiService.fetchGetSmsCode(
         reqUrl:
-            'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.checktelephone',
+            '$restUrl/mobapi.checktelephone',
         phoneNumber: phone);
 
     var code = result['result']['code'].toString();
@@ -86,7 +88,7 @@ class SignUpBloc extends ChangeNotifier {
     final token = await firebaseBloc.getToken();
     final result = await apiService.fetchPostRegister(
         reqUrl:
-            'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.registerbytelephone',
+            '$restUrl/mobapi.registerbytelephone',
         email: email,
         lastName: lastName,
         name: name,

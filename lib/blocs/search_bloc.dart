@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/search_result.dart';
 import 'dart:convert';
 import 'package:madad_advice/models/sphere.dart';
@@ -9,6 +10,7 @@ import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/models/sphere_articel.dart';
 
 const key = 'articleById';
+final restUrl = Config().resturl;
 
 class SearchBloc extends ChangeNotifier {
   List<SearchResult> _searchData;
@@ -25,7 +27,7 @@ class SearchBloc extends ChangeNotifier {
   Future<List<SearchResult>> search(value) async {
     var data = <SearchResult>[];
     final result = await apiService.fetch(
-        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?q=$value');
+        '$restUrl/mobapi.getelements?q=$value');
     result['result']['elements'].forEach((item) {
       data.add(SearchResult.fromJson(item));
     });
@@ -67,7 +69,7 @@ class SearchBloc extends ChangeNotifier {
 
   Future<SphereArticle> _getArticleFormApi(String code) async {
     final result = await apiService.fetch(
-        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?path=$code');
+        '$restUrl/mobapi.getelements?path=$code');
     var data = SphereArticle.fromJson(result['result']['elements'][0]);
     //     jsonData['result']['ru'].forEach((item) {
     //   data.add(SphereArticle.fromJson(item));

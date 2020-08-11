@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/models/config.dart';
 import 'dart:convert';
 import 'package:madad_advice/models/sphere.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
 
 const key = 'articles';
+final restUrl = Config().resturl;
 
 class ArticleBloc extends ChangeNotifier {
   SphereModel _sphereData;
@@ -57,7 +59,7 @@ class ArticleBloc extends ChangeNotifier {
   Future<SphereModel> updateFromApi(code) async {
     var data = SphereModel();
     final result = await apiService.fetch(
-        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?path=$code');
+        '$restUrl/mobapi.getelements?path=$code');
      data = (SphereModel.fromJson(result['result']));
     return data;
   }

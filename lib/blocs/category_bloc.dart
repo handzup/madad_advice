@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:madad_advice/models/category.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/langs.dart';
 import 'dart:convert';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/locator.dart';
+final restUrl = Config().resturl;
 
 class CategoryBloc extends ChangeNotifier {
   var lang = locator<Langs>();
@@ -43,7 +45,7 @@ class CategoryBloc extends ChangeNotifier {
   Future<List<MyCategory>> updateFromApi() async {
     var data = <MyCategory>[];
     final result = await apiService
-        .fetch('https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getscopes');
+        .fetch('$restUrl/mobapi.getscopes');
      result['result'][lang.lang.toString()].forEach((item) {
       data.add(MyCategory.fromJson(item));
     });

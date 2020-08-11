@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:madad_advice/blocs/firebase_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/pages/home.dart';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+final restUrl = Config().resturl;
 
 class SignInBloc extends ChangeNotifier {
   SignInBloc() {
@@ -70,7 +72,7 @@ class SignInBloc extends ChangeNotifier {
     final token = await firebaseBloc.getToken();
     final result = await apiService.fetchPosLogIn(
       reqUrl:
-          'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.loginbytelephone',
+          '$restUrl/mobapi.loginbytelephone',
       password: password,
       phoneNumber: phoneNumber,
       firebase: token,
@@ -91,7 +93,7 @@ class SignInBloc extends ChangeNotifier {
   Future<bool> checkPhone({String phone}) async {
     final result = await apiService.fetchCheckPhone(
       reqUrl:
-          'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.checktelephone',
+          '$restUrl/mobapi.checktelephone',
       phoneNumber: phone,
     );
     if ((result['result'] is bool)) {
@@ -166,7 +168,7 @@ class SignInBloc extends ChangeNotifier {
   Future<bool> clearFirebaseToken() async {
     final result = await apiService.fetchClearFirebaseToken(
         reqUrl:
-            'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.clearfirebase',
+            '$restUrl/mobapi.clearfirebase',
         id: uid);
     if (result['result'] is bool) {
       if (result['result'] as bool) {

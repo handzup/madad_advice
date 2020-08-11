@@ -9,4 +9,5 @@ class Config {
   final String uri = 'https://picsum.photos/200/300';
   final String url = 'https://madad.4u.uz';
   final String apiKey = 'e0mnf0e1a2f0y88k';
+  final String resturl = 'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k';
 }

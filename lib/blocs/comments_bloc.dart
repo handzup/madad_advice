@@ -4,8 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:madad_advice/models/comment.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/utils/api_service.dart';
-
+final restUrl = Config().resturl;
 class CommentsBloc extends ChangeNotifier {
   final apiService = ApiService();
 
@@ -15,13 +16,15 @@ class CommentsBloc extends ChangeNotifier {
   Future<List<Comment>> getCommens(code) async {
     var data = <Comment>[];
     final result = await apiService.fetch(
-        'https://madad.4u.uz/rest/1/e0mnf0e1a2f0y88k/mobapi.getelements?path=$code');
+        '$restUrl/mobapi.getelements?path=$code');
     result['result']['elements'][0]['forum_messages'].forEach((item) {
       data.add(Comment.fromJson(item));
     });
     return data;
   }
+  Future<bool> sendComment()async {
 
+  }
   Future getData(code) async {
     return await getCommens(code);
   }
