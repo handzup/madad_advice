@@ -7,6 +7,7 @@ import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 final restUrl = Config().resturl;
 
 class SignInBloc extends ChangeNotifier {
@@ -71,8 +72,7 @@ class SignInBloc extends ChangeNotifier {
   Future<bool> login({String phoneNumber, String password}) async {
     final token = await firebaseBloc.getToken();
     final result = await apiService.fetchPosLogIn(
-      reqUrl:
-          '$restUrl/mobapi.loginbytelephone',
+      reqUrl: '$restUrl/mobapi.loginbytelephone',
       password: password,
       phoneNumber: phoneNumber,
       firebase: token,
@@ -92,8 +92,7 @@ class SignInBloc extends ChangeNotifier {
 
   Future<bool> checkPhone({String phone}) async {
     final result = await apiService.fetchCheckPhone(
-      reqUrl:
-          '$restUrl/mobapi.checktelephone',
+      reqUrl: '$restUrl/mobapi.checktelephone',
       phoneNumber: phone,
     );
     if ((result['result'] is bool)) {
@@ -128,9 +127,8 @@ class SignInBloc extends ChangeNotifier {
     await sharedPreferences.setString('email', _email);
     await sharedPreferences.setString('image url', _imageUrl);
     await sharedPreferences.setString('uid', _uid);
+    await sharedPreferences.setBool('guest', false);
   }
-
- 
 
   Future<Null> handleAfterSignup(context) async =>
       await Future.delayed(Duration(milliseconds: 1000)).then((f) {
@@ -167,9 +165,7 @@ class SignInBloc extends ChangeNotifier {
 
   Future<bool> clearFirebaseToken() async {
     final result = await apiService.fetchClearFirebaseToken(
-        reqUrl:
-            '$restUrl/mobapi.clearfirebase',
-        id: uid);
+        reqUrl: '$restUrl/mobapi.clearfirebase', id: uid);
     if (result['result'] is bool) {
       if (result['result'] as bool) {
         return true;

@@ -40,8 +40,8 @@ class _SearchPageState extends State<SearchPage> {
             title: Form(
               key: formKey,
               child: TextFormField(
-                autofocus: true,
-                decoration: InputDecoration(
+                 decoration: InputDecoration(
+                  focusedBorder: InputBorder.none,
                   hintText: LocaleKeys.searchActicles.tr(),
                   border: InputBorder.none,
                   suffixIcon: IconButton(

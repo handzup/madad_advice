@@ -81,9 +81,11 @@ class _DetailsPageState extends State<DetailsPage> {
     }
     //scopes.sort((a, b) => a.name.length.compareTo(b.name.length));
     Future.delayed(Duration(milliseconds: 100)).then((value) {
-      setState(() {
-        rightPaddingValue = 10;
-      });
+      if (mounted) {
+        setState(() {
+          rightPaddingValue = 10;
+        });
+      }
     });
     Future.delayed(Duration(milliseconds: 100)).then((value) async {
       var viewedBloc = Provider.of<ViewedArticlesBloc>(context, listen: false);
@@ -510,7 +512,11 @@ class _DetailsPageState extends State<DetailsPage> {
                               '${LocaleKeys.comments.tr()} ${data.forum_message_cnt}',
                               style: TextStyle(color: Colors.black87)),
                           onPressed: () {
-                            nextScreen(context, CommentsPage(code: data.code));
+                            nextScreen(
+                                context,
+                                CommentsPage(
+                                    code: data.code,
+                                    topicId: data.forum_topic_id));
                           },
                         )
                       ],

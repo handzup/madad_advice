@@ -302,16 +302,10 @@ Widget ask(sc, context) {
                       decoration: InputDecoration(
                           hintText: 'Задайте свой вопрос',
                           alignLabelWithHint: true,
-                 
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15.0),
-                            borderSide: BorderSide(
-                         
-                             
-                            ),
+                            borderSide: BorderSide(),
                           ),
-       
-             
                           contentPadding: const EdgeInsets.all(10)),
                       maxLines: 4,
                     ),

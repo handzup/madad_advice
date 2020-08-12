@@ -2,11 +2,82 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:madad_advice/models/comment.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/file.dart';
+import 'package:madad_advice/utils/api_response.dart';
 
 var dio = Dio();
+final restUrl = Config().resturl;
 
 class ApiService {
+  Future<APIResponse<List<Comment>>> getComments(code) async {
+    try {
+      return dio.get('$restUrl/mobapi.getelements?path=$code').then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<List<Comment>>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = <Comment>[];
+        result.data['result']['elements'][0]['forum_messages'].forEach((item) {
+          data.add(Comment.fromJson(item));
+        });
+        return APIResponse<List<Comment>>(data: data, error: false);
+      }).catchError((onError) =>
+          APIResponse<List<Comment>>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<List<Comment>>(error: true, errorMessage: e);
+    }
+  }
+
+  Future<bool> sendComment(
+      {String message,
+      String topicId,
+      String authorName = 'Guest',
+      String authorId,
+      String code}) async {
+    {
+      var formData;
+      if (topicId == null) {
+        formData = FormData.fromMap({
+          'message': message,
+          'author_name': authorName,
+          'author_id': authorId,
+          'element_code': code,
+        });
+      } else {
+        formData = FormData.fromMap({
+          'message': message,
+          'author_name': authorName,
+          'tid': topicId,
+          'author_id': authorId,
+        });
+      }
+
+      try {
+        dio.post('$restUrl/mobapi.addcomment', data: formData).then((result) {
+          if (result.statusCode != 200) {
+            return APIResponse<List<Comment>>(
+                error: true, errorMessage: 'Service error');
+          }
+          if (result.data['result'] != null) {
+            if (result.data['result']['error'] != null) {
+              return false;
+            }
+            if (result.data['result']['message_id'] != null) {
+              return true;
+            }
+          }
+          return false;
+        }).catchError((onError) => false);
+      } catch (e) {
+        print(e);
+        return false;
+      }
+    }
+    return true;
+  }
+
   fetch(String reqUrl) async {
     var response;
     try {
@@ -25,6 +96,22 @@ class ApiService {
     }
     return response.data;
   }
+
+  // Future sendComment(
+  //     {String reqUrl,
+  //     String message,
+  //     String topicId,
+  //     String authorName = 'Guest',
+  //     String authorId}) async {
+  //   var formData = FormData.fromMap({
+  //     'message': message,
+  //     'author_name': authorName,
+  //     'tid': topicId,
+  //     'author_id': authorId
+  //   });
+  //   var response = await dio.post(reqUrl, data: formData);
+  //   return response.data;
+  // }
 
   Future sendQuestion(
       {String reqUrl,

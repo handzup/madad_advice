@@ -477,7 +477,7 @@ class _DetailsFromSearchPageState extends State<DetailsFromSearchPage> {
                                 label: Text(LocaleKeys.comments.tr(),
                                     style: TextStyle(color: Colors.black87)),
                                 onPressed: () {
-                                  nextScreen(context, CommentsPage(code: code));
+                                  nextScreen(context, CommentsPage(code: article.article.code,topicId: article.article.forum_topic_id,));
                                 },
                               )
                             ],

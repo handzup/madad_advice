@@ -15,7 +15,7 @@ class UserBloc extends ChangeNotifier {
   String _email = 'Advice for Business';
   String _uid = 'uid';
   String _imageUrl = Config().splashIcon;
-  String _phone ='';
+  String _phone = '';
   String get phone => _phone;
   String _gender = "";
   bool _hasError = false;
@@ -25,7 +25,8 @@ class UserBloc extends ChangeNotifier {
   String get uid => _uid;
   String get imageUrl => _imageUrl;
   String get gender => _gender;
-
+  bool _isGuest;
+  bool get isGuest => _isGuest;
   getUserData() async {
     final sp = await SharedPreferences.getInstance();
 
@@ -36,6 +37,7 @@ class UserBloc extends ChangeNotifier {
     _imageUrl = sp.getString('image url') ?? Config().splashIcon;
     _gender = sp.getString('gender') ?? '';
     _phone = sp.getString('phone') ?? '';
+    _isGuest = sp.getBool('guest') ?? true;
     notifyListeners();
   }
   //TODO upload image to server and recive update here

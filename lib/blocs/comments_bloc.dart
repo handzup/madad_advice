@@ -5,26 +5,67 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:madad_advice/models/comment.dart';
 import 'package:madad_advice/models/config.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
+
 final restUrl = Config().resturl;
+
 class CommentsBloc extends ChangeNotifier {
   final apiService = ApiService();
 
   String date;
   String timestamp1;
+  String _topicId;
+  String get topickId => _topicId;
+  APIResponse<List<Comment>> _data;
+  APIResponse<List<Comment>> get data => _data;
+  String _lastCode;
+  String get lastCode => _lastCode;
 
-  Future<List<Comment>> getCommens(code) async {
-    var data = <Comment>[];
-    final result = await apiService.fetch(
-        '$restUrl/mobapi.getelements?path=$code');
-    result['result']['elements'][0]['forum_messages'].forEach((item) {
-      data.add(Comment.fromJson(item));
+  Future<APIResponse<List<Comment>>> getCommens(code) async {
+    _lastCode = code;
+    final result = await apiService.getComments(code);
+    _data = result;
+    notifyListeners();
+    return _data;
+  }
+
+  setTopicId(String id) {
+    _topicId = id;
+  }
+
+  Future<bool> sendComment({
+    String message,
+    String authorId,
+    String authorName,
+    String photo,
+    String code,
+  }) async {
+    _data.data.insert(
+        0,
+        Comment(
+          authorId: authorId,
+          postMessage: message,
+          photo: photo,
+          postDate: DateTime.now().toString(),
+          authorName: authorName,
+        ));
+
+    notifyListeners();
+    var result = await apiService
+        .sendComment(
+            authorId: authorId,
+            authorName: authorName,
+            message: message,
+            topicId: _topicId,
+            code: code)
+        .then((value) {
+      getCommens(lastCode);
+      return value;
     });
-    return data;
+    return result;
   }
-  Future<bool> sendComment()async {
 
-  }
   Future getData(code) async {
     return await getCommens(code);
   }
