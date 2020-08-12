@@ -8,8 +8,10 @@ import 'package:madad_advice/blocs/articel_bloc.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/pages/details.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/empty.dart';
 import 'package:madad_advice/utils/next_screen.dart';
+import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
@@ -34,32 +36,33 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
   final Color color;
   final String url = Config().url;
   _CategoryItemPageState(this.category, this.color, this.queryPath);
-  SphereModel _apiResponse;
+  APIResponse<SphereModel> _apiResponse;
   DateFormat format = DateFormat('dd.MM.yyyy');
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     Future.delayed(Duration(milliseconds: 0)).then((_) async {
       final articleBlock = Provider.of<ArticleBloc>(context);
-      await articleBlock.getSectionData(code: queryPath);
-      setState(() {
-        _apiResponse = articleBlock.sectionData;
-      });
+      await articleBlock.getSectionData(code: queryPath,force: articleBlock.first);
+      if (articleBlock.sectionData.error) {
+        _scaffoldKey.currentState.showSnackBar(serviceError());
+      }
     });
     super.initState();
   }
 
   Future<Null> _handleRefresh() async {
-    // await new Future.delayed(new Duration(milliseconds: 1300));
     final articleBlock = Provider.of<ArticleBloc>(context);
     await articleBlock.getSectionData(code: queryPath, force: true);
-
+    if (articleBlock.sectionData.error) {
+      _scaffoldKey.currentState.showSnackBar(serviceError());
+    }
     return null;
   }
 
   bool isShow() {
-    if (_apiResponse != null) {
-      if (_apiResponse.elements.isNotEmpty) {
+    if (_apiResponse != null) if (!_apiResponse.error) {
+      if (_apiResponse.data.elements.isNotEmpty) {
         return true;
       }
       return false;
@@ -69,7 +72,12 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final articleBlock = Provider.of<ArticleBloc>(context);
+    setState(() {
+      _apiResponse = articleBlock.sectionData;
+    });
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
             category,
@@ -111,7 +119,7 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        _apiResponse.elements[index]
+                                        _apiResponse.data.elements[index]
                                                     .preview_picture !=
                                                 null
                                             ? Flexible(
@@ -133,7 +141,7 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
                                                       ],
                                                       image: DecorationImage(
                                                           image: CachedNetworkImageProvider(
-                                                              '${url + _apiResponse.elements[index].preview_picture}'),
+                                                              '${url + _apiResponse.data.elements[index].preview_picture}'),
                                                           fit: BoxFit.cover)),
                                                 ),
                                               )
@@ -150,7 +158,7 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  _apiResponse
+                                                  _apiResponse.data
                                                       .elements[index].title,
                                                   style: TextStyle(
                                                       fontSize: 14,
@@ -164,10 +172,13 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
                                                 Spacer(),
                                                 Container(
                                                   child: Text(
-                                                    _apiResponse.elements[index]
+                                                    _apiResponse
+                                                                .data
+                                                                .elements[index]
                                                                 .preview_text !=
                                                             null
                                                         ? _apiResponse
+                                                            .data
                                                             .elements[index]
                                                             .preview_text
                                                             .replaceAll(
@@ -196,12 +207,14 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
                                                     ),
                                                     Text(
                                                       _apiResponse
+                                                                  .data
                                                                   .elements[
                                                                       index]
                                                                   .datetime !=
                                                               null
                                                           ? format.format(format
                                                               .parse(_apiResponse
+                                                                  .data
                                                                   .elements[
                                                                       index]
                                                                   .datetime
@@ -225,32 +238,32 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
                                   nextScreen(
                                       context,
                                       DetailsPage(
-                                        data: _apiResponse.elements[index],
-                                        category: _apiResponse.title,
-                                        date: _apiResponse
-                                                    .elements[index].datetime !=
+                                        data: _apiResponse.data.elements[index],
+                                        category: _apiResponse.data.title,
+                                        date: _apiResponse.data.elements[index]
+                                                    .datetime !=
                                                 null
                                             ? format.format(format.parse(
-                                                _apiResponse
+                                                _apiResponse.data
                                                     .elements[index].datetime
                                                     .toString()))
                                             : '',
                                         description: _apiResponse
-                                            .elements[index].detail_text,
-                                        imageUrl: _apiResponse
+                                            .data.elements[index].detail_text,
+                                        imageUrl: _apiResponse.data
                                             .elements[index].preview_picture,
-                                        norma: _apiResponse
-                                            .elements[index].normativnye_akty,
-                                        title:
-                                            _apiResponse.elements[index].title,
-                                        files: _apiResponse.elements[index]
+                                        norma: _apiResponse.data.elements[index]
+                                            .normativnye_akty,
+                                        title: _apiResponse
+                                            .data.elements[index].title,
+                                        files: _apiResponse.data.elements[index]
                                             .prikreplennye_fayly,
                                       ));
                                 },
                               ),
                             );
                           },
-                          childCount: _apiResponse.elements.length,
+                          childCount: _apiResponse.data.elements.length,
                         ),
                       )
                     ],

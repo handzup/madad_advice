@@ -19,6 +19,7 @@ import 'package:madad_advice/pages/sections_page.dart';
 import 'package:madad_advice/pages/sign_in.dart';
 import 'package:madad_advice/pages/viewed_articles.dart';
 import 'package:madad_advice/pages/welcome_page.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/search_bar.dart';
@@ -36,7 +37,7 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
-  List<Menu> _apiResponse;
+  APIResponse<List<Menu>> _apiResponse;
 
   bool checkUrl(url) {
     return url != null ? url.contains('http') : false;
@@ -213,7 +214,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
       _apiResponse = cb.menuData;
     });
     _apiResponse != null
-        ? _apiResponse.sort((a, b) => a.sort.compareTo(b.sort))
+        ? _apiResponse.data.sort((a, b) => a.sort.compareTo(b.sort))
         : null;
     final ub = Provider.of<UserBloc>(context);
     final sp = Provider.of<SignInBloc>(context);
@@ -363,17 +364,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           SearchBar(),
           Flexible(
-            child: _apiResponse == null
+            child: _apiResponse.error 
                 ? Container()
                 : ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
-                    itemCount: _apiResponse.length,
+                    itemCount: _apiResponse.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (!isIos || _apiResponse[index].path != 'exit')
+                      if (!isIos || _apiResponse.data[index].path != 'exit')
                         return ListTile(
                           title: Text(
-                            _apiResponse[index].title,
+                            _apiResponse.data[index].title,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
@@ -391,14 +392,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                     border:
                                         Border.all(color: Colors.grey[100])),
                                 child: FaIcons(
-                                  _apiResponse[index].icon.toString(),
+                                  _apiResponse.data[index].icon.toString(),
                                   color: Colors.blue.withOpacity(.4),
                                   size: 20,
                                 ),
                               )),
                           onTap: () {
                             Navigator.pop(context);
-                            pageNavigator(_apiResponse[index].path);
+                            pageNavigator(_apiResponse.data[index].path);
                           },
                         );
                     },

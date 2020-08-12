@@ -1,20 +1,18 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/langs.dart';
-import 'dart:convert';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
-import 'package:madad_advice/utils/locator.dart';
+
 final restUrl = Config().resturl;
 
 class CategoryBloc extends ChangeNotifier {
-  var lang = locator<Langs>();
-  List<MyCategory> _sphereData;
+  APIResponse<List<MyCategory>> _sphereData;
 
-  List<MyCategory> get sphereData => _sphereData;
+  APIResponse<List<MyCategory>> get sphereData => _sphereData;
   ApiService apiService = ApiService();
 
   Future<List<MyCategory>> _readBox() async {
@@ -23,7 +21,7 @@ class CategoryBloc extends ChangeNotifier {
     for (var i = 0; i < box.length; i++) {
       secData.add(box.getAt(i));
     }
-   // notifyListeners();
+    // notifyListeners();
     return secData;
   }
 
@@ -42,20 +40,16 @@ class CategoryBloc extends ChangeNotifier {
     return length != 0;
   }
 
-  Future<List<MyCategory>> updateFromApi() async {
-    var data = <MyCategory>[];
-    final result = await apiService
-        .fetch('$restUrl/mobapi.getscopes');
-     result['result'][lang.lang.toString()].forEach((item) {
-      data.add(MyCategory.fromJson(item));
-    });
-    return data;
+  Future<APIResponse<List<MyCategory>>> updateFromApi() async {
+    return await apiService.fetchApiGetCategories();
   }
 
   Future<void> update() async {
-    final data = await updateFromApi();
-    _sphereData = data;
-    await _writeBox(data);
+    _sphereData = await updateFromApi();
+    if (!_sphereData.error) {
+      await _writeBox(_sphereData.data);
+    }
+
     notifyListeners();
   }
 
@@ -66,7 +60,7 @@ class CategoryBloc extends ChangeNotifier {
     } else {
       var ex = await isExists();
       if (ex) {
-        _sphereData = await _readBox();
+        _sphereData.data = await _readBox();
         notifyListeners();
       } else {
         await update();

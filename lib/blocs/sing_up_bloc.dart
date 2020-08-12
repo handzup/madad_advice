@@ -109,28 +109,7 @@ class SignUpBloc extends ChangeNotifier {
     return true;
   }
 
-  Future signInwithEmailPassword(userEmail, userPassword) async {
-    try {
-      // final FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(email: userEmail, password: userPassword)).user;
-      if (userEmail == "mail@mail.com" && userPassword == "12345") {
-        String data = await rootBundle.loadString('assets/userJson.json');
-        _json = json.decode(data);
-
-        print('Howdy, ${uJson['result']['NAME']}!');
-      } else {}
-      // assert(user != null);
-      // assert(await user.getIdToken() != null);
-      // final FirebaseUser currentUser = await _firebaseAuth.currentUser();
-      // this._uid = currentUser.uid;
-
-      _hasError = false;
-      notifyListeners();
-    } catch (e) {
-      _hasError = true;
-      _errorCode = e.code;
-      notifyListeners();
-    }
-  }
+ 
 
   Future saveDataToSP() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

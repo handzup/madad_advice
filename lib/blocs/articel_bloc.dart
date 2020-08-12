@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:madad_advice/models/config.dart';
-import 'dart:convert';
 import 'package:madad_advice/models/sphere.dart';
+import 'package:madad_advice/utils/api_response.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
 
@@ -11,18 +11,20 @@ const key = 'articles';
 final restUrl = Config().resturl;
 
 class ArticleBloc extends ChangeNotifier {
-  SphereModel _sphereData;
-  SphereModel get sectionData => _sphereData;
+  bool _first = true;
+  bool get first => _first;
+  APIResponse<SphereModel> _sphereData;
+  APIResponse<SphereModel> get sectionData => _sphereData;
   ApiService apiService = ApiService();
   Duration _cacheValidDuration;
-   ArticleBloc() {
+  ArticleBloc() {
     _cacheValidDuration = Duration(minutes: 5);
-   }
+  }
   Future<SphereModel> _readBox(acticleKey) async {
     final box = await Hive.openBox<SphereModel>(key);
     var secData = SphereModel();
     secData = box.get(acticleKey);
-   // notifyListeners();
+    // notifyListeners();
     return secData;
   }
 
@@ -31,7 +33,7 @@ class ArticleBloc extends ChangeNotifier {
     final arKey = item.path.toString();
     await openBox.put(arKey, item);
 
-   // notifyListeners();
+    // notifyListeners();
   }
 
   Future<bool> isExists(acticleKey) async {
@@ -56,28 +58,29 @@ class ArticleBloc extends ChangeNotifier {
     return true;
   }
 
-  Future<SphereModel> updateFromApi(code) async {
-    var data = SphereModel();
-    final result = await apiService.fetch(
-        '$restUrl/mobapi.getelements?path=$code');
-     data = (SphereModel.fromJson(result['result']));
-    return data;
+  Future<APIResponse<SphereModel>> updateFromApi(code) async {
+    return await apiService.fetchApiGetArticle(code);
   }
 
   Future<void> update(code) async {
     final data = await updateFromApi(code);
-    final lastData = SphereModel(
-        elements: data.elements,
-        title: data.title,
-        path: data.path,
-        type: data.type,
-        lastFetch: DateTime.now());
-    _sphereData = lastData;
-    await _writeBox(lastData);
+    var lastData;
+    if (!data.error) {
+        lastData = SphereModel(
+          elements: data.data.elements,
+          title: data.data.title,
+          path: data.data.path,
+          type: data.data.type,
+          lastFetch: DateTime.now());
+    }
+
+    _sphereData = APIResponse<SphereModel>(data: lastData, error: data.error,errorMessage: data.errorMessage);
+    if (!data.error) _writeBox(lastData);
   }
 
   // ignore: missing_return
   Future<SphereModel> getSectionData({String code, bool force = false}) async {
+    _first = false;
     final lastFetch = await getLastFetch(code);
     if (force) {
       await update(code);
@@ -87,7 +90,7 @@ class ArticleBloc extends ChangeNotifier {
       }
       var ex = await isExists(code);
       if (ex) {
-        _sphereData = await _readBox(code);
+        _sphereData.data = await _readBox(code);
         notifyListeners();
       } else {
         await update(code);

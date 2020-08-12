@@ -74,6 +74,8 @@ class _CommentsPageState extends State<CommentsPage> {
     final ib = Provider.of<InternetBloc>(context);
     final comb = Provider.of<CommentsBloc>(context);
     final ub = Provider.of<UserBloc>(context);
+    final sp = await SharedPreferences.getInstance();
+
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       await ib.checkInternet;
@@ -84,7 +86,7 @@ class _CommentsPageState extends State<CommentsPage> {
             message: comment,
             authorName: ub.isGuest ? 'Guest' : ub.userName,
             authorId: ub.isGuest ? null : ub.uid,
-            photo: ub.imageUrl,
+            photo: sp.getString('image url'),
             code: code)) {
           scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: Colors.black,
@@ -160,7 +162,7 @@ class _CommentsPageState extends State<CommentsPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   void _onRefresh() async {
-    // monitor network fetch
+     
     final cb = Provider.of<CommentsBloc>(context);
     cb.getCommens(code);
     // if failed,usce refreshFailed()
@@ -197,7 +199,6 @@ class _CommentsPageState extends State<CommentsPage> {
               child: TextFormField(
                 focusNode: _focusNode,
                 decoration: InputDecoration(
-                  
                     errorStyle: TextStyle(fontSize: 0),
                     contentPadding:
                         EdgeInsets.only(left: 15, top: 10, right: 5),

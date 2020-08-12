@@ -1,16 +1,23 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/comment.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/file.dart';
+import 'package:madad_advice/models/langs.dart';
+import 'package:madad_advice/models/menu.dart';
+import 'package:madad_advice/models/section.dart';
+import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/utils/api_response.dart';
+import 'package:madad_advice/utils/locator.dart';
 
 var dio = Dio();
 final restUrl = Config().resturl;
 
 class ApiService {
+  var lang = locator<Langs>();
+
   Future<APIResponse<List<Comment>>> getComments(code) async {
     try {
       return dio.get('$restUrl/mobapi.getelements?path=$code').then((result) {
@@ -76,6 +83,80 @@ class ApiService {
       }
     }
     return true;
+  }
+
+  Future<APIResponse<List<Menu>>> fetchApiGetMenu() async {
+    try {
+      return dio.get('$restUrl/mobapi.getmenu').then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<List<Menu>>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = <Menu>[];
+        result.data['result'][lang.lang.toString()].forEach((item) {
+          data.add(Menu.fromJson(item));
+        });
+        return APIResponse<List<Menu>>(data: data, error: false);
+      }).catchError((onError) =>
+          APIResponse<List<Menu>>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<List<Menu>>(errorMessage: e, error: true);
+    }
+  }
+
+  Future<APIResponse<List<MyCategory>>> fetchApiGetCategories() async {
+    try {
+      return dio.get('$restUrl/mobapi.getscopes').then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<List<MyCategory>>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = <MyCategory>[];
+        result.data['result'][lang.lang.toString()].forEach((item) {
+          data.add(MyCategory.fromJson(item));
+        });
+        return APIResponse<List<MyCategory>>(data: data, error: false);
+      }).catchError((onError) =>
+          APIResponse<List<MyCategory>>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<List<MyCategory>>(errorMessage: e, error: true);
+    }
+  }
+
+  Future<APIResponse<List<Section>>> fetchApiGetSections() async {
+    try {
+      return dio.get('$restUrl/mobapi.getsections').then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<List<Section>>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = <Section>[];
+        result.data['result'][lang.lang.toString()].forEach((item) {
+          data.add(Section.fromJson(item));
+        });
+        return APIResponse<List<Section>>(data: data, error: false);
+      }).catchError((onError) =>
+          APIResponse<List<Section>>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<List<Section>>(errorMessage: e, error: true);
+    }
+  }
+
+  Future<APIResponse<SphereModel>> fetchApiGetArticle(String code) async {
+    try {
+      
+      return dio.get('$restUrl/mobapi.getelements?path=$code').then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<SphereModel>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = SphereModel.fromJson(result.data['result']);
+        return APIResponse<SphereModel>(data: data, error: false);
+      }).catchError((onError) =>
+          APIResponse<SphereModel>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<SphereModel>(errorMessage: e, error: true);
+    }
   }
 
   fetch(String reqUrl) async {

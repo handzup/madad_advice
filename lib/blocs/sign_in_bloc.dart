@@ -86,7 +86,7 @@ class SignInBloc extends ChangeNotifier {
     _email = result['result']['email'];
     _phone = result['result']['login'];
     _uid = result['result']['id'];
-
+    _imageUrl = result['result']['photo'];
     return true;
   }
 

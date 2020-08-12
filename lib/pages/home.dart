@@ -17,6 +17,7 @@ import 'package:madad_advice/models/recived_notification.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/locator.dart';
 import 'package:madad_advice/utils/next_screen.dart';
@@ -24,6 +25,7 @@ import 'package:madad_advice/widgets/drawer.dart';
 import 'package:madad_advice/widgets/loading_shimmer.dart';
 import 'package:madad_advice/widgets/reacent_home.dart';
 import 'package:madad_advice/widgets/recent_news.dart';
+import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:madad_advice/widgets/sphere.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -49,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   final BehaviorSubject<String> selectNotificationSubject =
       BehaviorSubject<String>();
 
-  List<MyCategory> _apiResponse;
+  APIResponse<List<MyCategory>> _apiResponse;
   Widget snackBar({bool serviceError = false}) {
     return SnackBar(
       duration: Duration(minutes: 1),
@@ -219,7 +221,9 @@ class _HomePageState extends State<HomePage> {
     await drawer.getMenuData();
     await cb.getCategoryData(force: true);
     await sections.getSectionData(force: true);
-
+    if (cb.sphereData.error) {
+      _scaffoldKey.currentState.showSnackBar(serviceError());
+    }
     return null;
   }
 
@@ -272,7 +276,7 @@ class _HomePageState extends State<HomePage> {
             borderWidth: 1,
             springAnimationDurationInMilliseconds: 100,
             onRefresh: _handleRefresh,
-            child: _apiResponse == null
+            child: _apiResponse.error
                 ? Container(
                     child: ListView(
                       children: <Widget>[
@@ -322,11 +326,11 @@ class _HomePageState extends State<HomePage> {
                             }
                             return Sphere(
                               categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
-                              data: _apiResponse,
+                              data: _apiResponse.data,
                               index: index - 1,
                             );
                           },
-                          childCount: _apiResponse.length + 1,
+                          childCount: _apiResponse.data.length + 1,
                         ),
                       ),
                       ReacentHome()

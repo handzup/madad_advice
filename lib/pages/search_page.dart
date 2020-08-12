@@ -40,7 +40,7 @@ class _SearchPageState extends State<SearchPage> {
             title: Form(
               key: formKey,
               child: TextFormField(
-                 decoration: InputDecoration(
+                decoration: InputDecoration(
                   focusedBorder: InputBorder.none,
                   hintText: LocaleKeys.searchActicles.tr(),
                   border: InputBorder.none,
@@ -68,7 +68,7 @@ class _SearchPageState extends State<SearchPage> {
     var pb = Provider.of<DrawerMenuBloc>(context);
     var first = true;
     var second = false;
-    pb.menuData.forEach((element) {
+    pb.menuData.data.forEach((element) {
       if (element.title == data.title) {
         first = false;
       }
