@@ -8,6 +8,7 @@ import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
 
 const key = 'articles';
+
 final restUrl = Config().resturl;
 
 class ArticleBloc extends ChangeNotifier {
