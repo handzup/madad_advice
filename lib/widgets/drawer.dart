@@ -56,7 +56,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
   void checkInternet() async {
     final ib = Provider.of<InternetBloc>(context);
 
-    await ib.checkInternet;
+    await ib.checkInternet();
     ib.hasInternet ? setData() : null;
   }
 
@@ -202,6 +202,16 @@ class _DrawerMenuState extends State<DrawerMenu> {
         exitFromApp();
         break;
       default:
+    }
+  }
+  bool isShow(APIResponse<List<Menu>> response) {
+    if (response == null) {
+      return true;
+    } else {
+      if (response.error) {
+        return true;
+      }
+      return false;
     }
   }
 
@@ -364,7 +374,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           SearchBar(),
           Flexible(
-            child: _apiResponse.error 
+            child: isShow(_apiResponse)
                 ? Container()
                 : ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),

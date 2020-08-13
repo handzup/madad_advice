@@ -48,6 +48,8 @@ class CategoryBloc extends ChangeNotifier {
     _sphereData = await updateFromApi();
     if (!_sphereData.error) {
       await _writeBox(_sphereData.data);
+    }else{
+      _sphereData.data = null;
     }
 
     notifyListeners();

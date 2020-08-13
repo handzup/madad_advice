@@ -9,6 +9,7 @@ import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/menu.dart';
 import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/models/sphere.dart';
+import 'package:madad_advice/models/user.dart';
 import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/locator.dart';
 
@@ -116,8 +117,10 @@ class ApiService {
           data.add(MyCategory.fromJson(item));
         });
         return APIResponse<List<MyCategory>>(data: data, error: false);
-      }).catchError((onError) =>
-          APIResponse<List<MyCategory>>(error: true, errorMessage: onError));
+      }).catchError((onError) => APIResponse<List<MyCategory>>(
+            data: [],
+            error: false,
+          ));
     } catch (e) {
       return APIResponse<List<MyCategory>>(errorMessage: e, error: true);
     }
@@ -144,7 +147,6 @@ class ApiService {
 
   Future<APIResponse<SphereModel>> fetchApiGetArticle(String code) async {
     try {
-      
       return dio.get('$restUrl/mobapi.getelements?path=$code').then((result) {
         if (result.statusCode != 200) {
           return APIResponse<SphereModel>(
@@ -152,10 +154,56 @@ class ApiService {
         }
         var data = SphereModel.fromJson(result.data['result']);
         return APIResponse<SphereModel>(data: data, error: false);
-      }).catchError((onError) =>
-          APIResponse<SphereModel>(error: true, errorMessage: onError));
+      }).catchError((error) =>
+          APIResponse<SphereModel>(error: true, errorMessage: error.message));
     } catch (e) {
       return APIResponse<SphereModel>(errorMessage: e, error: true);
+    }
+  }
+
+  Future<APIResponse<bool>> fetchApiCheckPhone(String phoneNumber) async {
+    var formData = FormData.fromMap({
+      'telephone': phoneNumber,
+    });
+    try {
+      return dio.post('$restUrl/mobapi.checktelephone', data: formData).then(
+          (result) {
+        if (result.statusCode != 200) {
+          return APIResponse<bool>(error: true, errorMessage: 'Service error');
+        }
+        if ((result.data['result'] is bool)) {
+          if (result.data['result']) {
+            return APIResponse<bool>(data: true, error: false);
+          }
+        }
+        return APIResponse<bool>(data: false, error: false);
+      }).catchError(
+          (onError) => APIResponse<bool>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<bool>(errorMessage: e, error: true);
+    }
+  }
+
+  Future<APIResponse<User>> fetchApiLogin(
+      {String phoneNumber, String password, String firebase}) async {
+    var formData = FormData.fromMap(
+        {'telephone': phoneNumber, 'password': password, 'firebase': firebase});
+    try {
+      return dio.post('$restUrl/mobapi.loginbytelephone', data: formData).then(
+          (result) {
+        if (result.statusCode != 200) {
+          return APIResponse<User>(error: true, errorMessage: 'Service error');
+        }
+        if ((result.data['result'] is String)) {
+          return APIResponse<User>(
+              error: true, errorMessage: 'Login or Password wrong');
+        }
+        var data = User.fromJson(result.data['result']);
+        return APIResponse<User>(data: data, error: false);
+      }).catchError(
+          (onError) => APIResponse<User>(error: true, errorMessage: onError));
+    } catch (e) {
+      return APIResponse<User>(errorMessage: e, error: true);
     }
   }
 
@@ -193,6 +241,18 @@ class ApiService {
   //   var response = await dio.post(reqUrl, data: formData);
   //   return response.data;
   // }
+  Future<APIResponse<User>> updateUser(
+      {String uid,
+      String userName,
+      String lastName,
+      String email,
+      String imageUrl,
+      String phoneNumber}) {
+    var formData = FormData.fromMap({
+      //TODO
+    });
+     
+  }
 
   Future sendQuestion(
       {String reqUrl,

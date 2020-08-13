@@ -36,7 +36,7 @@ class _FreedBackPageState extends State<FreedBackPage> {
     final InternetBloc ib = Provider.of<InternetBloc>(context);
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      await ib.checkInternet;
+      await ib.checkInternet();
       if(ib.hasInternet == false){
         openSnacbar(scaffoldKey, 'No internet available');
       }else{
@@ -63,7 +63,7 @@ class _FreedBackPageState extends State<FreedBackPage> {
               child: Text('Yes'),
               onPressed: () async {
                 Navigator.pop(context);
-                await ib.checkInternet;
+                await ib.checkInternet();
                 if(ib.hasInternet == false){
                   openToast(context, 'No internet connection');
                 } else{

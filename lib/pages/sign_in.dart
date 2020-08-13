@@ -8,6 +8,7 @@ import 'package:madad_advice/models/icons_data.dart';
 import 'package:madad_advice/pages/forgot_password.dart';
 import 'package:madad_advice/pages/sign_up.dart';
 import 'package:madad_advice/styles.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/utils/snacbar.dart';
 import 'package:provider/provider.dart';
@@ -54,9 +55,8 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  Future<bool> checkPhone() async {
+  Future<APIResponse<bool>> checkPhone() async {
     final sb = Provider.of<SignInBloc>(context);
-
     return await sb.checkPhone(phone: phone);
   }
 
@@ -64,12 +64,12 @@ class _SignInPageState extends State<SignInPage> {
   handleSignInwithemailPassword() async {
     final ib = Provider.of<InternetBloc>(context);
     final sb = Provider.of<SignInBloc>(context);
-    await ib.checkInternet;
+    await ib.checkInternet();
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       FocusScope.of(context).requestFocus(FocusNode());
 
-      await ib.checkInternet;
+      await ib.checkInternet();
       if (ib.hasInternet == false) {
         openSnacbar(_scaffoldKey, LocaleKeys.noInternet.tr());
       } else {
@@ -95,7 +95,7 @@ class _SignInPageState extends State<SignInPage> {
             setState(() {
               signInStart = false;
               hasError = true;
-              phoneHas = !check;
+              phoneHas = !check.error;
             });
             formKey.currentState.validate();
             // openSnacbar(_scaffoldKey, sb.errorCode);
@@ -106,14 +106,14 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   var label = 'Phone Number';
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey, backgroundColor: Colors.white, body: signInUI());
   }
 
-    Widget signInUI() {
+  Widget signInUI() {
     return Form(
       key: formKey,
       child: Padding(

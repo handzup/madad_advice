@@ -285,6 +285,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(color: Colors.white)),
                                 onPressed: () => showBarModalBottomSheet(
                                       expand: false,
+                                      duration: Duration(milliseconds: 500),
                                       context: context,
                                       backgroundColor: Colors.transparent,
                                       builder: (context, scrollController) =>
@@ -328,9 +329,8 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
   String uLastName;
   String uPass;
   String uEmail;
-  String uGender;
   String uPhotoUrl;
-  int initialGenderIndex;
+
   String phoneNumberMasked;
   String phoneNumber;
 
@@ -525,10 +525,13 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                         label: Text(LocaleKeys.save.tr(),
                             style: TextStyle(color: Colors.white)),
                         onPressed: () => ub
-                            .updateUserData(
-                                uName, uLastName, uEmail, uPhotoUrl, uGender)
+                            .updateUserProfileApi(
+                                userName: uName,
+                                lastName: uLastName,
+                                email: uEmail,
+                                imageUrl: uPhotoUrl,
+                                phoneNumber: phoneNumber)
                             .then((_) async {
-                          ub.getUserData();
                           Navigator.pop(context);
                         }),
                       )),
@@ -555,7 +558,6 @@ class ModalFit extends StatefulWidget {
 }
 
 class _ModalFitState extends State<ModalFit> {
-  File _image;
   final picker = ImagePicker();
 
   Future getImageCamera() async {
@@ -567,32 +569,25 @@ class _ModalFitState extends State<ModalFit> {
         imageQuality: 50);
 
     if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-      await ub.setImage(_image).then((_) async {
-        ub.getUserData();
-      });
+      await ub.setImage(pickedFile.path);
     }
   }
 
   Future getImageGallery() async {
     final ub = Provider.of<UserBloc>(context);
-
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
         maxHeight: 512,
         maxWidth: 512,
         imageQuality: 50);
     if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-      await ub.setImage(_image).then((_) async {
-        ub.getUserData();
-      });
-      print(_image.path);
+      await ub.setImage(pickedFile.path);
     }
+  }
+
+  Future removeUserPhoto() async {
+    final ub = Provider.of<UserBloc>(context);
+    await ub.removeUserPhoto();
   }
 
   @override
@@ -616,7 +611,7 @@ class _ModalFitState extends State<ModalFit> {
           ListTile(
             title: Text(LocaleKeys.deletePhoto.tr()),
             leading: Icon(EvilIcons.trash),
-            onTap: () => print('del photo'),
+            onTap: () => removeUserPhoto(),
           )
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:madad_advice/blocs/firebase_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/pages/home.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
@@ -71,35 +72,23 @@ class SignInBloc extends ChangeNotifier {
   final firebaseBloc = FirebaseBloc();
   Future<bool> login({String phoneNumber, String password}) async {
     final token = await firebaseBloc.getToken();
-    final result = await apiService.fetchPosLogIn(
-      reqUrl: '$restUrl/mobapi.loginbytelephone',
+    final result = await apiService.fetchApiLogin(
       password: password,
       phoneNumber: phoneNumber,
       firebase: token,
     );
-    if ((result['result'] is String)) {
-      return false;
-    } else {}
-
-    _name = result['result']['name'];
-    _lastName = result['result']['last_name'];
-    _email = result['result']['email'];
-    _phone = result['result']['login'];
-    _uid = result['result']['id'];
-    _imageUrl = result['result']['photo'];
+    if (result.error) return false;
+    _name = result.data.name;
+    _lastName = result.data.lastname;
+    _email = result.data.email;
+    _phone = result.data.login;
+    _uid = result.data.uid;
+    _imageUrl = result.data.photo;
     return true;
   }
 
-  Future<bool> checkPhone({String phone}) async {
-    final result = await apiService.fetchCheckPhone(
-      reqUrl: '$restUrl/mobapi.checktelephone',
-      phoneNumber: phone,
-    );
-    if ((result['result'] is bool)) {
-      if (result['result']) return true;
-      return false;
-    }
-    return false;
+  Future<APIResponse<bool>> checkPhone({String phone}) async {
+    return await apiService.fetchApiCheckPhone(phone);
   }
 
   Future signInwithEmailPassword({String phoneNumber, String password}) async {

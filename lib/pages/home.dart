@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   void checkInternet() async {
     final ib = Provider.of<InternetBloc>(context);
 
-    await ib.checkInternet;
+    await ib.checkInternet();
     ib.hasInternet == false
         ? _scaffoldKey.currentState.showSnackBar(snackBar())
         : _handleRefresh();
@@ -215,6 +215,11 @@ class _HomePageState extends State<HomePage> {
   final List categoryColors = [ThemeColors.primaryColor.withOpacity(.1)];
 
   Future<Null> _handleRefresh() async {
+    final ib = Provider.of<InternetBloc>(context, listen: false);
+    await ib.checkInternet();
+    ib.hasInternet == false
+        ? _scaffoldKey.currentState.showSnackBar(snackBar())
+        : null;
     final cb = Provider.of<CategoryBloc>(context);
     final drawer = Provider.of<DrawerMenuBloc>(context);
     final sections = Provider.of<SectionBloc>(context);
@@ -225,6 +230,17 @@ class _HomePageState extends State<HomePage> {
       _scaffoldKey.currentState.showSnackBar(serviceError());
     }
     return null;
+  }
+
+  bool isShow(APIResponse<List<MyCategory>> response) {
+    if (response == null) {
+      return true;
+    } else {
+      if (response.error) {
+        return true;
+      }
+      return false;
+    }
   }
 
   @override
@@ -276,7 +292,7 @@ class _HomePageState extends State<HomePage> {
             borderWidth: 1,
             springAnimationDurationInMilliseconds: 100,
             onRefresh: _handleRefresh,
-            child: _apiResponse.error
+            child: isShow(_apiResponse)
                 ? Container(
                     child: ListView(
                       children: <Widget>[

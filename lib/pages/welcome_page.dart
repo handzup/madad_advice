@@ -44,7 +44,7 @@ class _WelcomePageState extends State<WelcomePage>
       final dw = Provider.of<DrawerMenuBloc>(context);
       final sectionBloc = Provider.of<SectionBloc>(context);
 
-      await ib.checkInternet;
+      await ib.checkInternet();
       if (ib.hasInternet) {
         await dw.getMenuData();
         await cb.getCategoryData(force: true);

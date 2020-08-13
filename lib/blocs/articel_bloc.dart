@@ -14,6 +14,8 @@ final restUrl = Config().resturl;
 class ArticleBloc extends ChangeNotifier {
   bool _first = true;
   bool get first => _first;
+  String _lastCode = '';
+  String get lastCode => _lastCode;
   APIResponse<SphereModel> _sphereData;
   APIResponse<SphereModel> get sectionData => _sphereData;
   ApiService apiService = ApiService();
@@ -35,6 +37,10 @@ class ArticleBloc extends ChangeNotifier {
     await openBox.put(arKey, item);
 
     // notifyListeners();
+  }
+
+  clearData() {
+    _sphereData = null;
   }
 
   Future<bool> isExists(acticleKey) async {
@@ -67,7 +73,7 @@ class ArticleBloc extends ChangeNotifier {
     final data = await updateFromApi(code);
     var lastData;
     if (!data.error) {
-        lastData = SphereModel(
+      lastData = SphereModel(
           elements: data.data.elements,
           title: data.data.title,
           path: data.data.path,
@@ -75,7 +81,8 @@ class ArticleBloc extends ChangeNotifier {
           lastFetch: DateTime.now());
     }
 
-    _sphereData = APIResponse<SphereModel>(data: lastData, error: data.error,errorMessage: data.errorMessage);
+    _sphereData = APIResponse<SphereModel>(
+        data: lastData, error: data.error, errorMessage: data.errorMessage);
     if (!data.error) _writeBox(lastData);
   }
 
@@ -91,7 +98,7 @@ class ArticleBloc extends ChangeNotifier {
       }
       var ex = await isExists(code);
       if (ex) {
-        _sphereData.data = await _readBox(code);
+        _sphereData = APIResponse<SphereModel>(data: await _readBox(code));
         notifyListeners();
       } else {
         await update(code);

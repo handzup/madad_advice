@@ -338,7 +338,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   setState(() {
                     prefix = '';
                   });
-                }   if(value.isEmpty) {
+                }
+                if (value.isEmpty) {
                   setState(() {
                     prefix = '+';
                   });
@@ -552,12 +553,10 @@ class _SignUpPageState extends State<SignUpPage> {
     final ib = Provider.of<InternetBloc>(context);
     final signUp = Provider.of<SignUpBloc>(context);
 
-    await ib.checkInternet;
+    await ib.checkInternet();
     if (formKeyRegister.currentState.validate()) {
       formKeyRegister.currentState.save();
       FocusScope.of(context).requestFocus(FocusNode());
-
-      await ib.checkInternet;
       if (ib.hasInternet == false) {
         openSnacbar(_scaffoldKey, LocaleKeys.noInternet.tr());
       } else {
@@ -579,12 +578,10 @@ class _SignUpPageState extends State<SignUpPage> {
     final ib = Provider.of<InternetBloc>(context);
     final signUp = Provider.of<SignUpBloc>(context);
 
-    await ib.checkInternet;
+    await ib.checkInternet();
     if (formKeyValidateCode.currentState.validate()) {
       formKeyValidateCode.currentState.save();
       FocusScope.of(context).requestFocus(FocusNode());
-
-      await ib.checkInternet;
       if (ib.hasInternet == false) {
         openSnacbar(_scaffoldKey, LocaleKeys.noInternet.tr());
       } else {
@@ -605,12 +602,11 @@ class _SignUpPageState extends State<SignUpPage> {
     final ib = Provider.of<InternetBloc>(context);
     final signUp = Provider.of<SignUpBloc>(context);
 
-    await ib.checkInternet;
+    await ib.checkInternet();
     if (formKeyPhoneValidate.currentState.validate()) {
       formKeyPhoneValidate.currentState.save();
       FocusScope.of(context).requestFocus(FocusNode());
 
-      await ib.checkInternet;
       if (ib.hasInternet == false) {
         openSnacbar(_scaffoldKey, LocaleKeys.noInternet.tr());
       } else {
