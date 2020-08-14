@@ -266,7 +266,6 @@ class LoadingWidget2 extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: 5,
       itemBuilder: (BuildContext context, int index) {
-
         return Shimmer.fromColors(
           baseColor: Colors.black87,
           highlightColor: Colors.white54,
@@ -352,32 +351,6 @@ class LoadingSphereWidget extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 30),
       itemCount: 5,
       itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-          return Container(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height: 30,
-                                  width: 4,
-                                  decoration: BoxDecoration(
-                                      color: ThemeColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text('Список сфер',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600)),
-                                Spacer(),
-                              ],
-                            ),
-                          );
-        }
         return Shimmer.fromColors(
             baseColor: Colors.black87,
             highlightColor: Colors.white54,
@@ -407,29 +380,29 @@ class LoadingSphereWidget extends StatelessWidget {
                         width: 5,
                       ),
                       Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 10,
-                          margin: EdgeInsets.only(left: 15, right: 15),
-                          width: 200,
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(25)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 10,
-                          margin: EdgeInsets.only(left: 15, right: 15),
-                          width: 200,
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(25)),
-                        ),
-                      ],
-                        ),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            height: 10,
+                            margin: EdgeInsets.only(left: 15, right: 15),
+                            width: 200,
+                            decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(25)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 10,
+                            margin: EdgeInsets.only(left: 15, right: 15),
+                            width: 200,
+                            decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(25)),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

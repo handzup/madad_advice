@@ -49,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () {
                       WidgetsBinding.instance
                           .addPostFrameCallback((_) => textFieldCtrl.clear());
-                      pb.afterSearch('');
+                      searchBloc.afterSearch('');
                     },
                   ),
                 ),
@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
     var pb = Provider.of<RecentDataBloc>(context);
     return ListView.separated(
       padding: EdgeInsets.all(8),
-      itemCount: pb.recentData.elements.take(5).length,
+      itemCount: pb.recentData.data.elements.take(5).length,
       separatorBuilder: (BuildContext context, int index) {
         return SizedBox(
           height: 10,
@@ -131,7 +131,7 @@ class _SearchPageState extends State<SearchPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    pb.recentData.elements[index].title,
+                                    pb.recentData.data.elements[index].title,
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey[800],
@@ -142,7 +142,7 @@ class _SearchPageState extends State<SearchPage> {
                                   Spacer(),
                                   Container(
                                     child: Text(
-                                      pb.recentData.elements[index].preview_text
+                                      pb.recentData.data.elements[index].preview_text
                                           .replaceAll(
                                               RegExp(
                                                   '(&[A-Za-z]+?;)|(<.+?>)|([\w-]+)'),
@@ -164,10 +164,10 @@ class _SearchPageState extends State<SearchPage> {
                     nextScreen(
                         context,
                         DetailsFromSearchPage(
-                          id: pb.recentData.elements[index].id,
-                          category: pb.recentData.elements[index].title,
-                          code: pb.recentData.elements[index].code,
-                          title: pb.recentData.elements[index].title,
+                          id: pb.recentData.data.elements[index].id,
+                          category: pb.recentData.data.elements[index].title,
+                          code: pb.recentData.data.elements[index].code,
+                          title: pb.recentData.data.elements[index].title,
                         ));
                   },
                 ),

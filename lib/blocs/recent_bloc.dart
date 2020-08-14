@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:madad_advice/models/config.dart';
 import 'dart:convert';
 import 'package:madad_advice/models/sphere.dart';
+import 'package:madad_advice/utils/api_response.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
 
@@ -11,9 +12,10 @@ const key = 'recent';
 final restUrl = Config().resturl;
 
 class RecentDataBloc extends ChangeNotifier {
-  SphereModel _recentData;
+  APIResponse<SphereModel> _recentData =
+      APIResponse(data: SphereModel(elements: []));
 
-  SphereModel get recentData => _recentData;
+  APIResponse<SphereModel> get recentData => _recentData;
   var apiService = ApiService();
   Duration _cacheValidDuration;
   RecentDataBloc() {
@@ -23,7 +25,6 @@ class RecentDataBloc extends ChangeNotifier {
     final box = await Hive.openBox<SphereModel>(key);
     SphereModel secData = SphereModel();
     secData = box.getAt(0);
-    //notifyListeners();
     return secData;
   }
 
@@ -58,38 +59,28 @@ class RecentDataBloc extends ChangeNotifier {
     return false;
   }
 
-  Future<SphereModel> updateFromApi() async {
-    SphereModel data = SphereModel();
-    final result = await apiService.fetch(
-        '$restUrl/mobapi.lastelements');
-     data = (SphereModel.fromJson(result['result']));
-    return data;
+  Future<APIResponse<SphereModel>> updateFromApi() async {
+    return await apiService.fetchApiGetRecent();
   }
 
   Future<void> update() async {
     final data = await updateFromApi();
-    final lastData = SphereModel(
-        elements: data.elements,
-        title: data.title,
-        path: data.path,
-        type: data.type,
-        lastFetch: DateTime.now());
-    _recentData = lastData;
-    _writeBox(lastData);
+
+    _recentData = APIResponse(
+        data: data.data ?? SphereModel(elements: []),
+        error: data.error,
+        errorMessage: data.errorMessage);
+    if (!data.error) _writeBox(data.data);
   }
 
   // ignore: missing_return
   Future<SphereModel> getRecentData({bool force = false}) async {
-    final lastFetch = await getLastFetch();
     if (force) {
       await update();
     } else {
-      if (lastFetch) {
-        await update();
-      }
       bool ex = await isExists();
       if (ex) {
-        _recentData = await _readBox();
+        _recentData = APIResponse(data: await _readBox());
         notifyListeners();
       } else {
         await update();
@@ -99,13 +90,13 @@ class RecentDataBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  var _filteredData;
-  List get filteredData => _filteredData;
-  void afterSearch(value) {
-    _filteredData = _recentData.elements
-        .where((u) => (u.title.toLowerCase().contains(value.toLowerCase())))
-        .toList();
+  // var _filteredData;
+  // List get filteredData => _filteredData;
+  // void afterSearch(value) {
+  //   _filteredData = _recentData.elements
+  //       .where((u) => (u.title.toLowerCase().contains(value.toLowerCase())))
+  //       .toList();
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }

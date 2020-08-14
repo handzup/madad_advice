@@ -31,11 +31,11 @@ class _ReacentHomeState extends State<ReacentHome> {
     Future.delayed(Duration(milliseconds: 0)).then((_) async {
       //  final PopularDataBloc pb = Provider.of<PopularDataBloc>(context);
       final RecentDataBloc rb = Provider.of<RecentDataBloc>(context);
-      await rb.getRecentData();
+      await rb.getRecentData(force: true);
       // rb.getData();
       if (mounted) {
         setState(() {
-          _apiResponse = rb.recentData;
+          _apiResponse = rb.recentData.data;
         });
       }
     });

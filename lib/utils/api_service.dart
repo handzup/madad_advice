@@ -31,10 +31,9 @@ class ApiService {
           data.add(Comment.fromJson(item));
         });
         return APIResponse<List<Comment>>(data: data, error: false);
-      }).catchError((onError) =>
-          APIResponse<List<Comment>>(error: true, errorMessage: onError));
+      }).catchError((onError) => APIResponse<List<Comment>>(error: true));
     } catch (e) {
-      return APIResponse<List<Comment>>(error: true, errorMessage: e);
+      return APIResponse<List<Comment>>(error: true);
     }
   }
 
@@ -98,10 +97,11 @@ class ApiService {
           data.add(Menu.fromJson(item));
         });
         return APIResponse<List<Menu>>(data: data, error: false);
-      }).catchError((onError) =>
-          APIResponse<List<Menu>>(error: true, errorMessage: onError));
+      }).catchError((onError) => APIResponse<List<Menu>>( data:[],
+            error: true,
+          ));
     } catch (e) {
-      return APIResponse<List<Menu>>(errorMessage: e, error: true);
+      return APIResponse<List<Menu>>(data:[],error: true);
     }
   }
 
@@ -122,7 +122,7 @@ class ApiService {
             error: false,
           ));
     } catch (e) {
-      return APIResponse<List<MyCategory>>(errorMessage: e, error: true);
+      return APIResponse<List<MyCategory>>(error: true);
     }
   }
 
@@ -138,10 +138,15 @@ class ApiService {
           data.add(Section.fromJson(item));
         });
         return APIResponse<List<Section>>(data: data, error: false);
-      }).catchError((onError) =>
-          APIResponse<List<Section>>(error: true, errorMessage: onError));
+      }).catchError((onError) {
+        if (onError is DioError) {
+          return APIResponse<List<Section>>(
+              error: true, errorMessage: 'internet');
+        }
+        return APIResponse<List<Section>>(data: [],error: true);
+      });
     } catch (e) {
-      return APIResponse<List<Section>>(errorMessage: e, error: true);
+      return APIResponse<List<Section>>(data: [], error: true);
     }
   }
 
@@ -154,10 +159,36 @@ class ApiService {
         }
         var data = SphereModel.fromJson(result.data['result']);
         return APIResponse<SphereModel>(data: data, error: false);
-      }).catchError((error) =>
-          APIResponse<SphereModel>(error: true, errorMessage: error.message));
+      }).catchError((error) {
+        if (error is DioError) {
+          return APIResponse<SphereModel>(
+              error: true, errorMessage: 'internet');
+        }
+        return APIResponse<SphereModel>(error: true);
+      });
     } catch (e) {
-      return APIResponse<SphereModel>(errorMessage: e, error: true);
+      return APIResponse<SphereModel>(error: true);
+    }
+  }
+
+  Future<APIResponse<SphereModel>> fetchApiGetRecent() async {
+    try {
+      return dio.get('$restUrl/mobapi.lastelements').then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<SphereModel>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = SphereModel.fromJson(result.data['result']);
+        return APIResponse<SphereModel>(data: data, error: false);
+      }).catchError((error) {
+        if (error is DioError) {
+          return APIResponse<SphereModel>(
+              error: true, errorMessage: 'internet');
+        }
+        return APIResponse<SphereModel>(error: true);
+      });
+    } catch (e) {
+      return APIResponse<SphereModel>(error: true);
     }
   }
 
@@ -166,8 +197,9 @@ class ApiService {
       'telephone': phoneNumber,
     });
     try {
-      return dio.post('$restUrl/mobapi.checktelephone', data: formData).then(
-          (result) {
+      return dio
+          .post('$restUrl/mobapi.checktelephone', data: formData)
+          .then((result) {
         if (result.statusCode != 200) {
           return APIResponse<bool>(error: true, errorMessage: 'Service error');
         }
@@ -177,10 +209,11 @@ class ApiService {
           }
         }
         return APIResponse<bool>(data: false, error: false);
-      }).catchError(
-          (onError) => APIResponse<bool>(error: true, errorMessage: onError));
+      }).catchError((onError) => APIResponse<bool>(
+                error: true,
+              ));
     } catch (e) {
-      return APIResponse<bool>(errorMessage: e, error: true);
+      return APIResponse<bool>(error: true);
     }
   }
 
@@ -189,8 +222,9 @@ class ApiService {
     var formData = FormData.fromMap(
         {'telephone': phoneNumber, 'password': password, 'firebase': firebase});
     try {
-      return dio.post('$restUrl/mobapi.loginbytelephone', data: formData).then(
-          (result) {
+      return dio
+          .post('$restUrl/mobapi.loginbytelephone', data: formData)
+          .then((result) {
         if (result.statusCode != 200) {
           return APIResponse<User>(error: true, errorMessage: 'Service error');
         }
@@ -200,10 +234,9 @@ class ApiService {
         }
         var data = User.fromJson(result.data['result']);
         return APIResponse<User>(data: data, error: false);
-      }).catchError(
-          (onError) => APIResponse<User>(error: true, errorMessage: onError));
+      }).catchError((onError) => APIResponse<User>(error: true));
     } catch (e) {
-      return APIResponse<User>(errorMessage: e, error: true);
+      return APIResponse<User>(error: true);
     }
   }
 
@@ -251,7 +284,6 @@ class ApiService {
     var formData = FormData.fromMap({
       //TODO
     });
-     
   }
 
   Future sendQuestion(

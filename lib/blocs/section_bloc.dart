@@ -37,27 +37,34 @@ class SectionBloc extends ChangeNotifier {
     for (var item in items) {
       openBox.add(item);
     }
-    notifyListeners();
   }
 
   Future<APIResponse<List<Section>>> updateFromApi() async {
     return await apiService.fetchApiGetSections();
   }
 
-  APIResponse<List<Section>> _sectionData;
+  Future<void> update() async {
+    final data = await updateFromApi();
+
+    _sectionData = APIResponse(
+        data: data.data ?? [],
+        error: data.error,
+        errorMessage: data.errorMessage);
+    if (!data.error) _writeBox(data.data);
+  }
+
+  APIResponse<List<Section>> _sectionData = APIResponse(data: []);
   APIResponse<List<Section>> get sectionData => _sectionData;
   // ignore: missing_return
   Future<List<Section>> getSectionData({force = false}) async {
     if (force) {
-      _sectionData = await updateFromApi();
-      if (!_sectionData.error) _writeBox(_sectionData.data);
+      await update();
     } else {
       bool ex = await isExists();
       if (ex) {
         _sectionData.data = await _readBox();
       } else {
-        _sectionData = await updateFromApi();
-        if (!_sectionData.error) _writeBox(_sectionData.data);
+        await update();
       }
     }
 

@@ -14,6 +14,7 @@ import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/recived_notification.dart';
+import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -76,8 +77,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void checkInternet() async {
-    final ib = Provider.of<InternetBloc>(context);
-
+    final ib = Provider.of<InternetBloc>(context, listen: false);
     await ib.checkInternet();
     ib.hasInternet == false
         ? _scaffoldKey.currentState.showSnackBar(snackBar())
@@ -130,6 +130,7 @@ class _HomePageState extends State<HomePage> {
   final _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
+    _handleRefresh();
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat');
 
@@ -150,11 +151,8 @@ class _HomePageState extends State<HomePage> {
       selectNotificationSubject.add(payload);
     });
     Future.delayed(Duration(milliseconds: 0)).then((_) {
-      final ub = Provider.of<UserBloc>(context);
-      final sp = Provider.of<SignInBloc>(context);
-
-      sp.checkSignIn();
-      ub.getUserData();
+      Provider.of<UserBloc>(context, listen: false).getUserData();
+      Provider.of<SignInBloc>(context, listen: false).checkSignIn();
       _requestIOSPermissions();
       _configureSelectNotificationSubject();
       checkInternet();
@@ -216,40 +214,24 @@ class _HomePageState extends State<HomePage> {
 
   Future<Null> _handleRefresh() async {
     final ib = Provider.of<InternetBloc>(context, listen: false);
-    await ib.checkInternet();
+    ib.checkInternet();
     ib.hasInternet == false
         ? _scaffoldKey.currentState.showSnackBar(snackBar())
         : null;
     final cb = Provider.of<CategoryBloc>(context);
-    final drawer = Provider.of<DrawerMenuBloc>(context);
-    final sections = Provider.of<SectionBloc>(context);
-    await drawer.getMenuData();
+    await Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
+    await Provider.of<SectionBloc>(context, listen: false)
+        .getSectionData(force: true);
+
     await cb.getCategoryData(force: true);
-    await sections.getSectionData(force: true);
     if (cb.sphereData.error) {
       _scaffoldKey.currentState.showSnackBar(serviceError());
     }
     return null;
   }
 
-  bool isShow(APIResponse<List<MyCategory>> response) {
-    if (response == null) {
-      return true;
-    } else {
-      if (response.error) {
-        return true;
-      }
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final cb = Provider.of<CategoryBloc>(context);
-    setState(() {
-      _apiResponse = cb.sphereData;
-    });
-
     return Scaffold(
         drawer: DrawerMenu(),
         key: _scaffoldKey,
@@ -292,65 +274,98 @@ class _HomePageState extends State<HomePage> {
             borderWidth: 1,
             springAnimationDurationInMilliseconds: 100,
             onRefresh: _handleRefresh,
-            child: isShow(_apiResponse)
-                ? Container(
-                    child: ListView(
+            child: Consumer<CategoryBloc>(
+              builder: (context, data, child) {
+                if (data.sphereData.data.isEmpty) return child;
+                return buildCategoryList(data.sphereData.data);
+              },
+              child: Container(
+                child: ListView(
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                height: 30,
+                                width: 4,
+                                decoration: BoxDecoration(
+                                    color: ThemeColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('Список сфер',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w600)),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
                         Container(
                           child: LoadingSphereWidget(),
                           width: double.infinity,
-                          height: 500,
+                          height: 550,
                         ),
-                        Recent(),
                       ],
                     ),
-                  )
-                : Container(
-                    child: CustomScrollView(slivers: <Widget>[
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            if (index == 0) {
-                              return Container(
-                                padding: EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 30,
-                                      width: 4,
-                                      decoration: BoxDecoration(
-                                          color: ThemeColors.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                            LocaleKeys.spheresList
-                                                .tr(), //title Сферы
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black87,
-                                                fontWeight: FontWeight.w600))
-                                        .tr(),
-                                    Spacer(),
-                                  ],
-                                ),
-                              );
-                            }
-                            return Sphere(
-                              categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
-                              data: _apiResponse.data,
-                              index: index - 1,
-                            );
-                          },
-                          childCount: _apiResponse.data.length + 1,
-                        ),
+                    Recent(),
+                  ],
+                ),
+              ),
+            )));
+  }
+
+  Widget buildCategoryList(List<MyCategory> data) {
+    return Container(
+      child: CustomScrollView(slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              if (index == 0) {
+                return Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 30,
+                        width: 4,
+                        decoration: BoxDecoration(
+                            color: ThemeColors.primaryColor,
+                            borderRadius: BorderRadius.circular(10)),
                       ),
-                      ReacentHome()
-                    ]),
-                  )));
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(LocaleKeys.spheresList.tr(), //title Сферы
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w600))
+                          .tr(),
+                      Spacer(),
+                    ],
+                  ),
+                );
+              }
+              return Sphere(
+                categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
+                data: data,
+                index: index - 1,
+              );
+            },
+            childCount: data.length + 1,
+          ),
+        ),
+        ReacentHome()
+      ]),
+    );
   }
 }

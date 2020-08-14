@@ -11,15 +11,14 @@ import 'package:madad_advice/utils/api_service.dart';
 final restUrl = Config().resturl;
 
 class DrawerMenuBloc extends ChangeNotifier {
-  APIResponse<List<Menu>> _menuData;
+  APIResponse<List<Menu>> _menuData = APIResponse(data: []);
   APIResponse<List<Menu>> get menuData => _menuData;
   // bool _hasError = false;
   // bool get hasError => _hasError;
   ApiService apiService = ApiService();
 
   Future<APIResponse<List<Menu>>> updateFromApi() async {
-    final result = await apiService.fetchApiGetMenu();
-    return result;
+    return await apiService.fetchApiGetMenu();
   }
 
   // ignore: missing_return

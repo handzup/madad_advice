@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
 
 final restUrl = Config().resturl;
 
 class CategoryBloc extends ChangeNotifier {
-  APIResponse<List<MyCategory>> _sphereData;
-
+  APIResponse<List<MyCategory>> _sphereData = APIResponse(data: []);
   APIResponse<List<MyCategory>> get sphereData => _sphereData;
   ApiService apiService = ApiService();
 
@@ -48,8 +46,8 @@ class CategoryBloc extends ChangeNotifier {
     _sphereData = await updateFromApi();
     if (!_sphereData.error) {
       await _writeBox(_sphereData.data);
-    }else{
-      _sphereData.data = null;
+    } else {
+      _sphereData = APIResponse(data: [], error: _sphereData.error);
     }
 
     notifyListeners();

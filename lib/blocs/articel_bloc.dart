@@ -16,7 +16,7 @@ class ArticleBloc extends ChangeNotifier {
   bool get first => _first;
   String _lastCode = '';
   String get lastCode => _lastCode;
-  APIResponse<SphereModel> _sphereData;
+  APIResponse<SphereModel> _sphereData = APIResponse(data: SphereModel(elements: []));
   APIResponse<SphereModel> get sectionData => _sphereData;
   ApiService apiService = ApiService();
   Duration _cacheValidDuration;
@@ -40,7 +40,7 @@ class ArticleBloc extends ChangeNotifier {
   }
 
   clearData() {
-    _sphereData = null;
+    _sphereData = APIResponse(data: SphereModel(elements: []));
   }
 
   Future<bool> isExists(acticleKey) async {
@@ -82,7 +82,7 @@ class ArticleBloc extends ChangeNotifier {
     }
 
     _sphereData = APIResponse<SphereModel>(
-        data: lastData, error: data.error, errorMessage: data.errorMessage);
+        data:lastData ?? SphereModel(elements: []), error: data.error,errorMessage: data.errorMessage);
     if (!data.error) _writeBox(lastData);
   }
 

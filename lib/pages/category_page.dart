@@ -19,14 +19,11 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  APIResponse<List<MyCategory>> _apiResponse;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    Future.delayed(Duration(milliseconds: 0)).then((f) {
-     _handleRefresh();
-    });
+    Future.delayed(Duration(milliseconds: 0)).then((value) => _handleRefresh());
     super.initState();
   }
 
@@ -49,19 +46,8 @@ class _CategoryPageState extends State<CategoryPage> {
   ];
   var randomColorIndex = 0;
 
-  void setData() async {
-    final CategoryBloc cb = Provider.of<CategoryBloc>(context);
-    setState(() {
-      _apiResponse = cb.sphereData;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final CategoryBloc cb = Provider.of<CategoryBloc>(context);
-    setState(() {
-      _apiResponse = cb.sphereData;
-    });
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -75,26 +61,34 @@ class _CategoryPageState extends State<CategoryPage> {
             borderWidth: 1,
             springAnimationDurationInMilliseconds: 100,
             onRefresh: _handleRefresh,
-            child: _apiResponse.error
-                ? Container(
-                    child: ListView(
-                      children: <Widget>[
-                        Container(
-                          child: LoadingSphereWidget(),
-                          width: double.infinity,
-                          height: 500,
-                        ),
-                      ],
+            child: Consumer<CategoryBloc>(
+              builder: (context, data, child) {
+                if (data.sphereData.data.isEmpty) return child;
+                return buildList(data.sphereData.data);
+              },
+              child: Container(
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      child: LoadingSphereWidget(),
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height,
                     ),
-                  )
-                : ListView.builder(
-                    itemCount: _apiResponse.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Sphere(
-                        categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
-                        data: _apiResponse.data,
-                        index: index,
-                      );
-                    })));
+                  ],
+                ),
+              ),
+            )));
+  }
+
+  Widget buildList(List<MyCategory> data) {
+    return ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Sphere(
+            categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
+            data: data,
+            index: index,
+          );
+        });
   }
 }
