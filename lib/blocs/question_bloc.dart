@@ -22,6 +22,8 @@ class QuestionBloc extends ChangeNotifier {
   List<FileTo> _files = [];
   List<FileTo> get files => _files;
 
+  APIResponse<int> _response = APIResponse(data: -1);
+  APIResponse<int> get response => _response;
   bool _error = false;
   bool get error => _error;
   setMessage(String message) {
@@ -33,14 +35,15 @@ class QuestionBloc extends ChangeNotifier {
     notifyListeners();
     final sp = await SharedPreferences.getInstance();
     String uid = sp.getString('uid');
-    String name = sp.getString('name');
-    // final jsonData = await apiService.sendQuestion(
-    //     uid: uid, uName: name, reqUrl: '', files: _files, qMessage: _message);
-    //TODO:check request and return bool
-    await Future.delayed(Duration(seconds: 5))
-        .then((value) => _inProgress = false);
-      print('end');
-      notifyListeners();
+
+    final jsonData = await apiService.sendQuestion(
+        uid: uid, files: _files, qMessage: _message);
+
+    _inProgress = false;
+    _response = jsonData;
+
+    _files.clear();
+    notifyListeners();
     return true;
   }
 
@@ -51,6 +54,10 @@ class QuestionBloc extends ChangeNotifier {
       _files.add(FileTo(name: key, path: value));
     });
     notifyListeners();
+  }
+
+  void setDefault() {
+    _response = APIResponse(data: -1);
   }
 
   Future openFileExplorer() async {

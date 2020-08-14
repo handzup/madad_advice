@@ -97,11 +97,12 @@ class ApiService {
           data.add(Menu.fromJson(item));
         });
         return APIResponse<List<Menu>>(data: data, error: false);
-      }).catchError((onError) => APIResponse<List<Menu>>( data:[],
+      }).catchError((onError) => APIResponse<List<Menu>>(
+            data: [],
             error: true,
           ));
     } catch (e) {
-      return APIResponse<List<Menu>>(data:[],error: true);
+      return APIResponse<List<Menu>>(data: [], error: true);
     }
   }
 
@@ -143,7 +144,7 @@ class ApiService {
           return APIResponse<List<Section>>(
               error: true, errorMessage: 'internet');
         }
-        return APIResponse<List<Section>>(data: [],error: true);
+        return APIResponse<List<Section>>(data: [], error: true);
       });
     } catch (e) {
       return APIResponse<List<Section>>(data: [], error: true);
@@ -286,25 +287,33 @@ class ApiService {
     });
   }
 
-  Future sendQuestion(
-      {String reqUrl,
-      String uid,
-      String uName,
-      String qMessage,
-      List<FileTo> files}) async {
+  Future<APIResponse<int>> sendQuestion(
+      {String reqUrl, String uid, String qMessage, List<FileTo> files}) async {
     var mPartFIles = [];
     files.forEach((element) {
       mPartFIles
           .add(MultipartFile.fromFile(element.path, filename: element.name));
     });
-    var formData = FormData.fromMap({
-      'uid': uid,
-      'uName': uName,
-      'qMessage': qMessage,
-      'files': mPartFIles
-    });
-    var response = await dio.post(reqUrl, data: formData);
-    return response.data;
+    var formData = FormData.fromMap(
+        {'uid': uid, 'question': qMessage, 'files': mPartFIles});
+    try {
+      return dio
+          .post('$restUrl/mobapi.sendquestion', data: formData)
+          .then((result) {
+        if (result.data['result'] is int) {
+          var quetionId = result.data['result'] as int;
+          return APIResponse(data: quetionId);
+        }
+        return APIResponse(data: -1, error: true, errorMessage: 'err');
+      }).catchError((onError) {
+        if (onError is DioError) {
+          return APIResponse(data: -1, errorMessage: 'internet', error: true);
+        }
+        return APIResponse(data: -1, error: true);
+      });
+    } catch (e) {
+      return APIResponse(data: -1, error: true);
+    }
   }
 
   Future fetchPostRegister(

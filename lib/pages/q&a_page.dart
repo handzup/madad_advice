@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:madad_advice/blocs/question_bloc.dart';
+import 'package:madad_advice/utils/snacbar.dart';
+import 'package:madad_advice/utils/toast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/pages/sign_in.dart';
@@ -30,7 +32,7 @@ class _QandAPageState extends State<QandAPage> {
   ScrollController _scrollController =
       ScrollController(); // set controller on scrolling
   bool _show = true;
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     _scrollController.removeListener(() {});
@@ -49,6 +51,14 @@ class _QandAPageState extends State<QandAPage> {
     });
   }
 
+  Future<bool> blockBtn() async {
+    final progress = Provider.of<QuestionBloc>(context);
+    if (!progress.inProgress) {
+      Navigator.pop(context);
+    }
+    return false;
+  }
+
   void handleScroll() async {
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
@@ -64,44 +74,65 @@ class _QandAPageState extends State<QandAPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<QuestionBloc>(context);
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(LocaleKeys.answersOnQuestions.tr()),
-          elevation: 1,
-          actions: <Widget>[
-            bloc.inProgress
-                ? Padding(
+    return WillPopScope(
+      onWillPop: blockBtn,
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(LocaleKeys.answersOnQuestions.tr()),
+            elevation: 1,
+            actions: <Widget>[
+              Consumer<QuestionBloc>(
+                builder: (context, data, child) {
+                  if (data.response.error) {
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((_) => openToastRed(
+                              context,
+                              'Произошла ошибка при отпавке',
+                            ));
+                  } else if (data.response.data != -1) {
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((_) => openToast(
+                              context,
+                              'Ваш вопрос был доставлен',
+                            ));
+                  }
+                  data.setDefault();
+                  if (!data.inProgress) return SizedBox.shrink();
+                  return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CupertinoActivityIndicator(
                       animating: true,
                       radius: 12,
                     ),
-                  )
-                : SizedBox.shrink()
-          ],
-        ),
-        floatingActionButton: Visibility(
-          visible: _show,
-          child: FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
-              color: ThemeColors.primaryColor.withOpacity(0.8),
-              onPressed: () => showBarModalBottomSheet(
-                    expand: false,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context, scrollController) =>
-                        ModalFit(scrollController: scrollController),
-                  ),
-              child: Text(LocaleKeys.askAQuestion.tr(),
-                  style: TextStyle(
-                    color: Colors.white,
-                  ))),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: _buildList('ds'));
+                  );
+                },
+              ),
+            ],
+          ),
+          floatingActionButton: Visibility(
+            visible: _show,
+            child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)),
+                color: ThemeColors.primaryColor.withOpacity(0.8),
+                onPressed: () => showBarModalBottomSheet(
+                      expand: false,
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context, scrollController) =>
+                          ModalFit(scrollController: scrollController),
+                    ),
+                child: Text(LocaleKeys.askAQuestion.tr(),
+                    style: TextStyle(
+                      color: Colors.white,
+                    ))),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: _buildList('ds')),
+    );
   }
 
   Widget _buildList(snap) {
@@ -273,7 +304,7 @@ Widget singIn(context) {
 var formKey = GlobalKey<FormState>();
 
 Widget ask(sc, context) {
-  final questionBloc = Provider.of<QuestionBloc>(context);
+  final questionBloc = Provider.of<QuestionBloc>(context, listen: false);
   return Material(
     child: CupertinoPageScaffold(
       child: SafeArea(

@@ -130,7 +130,6 @@ class _HomePageState extends State<HomePage> {
   final _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
-    _handleRefresh();
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat');
 
