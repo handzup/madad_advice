@@ -12,6 +12,7 @@ import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 final restUrl = Config().resturl;
 
 class SignUpBloc extends ChangeNotifier {
@@ -52,8 +53,8 @@ class SignUpBloc extends ChangeNotifier {
   String timestamp;
   var apiService = ApiService();
   Future<bool> checkPhone(String phone) async {
-    final result = await apiService.fetch(
-        '$restUrl/mobapi.checktelephone?telephone=$phone');
+    final result = await apiService
+        .fetch('$restUrl/mobapi.checktelephone?telephone=$phone');
     if ((result['result'] is bool)) {
       return false;
     }
@@ -62,9 +63,7 @@ class SignUpBloc extends ChangeNotifier {
 
   Future<String> sendVerificationCode(String phone) async {
     final result = await apiService.fetchGetSmsCode(
-        reqUrl:
-            '$restUrl/mobapi.checktelephone',
-        phoneNumber: phone);
+        reqUrl: '$restUrl/mobapi.checktelephone', phoneNumber: phone);
 
     var code = result['result']['code'].toString();
     return code;
@@ -87,8 +86,7 @@ class SignUpBloc extends ChangeNotifier {
   }) async {
     final token = await firebaseBloc.getToken();
     final result = await apiService.fetchPostRegister(
-        reqUrl:
-            '$restUrl/mobapi.registerbytelephone',
+        reqUrl: '$restUrl/mobapi.registerbytelephone',
         email: email,
         lastName: lastName,
         name: name,
@@ -108,8 +106,6 @@ class SignUpBloc extends ChangeNotifier {
     await setSignIn();
     return true;
   }
-
- 
 
   Future saveDataToSP() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -162,7 +158,7 @@ class SignUpBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void checkSignIn() async {
+  Future checkSignIn() async {
     final sp = await SharedPreferences.getInstance();
 
     _isSignedIn = sp.getBool('signed in') ?? false;

@@ -280,6 +280,7 @@ class _HomePageState extends State<HomePage> {
               },
               child: Container(
                 child: ListView(
+                  physics: ClampingScrollPhysics(),
                   children: <Widget>[
                     Column(
                       children: <Widget>[
@@ -323,7 +324,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildCategoryList(List<MyCategory> data) {
     return Container(
-      child: CustomScrollView(slivers: <Widget>[
+      child:
+          CustomScrollView(physics: ClampingScrollPhysics(), slivers: <Widget>[
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {

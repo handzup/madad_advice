@@ -7,6 +7,7 @@ import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/file.dart';
 import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/menu.dart';
+import 'package:madad_advice/models/question.dart';
 import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/models/user.dart';
@@ -238,6 +239,32 @@ class ApiService {
       }).catchError((onError) => APIResponse<User>(error: true));
     } catch (e) {
       return APIResponse<User>(error: true);
+    }
+  }
+
+  Future<APIResponse<List<Question>>> fetchApiGetAllQuestions({
+    String uid,
+  }) async {
+    var formData = FormData.fromMap({
+      'uid': uid,
+    });
+    try {
+      return dio
+          .post('$restUrl/mobapi.getquestions', data: formData)
+          .then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<List<Question>>(
+              error: true, errorMessage: 'Service error');
+        }
+        var data = <Question>[];
+        result.data['result'].forEach((e) {
+          data.add(Question.fromJson(e));
+        });
+
+        return APIResponse<List<Question>>(data: data, error: false);
+      }).catchError((onError) => APIResponse<List<Question>>(error: true));
+    } catch (e) {
+      return APIResponse<List<Question>>(error: true);
     }
   }
 

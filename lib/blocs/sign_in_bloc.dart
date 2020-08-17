@@ -14,6 +14,7 @@ final restUrl = Config().resturl;
 class SignInBloc extends ChangeNotifier {
   SignInBloc() {
     checkSignIn();
+    
   }
 
   //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -143,18 +144,14 @@ class SignInBloc extends ChangeNotifier {
   Future setLogIut() async {
     _isSignedIn = false;
     final sp = await SharedPreferences.getInstance();
-    await sp.setBool('signed in', false);
-    _uid = await sp.getString('uid');
-
     await clearFirebaseToken();
-
     await sp.clear();
     notifyListeners();
   }
 
   Future<bool> clearFirebaseToken() async {
     final result = await apiService.fetchClearFirebaseToken(
-        reqUrl: '$restUrl/mobapi.clearfirebase', id: uid);
+        reqUrl: '$restUrl/mobapi.clearfirebase', id: _uid);
     if (result['result'] is bool) {
       if (result['result'] as bool) {
         return true;
@@ -165,7 +162,7 @@ class SignInBloc extends ChangeNotifier {
 
   void checkSignIn() async {
     final sp = await SharedPreferences.getInstance();
-
+     _uid = sp.getString('uid');
     _isSignedIn = sp.getBool('signed in') ?? false;
     notifyListeners();
   }

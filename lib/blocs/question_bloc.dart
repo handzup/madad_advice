@@ -2,11 +2,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:madad_advice/models/file.dart';
+import 'package:madad_advice/models/question.dart';
 import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionBloc extends ChangeNotifier {
+  QuestionBloc() {
+    getUid();
+  }
+  getUid() async {
+    final sp = await SharedPreferences.getInstance();
+    _uid = sp.getString('uid');
+  }
+
   String _fileName;
   String get fileName => _fileName;
 
@@ -21,9 +30,12 @@ class QuestionBloc extends ChangeNotifier {
   bool get inProgress => _inProgress;
   List<FileTo> _files = [];
   List<FileTo> get files => _files;
-
+  String _uid;
   APIResponse<int> _response = APIResponse(data: -1);
   APIResponse<int> get response => _response;
+  APIResponse<List<Question>> _questions = APIResponse(data: []);
+  APIResponse<List<Question>> get questions => _questions;
+
   bool _error = false;
   bool get error => _error;
   setMessage(String message) {
@@ -33,20 +45,26 @@ class QuestionBloc extends ChangeNotifier {
   Future<bool> sendQuestion() async {
     _inProgress = true;
     notifyListeners();
-    final sp = await SharedPreferences.getInstance();
-    String uid = sp.getString('uid');
-
     final jsonData = await apiService.sendQuestion(
-        uid: uid, files: _files, qMessage: _message);
+        uid: _uid, files: _files, qMessage: _message);
 
     _inProgress = false;
     _response = jsonData;
 
     _files.clear();
+    await getQuestions();
     notifyListeners();
     return true;
   }
 
+  Future getQuestions() async {
+    _questions = await apiService.fetchApiGetAllQuestions(uid: _uid);
+    print('ds');
+    _questions.data = List.from(_questions.data.reversed);
+    notifyListeners();
+  }
+
+  // ignore: missing_return
   Future delete(String key) {
     _paths.remove(key);
     _files.clear();

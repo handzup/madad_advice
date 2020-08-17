@@ -2,9 +2,13 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:madad_advice/blocs/question_bloc.dart';
-import 'package:madad_advice/utils/snacbar.dart';
+import 'package:madad_advice/blocs/sing_up_bloc.dart';
+import 'package:madad_advice/models/question.dart';
+import 'package:madad_advice/utils/empty.dart';
 import 'package:madad_advice/utils/toast.dart';
+import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/pages/sign_in.dart';
@@ -27,6 +31,7 @@ class _QandAPageState extends State<QandAPage> {
   void initState() {
     super.initState();
     handleScroll();
+    Future.delayed(Duration(milliseconds: 0)).then((value) => _handleRefresh());
   }
 
   ScrollController _scrollController =
@@ -70,6 +75,22 @@ class _QandAPageState extends State<QandAPage> {
         showFloationButton();
       }
     });
+  }
+
+  Future<Null> _handleRefresh() async {
+    final articleBlock = Provider.of<QuestionBloc>(context);
+    final signed = Provider.of<SignUpBloc>(context);
+    await signed.checkSignIn();
+    if (signed.isSignedIn) {
+      await articleBlock.getQuestions();
+
+      if (articleBlock.questions.error) {
+        articleBlock.questions.errorMessage == 'internet'
+            ? _scaffoldKey.currentState.showSnackBar(snackBar(_handleRefresh))
+            : _scaffoldKey.currentState.showSnackBar(serviceError());
+      }
+    }
+    return null;
   }
 
   @override
@@ -131,11 +152,35 @@ class _QandAPageState extends State<QandAPage> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          body: _buildList('ds')),
+          body: LiquidPullToRefresh(
+              showChildOpacityTransition: false,
+              height: 50,
+              color: ThemeColors.primaryColor.withOpacity(0.8),
+              animSpeedFactor: 2,
+              borderWidth: 1,
+              springAnimationDurationInMilliseconds: 100,
+              onRefresh: _handleRefresh,
+              child: Provider.of<SignUpBloc>(context, listen: false).isSignedIn
+                  ? Consumer<QuestionBloc>(
+                      builder: (context, data, child) {
+                        if (data.questions.data.isEmpty) return child;
+                        return _buildList(data.questions.data);
+                      },
+                      child: EmptyPage(
+                        icon: Icons.hourglass_empty,
+                        message: LocaleKeys.emptyPage.tr(),
+                        animate: true,
+                      ),
+                    )
+                  : EmptyPage(
+                      icon: Icons.hourglass_empty,
+                      message: ' Чтобы задать вопрос необходимо войти  ',
+                      animate: true,
+                    ))),
     );
   }
 
-  Widget _buildList(snap) {
+  Widget _buildList(List<Question> data) {
     return CustomScrollView(
       controller: _scrollController,
       physics: ClampingScrollPhysics(),
@@ -143,12 +188,13 @@ class _QandAPageState extends State<QandAPage> {
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             return QandACard(
-              answerText: 'daasd',
-              answeredTime: DateTime.now(),
-              whoAnswered: 'Ким Кардашян',
-              question: 'Как ты отрастила такую жепу?!',
+              answerText: data[index].answer,
+              answeredTime: data[index].answeredTime,
+              whoAnswered: data[index].answerer,
+              question: data[index].question,
+              answered: data[index].isAnswered,
             );
-          }, childCount: 10),
+          }, childCount: data.length),
         )
       ],
     );
@@ -167,96 +213,105 @@ class QandACard extends StatelessWidget {
   final String question;
   final String whoAnswered;
   final String answerText;
-  final DateTime answeredTime;
+  final String answeredTime;
   final bool answered;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 5.0, right: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[Text('Статус'), Text('Ожидание ответа')],
+        Container(
+          color: Colors.grey[100],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Статус',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w900, color: Colors.grey[500]),
+                ),
+                Text(answered ? 'Ответ получен' : 'Ожидание ответа',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900, color: Colors.grey[500]))
+              ],
+            ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.grey[300],
-                      blurRadius: 10,
-                      offset: Offset(3, 3))
-                ]),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ExpandablePanel(
-                      theme: ExpandableThemeData(
-                        animationDuration: const Duration(microseconds: 300),
-                      ),
-                      header: Text(
-                        LocaleKeys.question.tr(),
-                        textAlign: TextAlign.left,
-                        style: TextStyle(color: ThemeColors.primaryColor),
-                      ),
-                      collapsed: Text(
-                        question,
-                        softWrap: true,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      expanded: Text(
-                        question,
-                        softWrap: true,
-                      ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(1),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey[300],
+                    blurRadius: 10,
+                    offset: Offset(3, 3))
+              ]),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ExpandablePanel(
+                    theme: ExpandableThemeData(
+                      animationDuration: const Duration(microseconds: 300),
                     ),
-                    Divider(
-                      color: ThemeColors.dividerColor,
-                      endIndent: 100,
-                      indent: 1,
-                      thickness: 2,
+                    header: Text(
+                      LocaleKeys.question.tr(),
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: ThemeColors.primaryColor),
                     ),
-                    answered
-                        ? Column(
-                            children: <Widget>[
-                              Text(
-                                LocaleKeys.answer.tr(),
-                                textAlign: TextAlign.left,
-                                style:
-                                    TextStyle(color: ThemeColors.primaryColor),
-                              ),
-                              ExpandablePanel(
-                                theme: ExpandableThemeData(
-                                    animationDuration:
-                                        const Duration(microseconds: 300)),
-                                header: Text(
-                                    '${LocaleKeys.from.tr()} $whoAnswered'),
+                    collapsed: Text(
+                      question,
+                      softWrap: true,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    expanded: Text(
+                      question,
+                      softWrap: true,
+                    ),
+                  ),
+                  Divider(
+                    color: ThemeColors.dividerColor,
+                    endIndent: 100,
+                    indent: 1,
+                    thickness: 2,
+                  ),
+                  answered
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              LocaleKeys.answer.tr(),
+                              textAlign: TextAlign.left,
+                              style: TextStyle(color: ThemeColors.primaryColor),
+                            ),
+                            ExpandablePanel(
+                              theme: ExpandableThemeData(
+                                  animationDuration:
+                                      const Duration(microseconds: 300)),
+                              header:
+                                  Text('${LocaleKeys.from.tr()} $whoAnswered'),
 
-                                // header: Text("${LocaleKeys.from.tr()} Иван Иванов"),
-                                collapsed: Text(
-                                  answerText,
-                                  softWrap: true,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                expanded: Text(
-                                  answerText,
-                                  softWrap: true,
-                                ),
-                              )
-                            ],
-                          )
-                        : SizedBox.shrink()
-                  ]),
-            ),
+                              // header: Text("${LocaleKeys.from.tr()} Иван Иванов"),
+                              collapsed: Text(
+                                answerText,
+                                softWrap: true,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              expanded: Text(
+                                answerText,
+                                softWrap: true,
+                              ),
+                            )
+                          ],
+                        )
+                      : SizedBox.shrink()
+                ]),
           ),
         ),
       ],
