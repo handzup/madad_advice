@@ -160,7 +160,7 @@ class _QandAPageState extends State<QandAPage> {
               borderWidth: 1,
               springAnimationDurationInMilliseconds: 100,
               onRefresh: _handleRefresh,
-              child: Provider.of<SignUpBloc>(context, listen: false).isSignedIn
+              child: Provider.of<SignInBloc>(context).isSignedIn
                   ? Consumer<QuestionBloc>(
                       builder: (context, data, child) {
                         if (data.questions.data.isEmpty) return child;

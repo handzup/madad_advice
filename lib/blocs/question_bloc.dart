@@ -13,6 +13,7 @@ class QuestionBloc extends ChangeNotifier {
   }
   getUid() async {
     final sp = await SharedPreferences.getInstance();
+    print(sp);
     _uid = sp.getString('uid');
   }
 
@@ -58,6 +59,7 @@ class QuestionBloc extends ChangeNotifier {
   }
 
   Future getQuestions() async {
+    await getUid();
     _questions = await apiService.fetchApiGetAllQuestions(uid: _uid);
     print('ds');
     _questions.data = List.from(_questions.data.reversed);
