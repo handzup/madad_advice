@@ -425,36 +425,36 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Spacer(),
+                      Spacer(flex: 1,),
                       sp.isSignedIn ? singOut() : singIn(context),
-                      Spacer(),
-                      ClipOval(
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                              splashColor: Colors.grey,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                child: Icon(FontAwesome.question_circle),
-                              ),
-                              onTap: () => nextScreen(
-                                  context,
-                                  HelpPage(
-                                    tag: 'Help',
-                                    category: "Helper",
-                                    date: 'today',
-                                    description:
-                                        'Some description here for ur reading',
-                                    imageUrl:
-                                        'https://img.pngio.com/avatar-business-face-people-icon-people-icon-png-512_512.png',
-                                    loves: 24,
-                                    timestamp: '4:44',
-                                    title: 'Lorem impus',
-                                  ))),
-                        ),
-                      ),
-                      Spacer(),
+                      Spacer(flex: 1 ,),
+                      // ClipOval(
+                      //   child: Material(
+                      //     color: Colors.white,
+                      //     child: InkWell(
+                      //         splashColor: Colors.grey,
+                      //         child: Container(
+                      //           padding: const EdgeInsets.symmetric(
+                      //               horizontal: 10, vertical: 10),
+                      //           child: Icon(FontAwesome.question_circle),
+                      //         ),
+                      //         onTap: () => nextScreen(
+                      //             context,
+                      //             HelpPage(
+                      //               tag: 'Help',
+                      //               category: "Helper",
+                      //               date: 'today',
+                      //               description:
+                      //                   'Some description here for ur reading',
+                      //               imageUrl:
+                      //                   'https://img.pngio.com/avatar-business-face-people-icon-people-icon-png-512_512.png',
+                      //               loves: 24,
+                      //               timestamp: '4:44',
+                      //               title: 'Lorem impus',
+                      //             ))),
+                      //   ),
+                      // ),
+                      // Spacer(),
                     ],
                   ),
                   Spacer(),

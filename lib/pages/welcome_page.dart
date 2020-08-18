@@ -111,7 +111,14 @@ class _WelcomePageState extends State<WelcomePage>
                             sb.isSignedIn
                                 ? (widget.name == null
                                     ? Text('')
-                                    : Text(widget.name))
+                                    : Text(
+                                        widget.name,
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey[700]),
+                                      ))
                                 : SizedBox(),
                             RichText(
                               text: TextSpan(

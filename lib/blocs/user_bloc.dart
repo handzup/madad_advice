@@ -21,9 +21,14 @@ class UserBloc extends ChangeNotifier {
   String _imageUrl = Config().splashIcon;
   String _phone = '';
   String get phone => _phone;
-
+  bool _inProgress = false;
+  bool get inProgress => _inProgress;
   bool _hasError = false;
   bool get hasError => _hasError;
+  bool _shouldClose = false;
+  bool get shouldClose => _shouldClose;
+  bool _succes = false;
+  bool get succes => _succes;
   String get userLastName => _userLastName;
   String get email => _email;
   String get uid => _uid;
@@ -53,38 +58,58 @@ class UserBloc extends ChangeNotifier {
     }
     _hasError = false;
   }
-
-  Future updateUserProfileApi(
+  setClose(bool cond){
+    _shouldClose = cond;
+  }
+  Future<bool> updateUserProfileApi(
       {String userName,
       String lastName,
       String email,
       String imageUrl,
-      String phoneNumber}) async {
+      String phoneNumber,
+      String password}) async {
+    _inProgress = true;
+    _hasError = false;
+    _succes = false;
+    notifyListeners();
     final SharedPreferences sp = await SharedPreferences.getInstance();
-
-    var uid = await sp.getString('uid');
-    await apiService
-        .updateUser(uid:uid,
-            userName: userName,
-            email: email,
-            imageUrl: imageUrl,
-            lastName: lastName,
-            phoneNumber: phoneNumber)
-        .then((result) {
-      updateUserData(
-          userName: result.data.name,
-          email: result.data.email,
-          imageUrl: result.data.photo,
-          lastName: result.data.lastname,
-          phoneNumber: result.data.login);
+    await Future.delayed(Duration(milliseconds: 1000));
+    var uid =   sp.getString('uid');
+   var data =  await apiService
+        .updateUser(
+            uid: uid,
+            userName: userName ?? _userName,
+            email: email ?? _email,
+            imageUrl: _imageUrl,
+            lastName: lastName ?? _userLastName,
+            phoneNumber: phoneNumber ?? _phone,
+            password: password)
+        .then((result) async {
+      if (!result.error) {
+        await updateUserData(
+            userName: result.data.name,
+            email: result.data.email,
+            imageUrl: result.data.photo,
+            lastName: result.data.lastname,
+            phoneNumber: result.data.login);
+        _inProgress = false;
+        _succes = true;
+        return true;
+      } else {
+        _inProgress = false;
+        _hasError = true;
+        _succes = false;
+        notifyListeners();
+        return false;
+      }
     });
-    //TODO;update user profile
-    updateUserData(
-        userName: userName,
-        email: email,
-        imageUrl: imageUrl,
-        lastName: lastName,
-        phoneNumber: phoneNumber);
+    // updateUserData(
+    //     userName: userName,
+    //     email: email,
+    //     imageUrl: imageUrl,
+    //     lastName: lastName,
+    //     phoneNumber: phoneNumber);
+    return data;
   }
 
   Future updateUserData(
@@ -104,12 +129,13 @@ class UserBloc extends ChangeNotifier {
       await sp.setString('email', email);
     }
     if (_imageUrl != null) {
-      await sp.setString('image url', _imageUrl);
+      await sp.setString('image url', imageUrl ?? Config().uri);
     }
     if (phoneNumber != null) {
       await sp.setString('phone', phoneNumber);
     }
     _hasError = false;
+    getUserData();
   }
 
   Future removeUserPhoto() {

@@ -308,10 +308,58 @@ class ApiService {
       String lastName,
       String email,
       String imageUrl,
-      String phoneNumber}) {
-    var formData = FormData.fromMap({
-      //TODO
+      String phoneNumber,
+      String password}) async {
+    var formDataHasPhoto = FormData.fromMap({
+      'id': uid,
+      'name': userName,
+      'last_name': lastName,
+      'email': email,
+      'login': phoneNumber,
+      'password': password,
+      'photo': imageUrl != null ? MultipartFile.fromFile(imageUrl) : null
     });
+    var formData = FormData.fromMap({
+      'id': uid,
+      'name': userName,
+      'last_name': lastName,
+      'email': email,
+      'login': phoneNumber,
+      'password': password,
+    });
+
+    try {
+      return dio
+          .post('$restUrl/mobapi.updateuser',
+              data: imageUrl == null ? formData : formDataHasPhoto)
+          .then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse(data: User(), error: true);
+        }
+        if (result.data['result'] is bool) {
+          return APIResponse(data: User(), error: true);
+        }
+        return APIResponse(data: User.fromJson(result.data['result']));
+      }).catchError((onError)=>APIResponse(data: User(), error: true));
+    } catch (e) {
+      return APIResponse(data: User(), error: true);
+    }
+    // try {
+    //   return dio
+    //       .post('https://5f3be455fff8550016ae5db3.mockapi.io/api/user',
+    //           data: imageUrl == null ? formData : formDataHasPhoto)
+    //       .then((result) {
+    //     // if (result.statusCode != 200) {
+    //     //   return APIResponse(data: User(), error: true);
+    //     // }
+    //     if (result.data['result'] is bool) {
+    //       return APIResponse(data: User(), error: true);
+    //     }
+    //     return APIResponse(data: User.fromJson(result.data['result']));
+    //   }).catchError((onError)=>APIResponse(data: User(), error: true));
+    // } catch (e) {
+    //   return APIResponse(data: User(), error: true);
+    // }
   }
 
   Future<APIResponse<int>> sendQuestion(
@@ -327,6 +375,9 @@ class ApiService {
       return dio
           .post('$restUrl/mobapi.sendquestion', data: formData)
           .then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse(data: -1, error: true);
+        }
         if (result.data['result'] is int) {
           var quetionId = result.data['result'] as int;
           return APIResponse(data: quetionId);

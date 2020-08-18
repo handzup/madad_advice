@@ -16,6 +16,7 @@ import 'package:madad_advice/pages/welcome_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:madad_advice/utils/myicons.dart';
 import 'package:madad_advice/utils/next_screen.dart';
+import 'package:madad_advice/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -329,8 +330,7 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
   String uLastName;
   String uPass;
   String uEmail;
-  String uPhotoUrl;
-
+  final _cuperScffold = GlobalKey<ScaffoldState>();
   String phoneNumberMasked;
   String phoneNumber;
 
@@ -338,211 +338,294 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
   var label = 'Phone Number';
   String prefix = '+';
   bool phoneExists = false;
+  updateUser(context) {
+    final ub = Provider.of<UserBloc>(context);
+    ub
+        .updateUserProfileApi(
+            userName: uName,
+            lastName: uLastName,
+            email: uEmail,
+            phoneNumber: phoneNumber,
+            password: uPass)
+        .then((result) async {
+      if (result) {
+        Navigator.pop(context);
+      } else {
+        openToastRed(
+          context,
+          'Произошла ошибка',
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final ub = Provider.of<UserBloc>(context);
-
+    // WidgetsBinding.instance.addPostFrameCallback((_) => openToastRed(
+    //       context,
+    //       'Произошла ошибка при отпавке',
+    //     ));
     return Material(
-        child: CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text(LocaleKeys.edit.tr()),
-        leading: SizedBox.shrink(),
-        trailing: InkWell(
-          child: DuoTonIcon(
-            FontAwesomeIcons.duotoneCamera,
-            primaryColor: ThemeColors.primaryColor,
-            secondaryColor: ThemeColors.primaryColor.withOpacity(0.6),
-          ),
-          onTap: () => showMaterialModalBottomSheet(
-            expand: false,
-            context: context,
-            backgroundColor: Colors.transparent,
-            builder: (context, scrollController) =>
-                ModalFit(scrollController: scrollController),
+        child: WillPopScope(
+      onWillPop: () async {
+        final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+        final ub = Provider.of<UserBloc>(context);
+        ub.setClose(false);
+        if (!ub.inProgress && !ub.succes) {
+          if (isIos) {
+            await showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                      title: Text(
+                        'Отменить изменения?',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      actions: <Widget>[
+                        CupertinoButton(
+                          child: Text(LocaleKeys.yes.tr()),
+                          onPressed: () {
+                            ub.setClose(true);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        CupertinoButton(
+                          child: Text(LocaleKeys.no.tr()),
+                          onPressed: () {
+                            ub.setClose(false);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ));
+          } else {
+            await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: Text(
+                        'Отменить изменения?',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      actions: <Widget>[
+                        CupertinoButton(
+                          child: Text(LocaleKeys.yes.tr()),
+                          onPressed: () {
+                            ub.setClose(true);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        CupertinoButton(
+                          child: Text(LocaleKeys.no.tr()),
+                          onPressed: () {
+                            ub.setClose(false);
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ));
+          }
+        }
+        return ub.shouldClose;
+      },
+      child: CupertinoPageScaffold(
+        key: _cuperScffold,
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(LocaleKeys.edit.tr()),
+          leading:
+              ub.inProgress ? CupertinoActivityIndicator() : SizedBox.shrink(),
+          trailing: InkWell(
+            child: DuoTonIcon(
+              FontAwesomeIcons.duotoneCamera,
+              primaryColor: ThemeColors.primaryColor,
+              secondaryColor: ThemeColors.primaryColor.withOpacity(0.6),
+            ),
+            onTap: () => showMaterialModalBottomSheet(
+              expand: false,
+              context: context,
+              backgroundColor: Colors.transparent,
+              builder: (context, scrollController) =>
+                  ModalFit(scrollController: scrollController),
+            ),
           ),
         ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: ListView(
-            reverse: widget.reverse,
-            shrinkWrap: true,
-            controller: widget.scrollController,
-            physics: ClampingScrollPhysics(),
-            children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      initialValue: ub.userName,
-                      decoration: InputDecoration(
-                        labelText: LocaleKeys.enterName.tr(),
-                        hintText: LocaleKeys.enterName.tr(),
-                      ),
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return LocaleKeys.nameCantBe.tr();
-                        }
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        setState(() {
-                          uName = value;
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: ub.userLastName,
-                      decoration: InputDecoration(
-                        labelText: LocaleKeys.enterLastName.tr(),
-                        hintText: LocaleKeys.enterLastName.tr(),
-                        //prefixIcon: Icon(Icons.vpn_key),
-                      ),
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return LocaleKeys.enterLastName.tr();
-                        }
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        setState(() {
-                          uLastName = value;
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: ub.email,
-                      decoration: InputDecoration(
-                          hintText: 'username@mail.com',
-                          //prefixIcon: Icon(Icons.email),
-                          labelText: 'E-mail'),
-                      //controller: emailCtrl,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (String value) {
-                        if (value.isEmpty) return LocaleKeys.emailcant.tr();
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        setState(() {
-                          uEmail = value;
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: LocaleKeys.enterPassword.tr(),
-                        hintText: LocaleKeys.enterPassword.tr(),
-                        //prefixIcon: Icon(Icons.vpn_key),
-                      ),
-                      //controller: passCtrl,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return LocaleKeys.passwordCantBe.tr();
-                        }
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        setState(() {
-                          uPass = value;
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      autofocus: false,
-                      decoration: InputDecoration(
-                          prefix: Text(
-                            prefix,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          alignLabelWithHint: true,
-                          hintText: '1234566789',
-                          //prefixIcon: Icon(Icons.email),
-                          labelText: label),
-                      initialValue: ub.phone,
-                      //   controller: phoneCtrl,
-                      keyboardType: TextInputType.phone,
-                      inputFormatters: [
-                        PhoneInputFormatter(
-                            onCountrySelected: (PhoneCountryData countryData) {
-                          setState(() {
-                            label =
-                                countryData != null ? countryData.country : '';
-                          });
-                        })
-                      ],
-                      autocorrect: false,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return 'Номер телефона не может быть пустым!';
-                        } else {
-                          if (value.length >= 8) {
-                            if (phoneExists) {
-                              return 'Такой номер уже зарегистрирован в системе';
-                            }
-                          } else {
-                            return 'Введите корректный номер';
+        child: SafeArea(
+          bottom: false,
+          child: ListView(
+              reverse: widget.reverse,
+              shrinkWrap: true,
+              controller: widget.scrollController,
+              physics: ClampingScrollPhysics(),
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        enabled: !ub.inProgress,
+                        initialValue: ub.userName,
+                        decoration: InputDecoration(
+                          labelText: LocaleKeys.enterName.tr(),
+                          hintText: LocaleKeys.enterName.tr(),
+                        ),
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.nameCantBe.tr();
                           }
-                        }
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          setState(() {
+                            uName = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        enabled: !ub.inProgress,
+                        initialValue: ub.userLastName,
+                        decoration: InputDecoration(
+                          labelText: LocaleKeys.enterLastName.tr(),
+                          hintText: LocaleKeys.enterLastName.tr(),
+                          //prefixIcon: Icon(Icons.vpn_key),
+                        ),
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.enterLastName.tr();
+                          }
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          setState(() {
+                            uLastName = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        enabled: !ub.inProgress,
+                        initialValue: ub.email,
+                        decoration: InputDecoration(
+                            hintText: 'username@mail.com',
+                            //prefixIcon: Icon(Icons.email),
+                            labelText: 'E-mail'),
+                        //controller: emailCtrl,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (String value) {
+                          if (value.isEmpty) return LocaleKeys.emailcant.tr();
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          setState(() {
+                            uEmail = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        enabled: !ub.inProgress,
+                        decoration: InputDecoration(
+                          labelText: LocaleKeys.enterPassword.tr(),
+                          hintText: LocaleKeys.enterPassword.tr(),
+                          //prefixIcon: Icon(Icons.vpn_key),
+                        ),
+                        //controller: passCtrl,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.passwordCantBe.tr();
+                          }
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          setState(() {
+                            uPass = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        enabled: !ub.inProgress,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                            prefix: Text(
+                              prefix,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            alignLabelWithHint: true,
+                            hintText: '1234566789',
+                            //prefixIcon: Icon(Icons.email),
+                            labelText: label),
+                        initialValue: ub.phone,
+                        //   controller: phoneCtrl,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          PhoneInputFormatter(onCountrySelected:
+                              (PhoneCountryData countryData) {
+                            setState(() {
+                              label = countryData != null
+                                  ? countryData.country
+                                  : '';
+                            });
+                          })
+                        ],
+                        autocorrect: false,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Номер телефона не может быть пустым!';
+                          } else {
+                            if (value.length >= 8) {
+                              if (phoneExists) {
+                                return 'Такой номер уже зарегистрирован в системе';
+                              }
+                            } else {
+                              return 'Введите корректный номер';
+                            }
+                          }
 
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        if (value.length >= 3) {
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          if (value.length >= 3) {
+                            setState(() {
+                              prefix = '';
+                            });
+                          }
+                          if (value.isEmpty) {
+                            setState(() {
+                              prefix = '+';
+                            });
+                          }
                           setState(() {
-                            prefix = '';
+                            phoneExists = false;
+                            phoneNumberMasked = value;
+                            phoneNumber = value
+                                .replaceFirst('+', '')
+                                .replaceAll('(', '')
+                                .replaceAll(')', '')
+                                .replaceAll(' ', '');
                           });
-                        }
-                        if (value.isEmpty) {
-                          setState(() {
-                            prefix = '+';
-                          });
-                        }
-                        setState(() {
-                          phoneExists = false;
-                          phoneNumberMasked = value;
-                          phoneNumber = value
-                              .replaceFirst('+', '')
-                              .replaceAll('(', '')
-                              .replaceAll(')', '')
-                              .replaceAll(' ', '');
-                        });
-                      },
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          child: FlatButton.icon(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0)),
-                        color: ThemeColors.primaryColor,
-                        icon: Icon(Icons.save, color: Colors.white),
-                        label: Text(LocaleKeys.save.tr(),
-                            style: TextStyle(color: Colors.white)),
-                        onPressed: () => ub
-                            .updateUserProfileApi(
-                                userName: uName,
-                                lastName: uLastName,
-                                email: uEmail,
-                                imageUrl: uPhotoUrl,
-                                phoneNumber: phoneNumber)
-                            .then((_) async {
-                          Navigator.pop(context);
-                        }),
-                      )),
-                    ),
-                  ],
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            child: FlatButton.icon(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0)),
+                                color: ThemeColors.primaryColor,
+                                icon: Icon(Icons.save, color: Colors.white),
+                                label: Text(LocaleKeys.save.tr(),
+                                    style: TextStyle(color: Colors.white)),
+                                onPressed: () => updateUser(context))),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              )
-            ]),
+                SizedBox(
+                  height: 10,
+                )
+              ]),
+        ),
       ),
     ));
   }
@@ -608,11 +691,11 @@ class _ModalFitState extends State<ModalFit> {
             leading: Icon(EvilIcons.image),
             onTap: () => getImageGallery(),
           ),
-          ListTile(
-            title: Text(LocaleKeys.deletePhoto.tr()),
-            leading: Icon(EvilIcons.trash),
-            onTap: () => removeUserPhoto(),
-          )
+          // ListTile(
+          //   title: Text(LocaleKeys.deletePhoto.tr()),
+          //   leading: Icon(EvilIcons.trash),
+          //   onTap: () => removeUserPhoto(),
+          // )
         ],
       ),
     ));

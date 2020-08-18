@@ -183,7 +183,7 @@ class _QandAPageState extends State<QandAPage> {
   Widget _buildList(List<Question> data) {
     return CustomScrollView(
       controller: _scrollController,
-      physics: ClampingScrollPhysics(),
+      physics: AlwaysScrollableScrollPhysics(),
       slivers: <Widget>[
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
