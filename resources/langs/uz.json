@@ -98,6 +98,7 @@
     "attachFiles": "Файлларни бириктиринг",
     "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!",
     "noSuchNumber": "Тизимда бундай рақам ёъқ",
-    "restorePass":"Паролни тиклаш",
-    "createNewPass":"Янги парол яратинг"
+    "restorePass": "Паролни тиклаш",
+    "createNewPass": "Янги парол яратинг",
+    "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди"
 }

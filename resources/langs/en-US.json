@@ -99,5 +99,6 @@
     "serviceUnavailable": "Service is temporarily unavailable!",
     "noSuchNumber": "There is no such number in the system",
     "restorePass": "Restore password",
-    "createNewPass": "Create a new password"
+    "createNewPass": "Create a new password",
+    "errDuringRecoverPass": "An error occurred while recovering your password"
 }

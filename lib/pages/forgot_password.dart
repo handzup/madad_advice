@@ -456,9 +456,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         )
                       : signUpCompleted == false
                           ? CircularProgressIndicator()
-                          : Text(LocaleKeys.succesReg.tr(),
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.white)),
+                          : Icon(Icons.check),
                   onPressed: () {
                     handleRegister();
                   }),
@@ -480,16 +478,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       if (ib.hasInternet == false) {
         openSnacbar(_scaffoldKey, LocaleKeys.noInternet.tr());
       } else {
-        // if (await signUp.register(
-        //     email: email,
-        //     phoneNumber: phoneNumber,
-        //     password: _pass,
-        //     name: name,
-        //     lastName: lastName)) {
-        //   // nextScreen(context, WelcomePage());
-        // } else {
-        //   openSnacbar(_scaffoldKey, LocaleKeys.errDuringReg.tr());
-        // }
+        setState(() {
+          signUpStarted = true;
+        });
+        if (await signUp.recoverPass(
+          pass: _pass,
+        )) {
+          setState(() {
+            signUpCompleted = true;
+          });
+          Future.delayed(Duration(milliseconds: 1000))
+              .then((value) => nextScreenReplace(context, SignInPage()));
+        } else {
+          openSnacbar(_scaffoldKey, LocaleKeys.errDuringRecoverPass.tr());
+        }
       }
     }
   }

@@ -77,6 +77,7 @@ class SignUpBloc extends ChangeNotifier {
   }
 
   final firebaseBloc = FirebaseBloc();
+  Future<bool> recoverPass({String pass}) async {}
   Future<bool> register({
     String name,
     String lastName,

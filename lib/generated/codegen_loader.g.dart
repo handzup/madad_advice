@@ -115,7 +115,8 @@ class CodegenLoader extends AssetLoader{
   "serviceUnavailable": "Сервис временно недоступен!",
   "noSuchNumber": "Нет такого номера в системе",
   "restorePass": "Восстановить пароль",
-  "createNewPass": "Придумайте новый пароль"
+  "createNewPass": "Придумайте новый пароль",
+  "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля"
 };
 static const Map<String,dynamic> en = {
   "spheresList": "List of spheres",
@@ -218,7 +219,8 @@ static const Map<String,dynamic> en = {
   "serviceUnavailable": "Service is temporarily unavailable!",
   "noSuchNumber": "There is no such number in the system",
   "restorePass": "Restore password",
-  "createNewPass": "Create a new password"
+  "createNewPass": "Create a new password",
+  "errDuringRecoverPass": "An error occurred while recovering your password"
 };
 static const Map<String,dynamic> uz_UZ = {
   "spheresList": "Сохалар рўйхати",
@@ -321,7 +323,8 @@ static const Map<String,dynamic> uz_UZ = {
   "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!",
   "noSuchNumber": "Тизимда бундай рақам ёъқ",
   "restorePass": "Паролни тиклаш",
-  "createNewPass": "Янги парол яратинг"
+  "createNewPass": "Янги парол яратинг",
+  "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди"
 };
 static const Map<String,dynamic> ru_RU = {
   "spheresList": "Список сфер",
@@ -424,7 +427,8 @@ static const Map<String,dynamic> ru_RU = {
   "serviceUnavailable": "Сервис временно недоступен!",
   "noSuchNumber": "Нет такого номера в системе",
   "restorePass": "Восстановить пароль",
-  "createNewPass": "Придумайте новый пароль"
+  "createNewPass": "Придумайте новый пароль",
+  "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля"
 };
 static const Map<String,dynamic> uz = {
   "spheresList": "Сохалар рўйхати",
@@ -527,7 +531,8 @@ static const Map<String,dynamic> uz = {
   "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!",
   "noSuchNumber": "Тизимда бундай рақам ёъқ",
   "restorePass": "Паролни тиклаш",
-  "createNewPass": "Янги парол яратинг"
+  "createNewPass": "Янги парол яратинг",
+  "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди"
 };
 static const Map<String,dynamic> en_US = {
   "spheresList": "List of spheres",
@@ -630,7 +635,8 @@ static const Map<String,dynamic> en_US = {
   "serviceUnavailable": "Service is temporarily unavailable!",
   "noSuchNumber": "There is no such number in the system",
   "restorePass": "Restore password",
-  "createNewPass": "Create a new password"
+  "createNewPass": "Create a new password",
+  "errDuringRecoverPass": "An error occurred while recovering your password"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz_UZ": uz_UZ, "ru_RU": ru_RU, "uz": uz, "en_US": en_US};
 }

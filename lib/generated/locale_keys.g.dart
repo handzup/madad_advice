@@ -102,5 +102,6 @@ abstract class  LocaleKeys {
   static const noSuchNumber = 'noSuchNumber';
   static const restorePass = 'restorePass';
   static const createNewPass = 'createNewPass';
+  static const errDuringRecoverPass = 'errDuringRecoverPass';
 
 }

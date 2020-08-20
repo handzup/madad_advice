@@ -100,3 +100,4 @@ serviceUnavailable,Service is temporarily unavailable!,Сервис времен
 noSuchNumber,There is no such number in the system,Нет такого номера в системе,Тизимда бундай рақам ёъқ
 restorePass,Restore password,Восстановить пароль,Паролни тиклаш
 createNewPass,Create a new password,Придумайте новый пароль,Янги парол яратинг
+errDuringRecoverPass,An error occurred while recovering your password,Произошла ошибка при восстановлении пароля,Паролингизни тиклашда хатолик юз берди

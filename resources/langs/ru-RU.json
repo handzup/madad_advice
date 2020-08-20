@@ -99,5 +99,6 @@
     "serviceUnavailable": "Сервис временно недоступен!",
     "noSuchNumber": "Нет такого номера в системе",
     "restorePass": "Восстановить пароль",
-    "createNewPass": "Придумайте новый пароль"
+    "createNewPass": "Придумайте новый пароль",
+    "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля"
 }
