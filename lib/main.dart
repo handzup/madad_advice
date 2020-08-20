@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,13 @@ import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/models/sphere_articel.dart';
 import 'package:madad_advice/pages/welcome_page.dart';
 import 'package:madad_advice/utils/locator.dart';
+import 'httpcsv.dart'  as CsvAssetLoader;
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-const section = 'section';
+ const section = 'section';
 const category = 'category';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -73,10 +75,10 @@ void main() async {
       Locale('uz', 'UZ'),
       // Locale('uz-UZ', "uz-Uz"),
     ],
-    path: 'resources/langs/langs.csv',
+    path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langs.csv',
     fallbackLocale: Locale('ru', "RU"),
     startLocale: Locale('ru', "RU"),
-    assetLoader: CsvAssetLoader(),
+    assetLoader: CsvAssetLoader.CsvAssetLoader(),
   ));
 }
 
@@ -193,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
     SharedPreferences.getInstance().then((sp) {
       final name = sp.getString('name');
       final uimageUrl = sp.getString('image url');
+
       setState(() {
         imageUrl = uimageUrl;
         uName = name;

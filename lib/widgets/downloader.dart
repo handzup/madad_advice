@@ -11,6 +11,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
+
 class Downloader extends StatefulWidget {
   final fileUrl;
   final filesDirectory;
@@ -114,6 +115,7 @@ class _DownloaderState extends State<Downloader> {
       final path = await downloadBloc.readBox(fileName);
       print(path.size);
       print(path.type);
+
       await OpenFile.open(path.path);
     } else {
       if (complete) {
@@ -141,7 +143,7 @@ class _DownloaderState extends State<Downloader> {
             }),
       );
       File file = File(savePath);
-       
+
       var raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response.data);
       await raf.close();
@@ -171,7 +173,9 @@ class _DownloaderState extends State<Downloader> {
         },
         subtitle: inProgress
             ? progres(constraints)
-            : (complete ? Text(LocaleKeys.open.tr()) : Text(LocaleKeys.download.tr())),
+            : (complete
+                ? Text(LocaleKeys.open.tr())
+                : Text(LocaleKeys.download.tr())),
         title: Container(
           child: Text(
             fileName,
