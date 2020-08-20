@@ -335,7 +335,7 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
   String phoneNumber;
 
   var phoneCtrl = TextEditingController();
-  var label = 'Phone Number';
+  var label = LocaleKeys.phoneNumber.tr();
   String prefix = '+';
   bool phoneExists = false;
   updateUser(context) {

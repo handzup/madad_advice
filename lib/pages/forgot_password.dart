@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
+import 'package:madad_advice/styles.dart';
 class ForgotPasswordPage extends StatefulWidget {
   ForgotPasswordPage({Key key}) : super(key: key);
 
@@ -81,17 +82,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'username@mail.com',
-                    labelText: LocaleKeys.emailAdress.tr()
+                    hintText: '+123456789',
+                    labelText: LocaleKeys.phoneNumber.tr()
                     //suffixIcon: IconButton(icon: Icon(Icons.email), onPressed: (){}),
                     
                   
                     
                   ),
                   controller: emailCtrl,
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.phone,
                   validator: (String value){
-                    if (value.length == 0) return LocaleKeys.emailcant.tr();
+                    if (value.length < 10 )return LocaleKeys.enterCorrectPhNum.tr();
                     return null;
                   },
                   onChanged: (String value){
@@ -105,7 +106,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   height: 45,
                   width: double.infinity,
                   child: RaisedButton(
-                    color: Colors.blueAccent,
+                    color: ThemeColors.primaryColor,
                     child: Text(LocaleKeys.submit.tr(), style: TextStyle(
                       fontSize: 16, color: Colors.white
                     ),),

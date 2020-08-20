@@ -105,7 +105,7 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  var label = 'Phone Number';
+  var label = LocaleKeys.phoneNumber.tr();
 
   @override
   Widget build(BuildContext context) {
