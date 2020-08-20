@@ -490,7 +490,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           Future.delayed(Duration(milliseconds: 1000))
               .then((value) => nextScreenReplace(context, SignInPage()));
         } else {
-          openSnacbar(_scaffoldKey, LocaleKeys.errDuringRecoverPass.tr());
+          setState(() {
+            signUpStarted = false;
+          });
+          openSnacbarQ(_scaffoldKey, LocaleKeys.errDuringRecoverPass.tr(),
+              alert: true);
         }
       }
     }
