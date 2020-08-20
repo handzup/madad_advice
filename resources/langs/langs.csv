@@ -97,3 +97,6 @@ minPasslength,Minimum password length 8 characters,Минимальная дли
 errDuringReg,An error occurred during registration,Произошла ошибка при регистрации,Рўйхатдан ўтиш пайтида хатолик юз берди
 attachFiles,Attach files,Прикрепить файлы,Файлларни бириктиринг
 serviceUnavailable,Service is temporarily unavailable!,Сервис временно недоступен!,Хизмат вақтинча мавжуд эмас!
+noSuchNumber,There is no such number in the system,Нет такого номера в системе,Тизимда бундай рақам ёъқ
+restorePass,Restore password,Восстановить пароль,Паролни тиклаш
+createNewPass,Create a new password,Придумайте новый пароль,Янги парол яратинг

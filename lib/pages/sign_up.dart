@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/sing_up_bloc.dart';
 import 'package:madad_advice/models/icons_data.dart';
-import 'package:madad_advice/pages/home.dart';
 import 'package:madad_advice/pages/sign_in.dart';
 import 'package:madad_advice/pages/welcome_page.dart';
 import 'package:madad_advice/styles.dart';
@@ -80,6 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -631,4 +631,6 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     }
   }
+
+
 }

@@ -96,5 +96,8 @@
     "minPasslength": "Minimum password length 8 characters",
     "errDuringReg": "An error occurred during registration",
     "attachFiles": "Attach files",
-    "serviceUnavailable": "Service is temporarily unavailable!"
+    "serviceUnavailable": "Service is temporarily unavailable!",
+    "noSuchNumber": "There is no such number in the system",
+    "restorePass": "Restore password",
+    "createNewPass": "Create a new password"
 }

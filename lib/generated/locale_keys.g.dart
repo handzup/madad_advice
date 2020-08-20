@@ -99,5 +99,8 @@ abstract class  LocaleKeys {
   static const errDuringReg = 'errDuringReg';
   static const attachFiles = 'attachFiles';
   static const serviceUnavailable = 'serviceUnavailable';
+  static const noSuchNumber = 'noSuchNumber';
+  static const restorePass = 'restorePass';
+  static const createNewPass = 'createNewPass';
 
 }

@@ -112,7 +112,10 @@ class CodegenLoader extends AssetLoader{
   "minPasslength": "Минимальная длинна пароля 8 символов",
   "errDuringReg": "Произошла ошибка при регистрации",
   "attachFiles": "Прикрепить файлы",
-  "serviceUnavailable": "Сервис временно недоступен!"
+  "serviceUnavailable": "Сервис временно недоступен!",
+  "noSuchNumber": "Нет такого номера в системе",
+  "restorePass": "Восстановить пароль",
+  "createNewPass": "Придумайте новый пароль"
 };
 static const Map<String,dynamic> en = {
   "spheresList": "List of spheres",
@@ -212,7 +215,10 @@ static const Map<String,dynamic> en = {
   "minPasslength": "Minimum password length 8 characters",
   "errDuringReg": "An error occurred during registration",
   "attachFiles": "Attach files",
-  "serviceUnavailable": "Service is temporarily unavailable!"
+  "serviceUnavailable": "Service is temporarily unavailable!",
+  "noSuchNumber": "There is no such number in the system",
+  "restorePass": "Restore password",
+  "createNewPass": "Create a new password"
 };
 static const Map<String,dynamic> uz_UZ = {
   "spheresList": "Сохалар рўйхати",
@@ -312,7 +318,10 @@ static const Map<String,dynamic> uz_UZ = {
   "minPasslength": "Паролнинг минимал узунлиги 8 та белги",
   "errDuringReg": "Рўйхатдан ўтиш пайтида хатолик юз берди",
   "attachFiles": "Файлларни бириктиринг",
-  "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!"
+  "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!",
+  "noSuchNumber": "Тизимда бундай рақам ёъқ",
+  "restorePass": "Паролни тиклаш",
+  "createNewPass": "Янги парол яратинг"
 };
 static const Map<String,dynamic> ru_RU = {
   "spheresList": "Список сфер",
@@ -412,7 +421,10 @@ static const Map<String,dynamic> ru_RU = {
   "minPasslength": "Минимальная длинна пароля 8 символов",
   "errDuringReg": "Произошла ошибка при регистрации",
   "attachFiles": "Прикрепить файлы",
-  "serviceUnavailable": "Сервис временно недоступен!"
+  "serviceUnavailable": "Сервис временно недоступен!",
+  "noSuchNumber": "Нет такого номера в системе",
+  "restorePass": "Восстановить пароль",
+  "createNewPass": "Придумайте новый пароль"
 };
 static const Map<String,dynamic> uz = {
   "spheresList": "Сохалар рўйхати",
@@ -512,7 +524,10 @@ static const Map<String,dynamic> uz = {
   "minPasslength": "Паролнинг минимал узунлиги 8 та белги",
   "errDuringReg": "Рўйхатдан ўтиш пайтида хатолик юз берди",
   "attachFiles": "Файлларни бириктиринг",
-  "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!"
+  "serviceUnavailable": "Хизмат вақтинча мавжуд эмас!",
+  "noSuchNumber": "Тизимда бундай рақам ёъқ",
+  "restorePass": "Паролни тиклаш",
+  "createNewPass": "Янги парол яратинг"
 };
 static const Map<String,dynamic> en_US = {
   "spheresList": "List of spheres",
@@ -612,7 +627,10 @@ static const Map<String,dynamic> en_US = {
   "minPasslength": "Minimum password length 8 characters",
   "errDuringReg": "An error occurred during registration",
   "attachFiles": "Attach files",
-  "serviceUnavailable": "Service is temporarily unavailable!"
+  "serviceUnavailable": "Service is temporarily unavailable!",
+  "noSuchNumber": "There is no such number in the system",
+  "restorePass": "Restore password",
+  "createNewPass": "Create a new password"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz_UZ": uz_UZ, "ru_RU": ru_RU, "uz": uz, "en_US": en_US};
 }
