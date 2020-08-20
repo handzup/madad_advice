@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:madad_advice/blocs/question_bloc.dart';
+import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FilePickerDemo extends StatefulWidget {
   @override
@@ -53,14 +53,16 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                             size: 15,
                           ),
                         ),
-                        Text('Прикрепить файлы'),
+                        Text(
+                          LocaleKeys.attachFiles.tr(),
+                        )
                       ],
                     ),
                   ),
                 ),
                 Spacer(),
                 Text(
-                  "Макс. 3",
+                  "Max 3",
                   style:
                       TextStyle(color: files.error ? Colors.red : Colors.black),
                 )

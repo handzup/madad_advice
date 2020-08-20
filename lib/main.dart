@@ -34,13 +34,16 @@ import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/models/sphere_articel.dart';
 import 'package:madad_advice/pages/welcome_page.dart';
 import 'package:madad_advice/utils/locator.dart';
-import 'httpcsv.dart'  as CsvAssetLoader;
+import 'package:madad_advice/widgets/preload.dart';
+import 'httpcsv.dart' as CsvAssetLoader;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
- const section = 'section';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+const section = 'section';
 const category = 'category';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -67,18 +70,23 @@ void main() async {
   Hive.registerAdapter(PinnedFileAdapter());
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(EasyLocalization(
-    child: MyApp(),
-    supportedLocales: [
-      Locale('en', 'US'),
-      Locale('ru', 'RU'),
-      Locale('uz', 'UZ'),
-      // Locale('uz-UZ', "uz-Uz"),
-    ],
-    path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langs.csv',
-    fallbackLocale: Locale('ru', "RU"),
-    startLocale: Locale('ru', "RU"),
-    assetLoader: CsvAssetLoader.CsvAssetLoader(),
+  runApp(Phoenix(
+    child: EasyLocalization(
+      child: MyApp(),
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+        Locale('uz', 'UZ'),
+        // Locale('uz-UZ', "uz-Uz"),
+      ],
+     // path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langscopy.csv',
+        path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langs.csv',
+      fallbackLocale: Locale('ru', "RU"),
+      startLocale: Locale('ru', "RU"),
+      assetLoader: CsvAssetLoader.CsvAssetLoader(),
+      preloaderWidget: PreloadPage(),
+
+     ),
   ));
 }
 

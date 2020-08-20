@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
@@ -16,18 +17,21 @@ import 'package:path_provider/path_provider.dart';
 class CsvAssetLoader extends AssetLoader {
   CSVParser csvParser;
   Future<String> getPath(url) async {
+    var result = await (Connectivity().checkConnectivity());
     var filesDirectory = await getApplicationDocumentsDirectory();
-    var fullPath = filesDirectory.path + '/langs.csv';
+    var dioresult;
 
-   var dioresult = await Dio()
-        .download(
-            url,
-            fullPath)
-        .then((value) async {
-      File file = File(fullPath);
-      return await file.readAsString();
-    });
-  return dioresult;
+    var fullPath = filesDirectory.path + '/langs.csv';
+    if (result == ConnectivityResult.none) {
+      dioresult = await rootBundle.loadString('resources/langs/langs.csv');
+    } else {
+      dioresult = await Dio().download(url, fullPath).then((value) async {
+        File file = File(fullPath);
+        return await file.readAsString();
+      });
+    }
+
+    return dioresult;
   }
 
   @override

@@ -228,7 +228,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       color: Colors.white, size: 25),
                                 ),
                                 title: Text(
-                                  'Использование памяти',
+                                  LocaleKeys.memoryUsage.tr(),
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
@@ -378,7 +378,7 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                 context: context,
                 builder: (context) => CupertinoAlertDialog(
                       title: Text(
-                        'Отменить изменения?',
+                       LocaleKeys.cancelChanges.tr(),
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       actions: <Widget>[
@@ -403,7 +403,7 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                 context: context,
                 builder: (context) => AlertDialog(
                       title: Text(
-                        'Отменить изменения?',
+                        LocaleKeys.cancelChanges.tr(),
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       actions: <Widget>[

@@ -72,5 +72,32 @@ abstract class  LocaleKeys {
   static const succesReg = 'succesReg';
   static const tags = 'tags';
   static const lang = 'lang';
+  static const messageNotSent = 'messageNotSent';
+  static const memoryUsage = 'memoryUsage';
+  static const dmAndOthers = 'dmAndOthers';
+  static const clearDb = 'clearDb';
+  static const rlyClearDb = 'rlyClearDb';
+  static const cancelChanges = 'cancelChanges';
+  static const status = 'status';
+  static const answerReceived = 'answerReceived';
+  static const waitForAnswer = 'waitForAnswer';
+  static const askUrQuestion = 'askUrQuestion';
+  static const phoneNumber = 'phoneNumber';
+  static const enterVerificationCode = 'enterVerificationCode';
+  static const verifyCodeWasSend = 'verifyCodeWasSend';
+  static const incorrectCode = 'incorrectCode';
+  static const didnreciveCode = 'didnreciveCode';
+  static const retry = 'retry';
+  static const next = 'next';
+  static const enterPhNumber = 'enterPhNumber';
+  static const phoneNumCantBe = 'phoneNumCantBe';
+  static const phNumAlrdyRegistered = 'phNumAlrdyRegistered';
+  static const enterCorrectPhNum = 'enterCorrectPhNum';
+  static const fillReqFields = 'fillReqFields';
+  static const incorrectEmail = 'incorrectEmail';
+  static const minPasslength = 'minPasslength';
+  static const errDuringReg = 'errDuringReg';
+  static const attachFiles = 'attachFiles';
+  static const serviceUnavailable = 'serviceUnavailable';
 
 }

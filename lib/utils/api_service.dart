@@ -175,7 +175,7 @@ class ApiService {
 
   Future<APIResponse<SphereModel>> fetchApiGetRecent() async {
     try {
-      return dio.get('$restUrl/mobapi.lastelements').then((result) {
+      return dio.get('$restUrl/mobapi.lastelements?lang=${lang.lang.toString()}').then((result) {
         if (result.statusCode != 200) {
           return APIResponse<SphereModel>(
               error: true, errorMessage: 'Service error');

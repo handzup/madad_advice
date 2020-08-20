@@ -90,7 +90,7 @@ class _CommentsPageState extends State<CommentsPage> {
             code: code)) {
           scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: Colors.black,
-            content: Text('Сообщение не отправлено'),
+            content: Text(LocaleKeys.messageNotSent.tr()),
             duration: Duration(milliseconds: 300),
           ));
         }
@@ -99,47 +99,47 @@ class _CommentsPageState extends State<CommentsPage> {
     }
   }
 
-  void handleDelete(uid, code2) async {
-    final ib = Provider.of<InternetBloc>(context);
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'Delete?',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            content: Text('Want to delete this comment?'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Yes'),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await ib.checkInternet();
-                  if (ib.hasInternet == false) {
-                    openToast(context, 'No internet connection');
-                  } else {
-                    final sp = await SharedPreferences.getInstance();
-                    var _uid = sp.getString('uid');
-                    if (uid != _uid) {
-                      openToast(context, 'You can not delete others comment');
-                    } else {
-                      // await cb.deleteComment(code, uid, code2);
-                      openToast(context, 'Deleted Successfully');
-                    }
-                  }
-                },
-              ),
-              FlatButton(
-                child: Text(LocaleKeys.no.tr()),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          );
-        });
-  }
+  // void handleDelete(uid, code2) async {
+  //   final ib = Provider.of<InternetBloc>(context);
+  //   await showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text(
+  //             'Delete?',
+  //             style: TextStyle(fontWeight: FontWeight.w600),
+  //           ),
+  //           content: Text('Want to delete this comment?'),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text('Yes'),
+  //               onPressed: () async {
+  //                 Navigator.pop(context);
+  //                 await ib.checkInternet();
+  //                 if (ib.hasInternet == false) {
+  //                   openToast(context, 'No internet connection');
+  //                 } else {
+  //                   final sp = await SharedPreferences.getInstance();
+  //                   var _uid = sp.getString('uid');
+  //                   if (uid != _uid) {
+  //                     openToast(context, 'You can not delete others comment');
+  //                   } else {
+  //                     // await cb.deleteComment(code, uid, code2);
+  //                     openToast(context, 'Deleted Successfully');
+  //                   }
+  //                 }
+  //               },
+  //             ),
+  //             FlatButton(
+  //               child: Text(LocaleKeys.no.tr()),
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
 
   Widget dnkShow(APIResponse<List<Comment>> data, String lastCode) {
     if (lastCode != code) data = null;

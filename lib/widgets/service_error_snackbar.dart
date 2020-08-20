@@ -28,7 +28,7 @@ Widget snackBar( Function handleRefresh,{bool serviceError = false,}) {
 Widget serviceError() {
   return SnackBar(
     backgroundColor: Colors.red,
-    content: Text('Сервис временно недоступен!'),
+    content: Text(LocaleKeys.serviceUnavailable.tr()),
     duration: Duration(seconds: 5),
   );
 }

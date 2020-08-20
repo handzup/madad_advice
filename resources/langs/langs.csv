@@ -70,3 +70,30 @@ haveNotAcc,Don't have an account?,У вас нет аккаунта ?,Акаун
 succesReg,Successful registration!,Успешная Регистрация!,Рўйхатдан ўтиш муваффақиятли ўтди!
 tags,Tags,Теги,Теглар
 lang,Language,Язык,Тилни танлаш
+messageNotSent,Message not sent,Сообщение не отправлено,Хабар юборилмади
+memoryUsage,Memory usage,Использование памяти,Хотирадан фойдаланиш
+dmAndOthers,Documents and other files that you downloaded in the application.,Документы и прочие файлы которые вы скачивали в приложении.,Иловада юклаб олинган ҳужжатлар ва бошқа файллар.
+clearDb,Clear database,Очистить базу данных,Маълумотлар базасини тозалаш
+rlyClearDb,Are you sure you want to delete all downloaded data?,Вы действительно хотите удалить все скачанные данные?,Ҳақиқатан ҳам барча юклаб олинган маълумотларни ёъқ қилмоқчимисиз?
+cancelChanges,Cancel changes?,Отменить изменения?,Ўзгаришлар бекор қилинсинми?
+status,Status,Статус,Ҳолат
+answerReceived,Answer received,Ответ получен,Жавоб олинди
+waitForAnswer,Waiting for an answer,Ожидание ответа,Жавоб кутилмоқда
+askUrQuestion,Ask your question,Задайте свой вопрос,Саволингизни беринг
+phoneNumber,Phone Number,Номер телефона,Телефон рақами
+enterVerificationCode,Enter the sent verification code,Введите отправленный код подтверждения,Юборилган тасдиқлаш кодини киритинг
+verifyCodeWasSend,A confirmation code has been sent to the number:,Код подтверждения отправлен на номер:,Тасдиқлаш коди қуидаги рақамга юборилди:
+incorrectCode,Incorrect code entered,Введен не правильный код,Нотўғри код киритилди
+didnreciveCode,Didn't receive a verification code?,"Не получили код подтверждения? ",Тасдиқлаш коди олмадингизми?
+retry,Retry,Повторить,қайта юбориш
+next,Next,Дальше,Кейинги
+enterPhNumber,Enter your phone number,Введите свой номер телефона,Телефон рақамингизни киритинг
+phoneNumCantBe,The phone number cannot be empty!,Номер телефона не может быть пустым!,Телефон рақами бўш бўлиши мумкин эмас!
+phNumAlrdyRegistered,This number is already registered,Такой номер уже зарегистрирован в системе,Бу рақам тизимда аллақачон рўйхатдан ўтган
+enterCorrectPhNum,Enter the correct number,Введите корректный номер,Тўғри рақамни киритинг
+fillReqFields,Fill in the required fields,Заполните необходимые поля для регистрации,Рўйхатдан ўтиш учун керакли майдонларни тўлдиринг
+incorrectEmail,incorrect e-mail,не правильный E-mail,нотўғри электрон почта
+minPasslength,Minimum password length 8 characters,Минимальная длинна пароля 8 символов,Паролнинг минимал узунлиги 8 та белги
+errDuringReg,An error occurred during registration,Произошла ошибка при регистрации,Рўйхатдан ўтиш пайтида хатолик юз берди
+attachFiles,Attach files,Прикрепить файлы,Файлларни бириктиринг
+serviceUnavailable,Service is temporarily unavailable!,Сервис временно недоступен!,Хизмат вақтинча мавжуд эмас!

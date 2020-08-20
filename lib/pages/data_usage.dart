@@ -18,7 +18,7 @@ class DataUsage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Использование памяти', //datausage
+          LocaleKeys.memoryUsage.tr(),//datausage
         ),
         elevation: 1,
       ),
@@ -32,7 +32,7 @@ class DataUsage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                    'Документы и прочие файлы которые вы скачивали в приложении.'),
+                    LocaleKeys.dmAndOthers.tr())
               ),
             ),
             Container(
@@ -54,7 +54,7 @@ class DataUsage extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(0),
                 title: Padding(
                   padding: const EdgeInsets.only(left: 12.0),
-                  child: Text('Очистить базу данных',
+                  child: Text(LocaleKeys.clearDb.tr(),
                       style: TextStyle(color: Colors.black, fontSize: 14)),
                 ),
                 trailing: Padding(
@@ -84,11 +84,11 @@ class DataUsage extends StatelessWidget {
           if (isIos) {
             return CupertinoAlertDialog(
               title: Text(
-                'Очистить базу данных',
+                LocaleKeys.clearDb.tr(),
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               content: Text(
-                'Вы действительно хотите удалить все скачанные данные?',
+                '${LocaleKeys.rlyClearDb.tr()}?',
                 style: TextStyle(fontSize: 12),
               ),
               actions: <Widget>[
@@ -111,11 +111,11 @@ class DataUsage extends StatelessWidget {
           } else {
             return AlertDialog(
               title: Text(
-                'Очистить базу данных?',
+                LocaleKeys.clearDb.tr(),
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               content: Text(
-                'Вы действительно хотите удалить все скачанные данные?',
+                 '${LocaleKeys.rlyClearDb.tr()}?',
                 style: TextStyle(fontSize: 14),
               ),
               actions: <Widget>[

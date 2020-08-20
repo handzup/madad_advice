@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
@@ -10,9 +11,11 @@ import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/config.dart';
+import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/menu.dart';
 import 'package:madad_advice/pages/category_page.dart';
 import 'package:madad_advice/pages/help_page.dart';
+import 'package:madad_advice/pages/language.dart';
 import 'package:madad_advice/pages/profile.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/pages/sections_page.dart';
@@ -428,33 +431,22 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       Spacer(flex: 1,),
                       sp.isSignedIn ? singOut() : singIn(context),
                       Spacer(flex: 1 ,),
-                      // ClipOval(
-                      //   child: Material(
-                      //     color: Colors.white,
-                      //     child: InkWell(
-                      //         splashColor: Colors.grey,
-                      //         child: Container(
-                      //           padding: const EdgeInsets.symmetric(
-                      //               horizontal: 10, vertical: 10),
-                      //           child: Icon(FontAwesome.question_circle),
-                      //         ),
-                      //         onTap: () => nextScreen(
-                      //             context,
-                      //             HelpPage(
-                      //               tag: 'Help',
-                      //               category: "Helper",
-                      //               date: 'today',
-                      //               description:
-                      //                   'Some description here for ur reading',
-                      //               imageUrl:
-                      //                   'https://img.pngio.com/avatar-business-face-people-icon-people-icon-png-512_512.png',
-                      //               loves: 24,
-                      //               timestamp: '4:44',
-                      //               title: 'Lorem impus',
-                      //             ))),
-                      //   ),
-                      // ),
-                      // Spacer(),
+                      kReleaseMode ? SizedBox.shrink() : ClipOval(
+                        child: Material(
+                          color: Colors.white,
+                          child: InkWell(
+                              splashColor: Colors.grey,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Icon(FontAwesome.question_circle),
+                              ),
+                              onTap: () => nextScreen(
+                                  context,
+                                  LanguageView())),
+                        ),
+                      ),
+                      Spacer(),
                     ],
                   ),
                   Spacer(),

@@ -227,11 +227,11 @@ class QandACard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Статус',
+                  LocaleKeys.status.tr(),
                   style: TextStyle(
                       fontWeight: FontWeight.w900, color: Colors.grey[500]),
                 ),
-                Text(answered ? 'Ответ получен' : 'Ожидание ответа',
+                Text(answered ? LocaleKeys.answerReceived.tr() : LocaleKeys.waitForAnswer.tr(), 
                     style: TextStyle(
                         fontWeight: FontWeight.w900, color: Colors.grey[500]))
               ],
@@ -381,12 +381,12 @@ Widget ask(sc, context) {
                       },
                       validator: (String value) {
                         if (value.isEmpty) {
-                          return 'Задайте вопрос';
+                          return LocaleKeys.writeSmth.tr();
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                          hintText: 'Задайте свой вопрос',
+                          hintText: LocaleKeys.askUrQuestion.tr(),
                           alignLabelWithHint: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15.0),

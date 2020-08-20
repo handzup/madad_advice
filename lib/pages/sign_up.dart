@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  var label = 'Phone Number';
+  var label = LocaleKeys.phoneNumber.tr();
   PageController _controller = PageController(initialPage: 0, keepPage: false);
   var onTapRecognizer;
   @override
@@ -131,7 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   }),
             ),
             Text(
-              'Введите отправленный код подтверждения',
+              LocaleKeys.enterVerificationCode.tr(),
               softWrap: true,
               textAlign: TextAlign.center,
             ),
@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
               softWrap: true,
               textAlign: TextAlign.center,
               text: TextSpan(
-                text: 'Код подтверждения отправлен на номер:',
+                text: LocaleKeys.verifyCodeWasSend.tr(),
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,
@@ -183,10 +183,10 @@ class _SignUpPageState extends State<SignUpPage> {
               animationDuration: Duration(milliseconds: 300),
               validator: (v) {
                 if (v.length != 6) {
-                  return 'Введите высланный код подтверждения';
+                  return  LocaleKeys.enterVerificationCode.tr();
                 } else {
                   if (hasError) {
-                    return 'Введен не правильный код';
+                    return LocaleKeys.incorrectCode.tr();
                   }
                 }
                 return null;
@@ -216,11 +216,11 @@ class _SignUpPageState extends State<SignUpPage> {
             RichText(
               textAlign: TextAlign.justify,
               text: TextSpan(
-                  text: 'Не получили код подтверждения? ',
+                  text: LocaleKeys.didnreciveCode.tr(),
                   style: TextStyle(color: Colors.black54, fontSize: 13),
                   children: [
                     TextSpan(
-                        text: 'Повторить',
+                        text: LocaleKeys.retry.tr(),
                         recognizer: onTapRecognizer,
                         style: TextStyle(
                             color: ThemeColors.primaryColor,
@@ -238,7 +238,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   color: ThemeColors.primaryColor,
                   child: signUpStarted == false
                       ? Text(
-                          'Next', // LocaleKeys.signUp.tr(),
+                         LocaleKeys.next.tr(),  // LocaleKeys.signUp.tr(),
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         )
                       : signUpCompleted == false
@@ -285,7 +285,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ],
             ),
             Text(
-              'Введите свой номер телефона',
+              LocaleKeys.enterPhNumber.tr(),
               softWrap: true,
               textAlign: TextAlign.center,
             ),
@@ -320,14 +320,14 @@ class _SignUpPageState extends State<SignUpPage> {
               autocorrect: false,
               validator: (String value) {
                 if (value.isEmpty) {
-                  return 'Номер телефона не может быть пустым!';
+                  return LocaleKeys.phoneNumCantBe.tr();
                 } else {
                   if (value.length >= 8) {
                     if (phoneExists) {
-                      return 'Такой номер уже зарегистрирован в системе';
+                      return LocaleKeys.phNumAlrdyRegistered.tr();
                     }
                   } else {
-                    return 'Введите корректный номер';
+                    return LocaleKeys.enterCorrectPhNum.tr();
                   }
                 }
 
@@ -365,7 +365,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   color: ThemeColors.primaryColor,
                   child: signUpStarted == false
                       ? Text(
-                          'Next', // LocaleKeys.signUp.tr(),
+                          LocaleKeys.next.tr(), // LocaleKeys.signUp.tr(),
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         )
                       : signUpCompleted == false
@@ -427,7 +427,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   }),
             ),
             Text(
-              'Заполните необходимые поля для регистрации',
+             LocaleKeys.fillReqFields.tr() ,
               softWrap: true,
               textAlign: TextAlign.center,
             ),
@@ -481,7 +481,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     .hasMatch(value);
                 if (value.isNotEmpty) {
                   if (reg) return null;
-                  return 'не правильный E-mail';
+                  return LocaleKeys.incorrectEmail.tr();
                 }
                 return LocaleKeys.emailcant.tr();
               },
@@ -511,7 +511,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   if (value.length >= 8) {
                     return null;
                   }
-                  return 'Минимальная длинна пароля 8 символов';
+                  return  LocaleKeys.minPasslength.tr();
                 }
                 return LocaleKeys.passwordCantBe.tr();
               },
@@ -568,7 +568,7 @@ class _SignUpPageState extends State<SignUpPage> {
             lastName: lastName)) {
           nextScreen(context, WelcomePage());
         } else {
-          openSnacbar(_scaffoldKey, 'Произошла ошибка при регистрации');
+          openSnacbar(_scaffoldKey, LocaleKeys.errDuringReg.tr());
         }
       }
     }

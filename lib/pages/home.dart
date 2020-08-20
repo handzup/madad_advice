@@ -30,6 +30,7 @@ import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:madad_advice/widgets/sphere.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -210,6 +211,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List categoryColors = [ThemeColors.primaryColor.withOpacity(.1)];
+  ScrollController _scrollController;
+  TabController _tabController;
 
   Future<Null> _handleRefresh() async {
     final ib = Provider.of<InternetBloc>(context, listen: false);
@@ -231,95 +234,112 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: DrawerMenu(),
-        key: _scaffoldKey,
-        appBar: AppBar(
-          titleSpacing: 0.0,
-          leading: IconButton(
-            icon: Icon(
-              AntDesign.menu_fold,
-              color: Colors.black87,
-            ),
-            onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
-            },
-          ),
-          title: Container(
-            child: Row(
-              children: <Widget>[
-                Image(width: 30, image: AssetImage('assets/logo.png')),
-                SizedBox(width: 10),
-                RichText(
-                  text: TextSpan(
-                    text: 'Advice for Business',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
-                    children: <TextSpan>[],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: LiquidPullToRefresh(
-            showChildOpacityTransition: false,
-            height: 50,
-            color: ThemeColors.primaryColor.withOpacity(0.8),
-            animSpeedFactor: 2,
-            borderWidth: 1,
-            springAnimationDurationInMilliseconds: 100,
-            onRefresh: _handleRefresh,
-            child: Consumer<CategoryBloc>(
-              builder: (context, data, child) {
-                if (data.sphereData.data.isEmpty) return child;
-                return buildCategoryList(data.sphereData.data);
-              },
-              child: Container(
-                child: ListView(
-                  physics: ClampingScrollPhysics(),
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                height: 30,
-                                width: 4,
-                                decoration: BoxDecoration(
-                                    color: ThemeColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text('Список сфер',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w600)),
-                              Spacer(),
-                            ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          drawer: DrawerMenu(),
+          key: _scaffoldKey,
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  bottom: TabBar(
+                      controller: _tabController,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      labelColor: ThemeColors.primaryColor,
+                      unselectedLabelColor: Color(0xff5f6368), //niceish grey
+                      isScrollable: false,
+                      onTap: (index) {
+                        checkInternet();
+                      },
+                      indicator: MD2Indicator(
+                          //it begins here
+                          indicatorHeight: 5,
+                          indicatorColor: ThemeColors.primaryColor,
+                          indicatorSize: MD2IndicatorSize
+                              .full //3 different modes tiny-normal-full
+                          ),
+                      tabs: <Widget>[
+                        Tab(
+                          child: Text(
+                            LocaleKeys.spheresList.tr(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Container(
-                          child: LoadingSphereWidget(),
-                          width: double.infinity,
-                          height: 550,
+                        Tab(
+                          child: Text(
+                            LocaleKeys.recentArticels.tr(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ]),
+                  automaticallyImplyLeading: false,
+                  centerTitle: false,
+                  titleSpacing: 0,
+                  pinned: true,
+                  floating: true,
+                  forceElevated: innerBoxIsScrolled,
+                  leading: IconButton(
+                    icon: Icon(
+                      AntDesign.menu_fold,
+                      color: Colors.black87,
+                    ),
+                    onPressed: () {
+                      _scaffoldKey.currentState.openDrawer();
+                    },
+                  ),
+                  title: Container(
+                    child: Row(
+                      children: <Widget>[
+                        Image(width: 30, image: AssetImage('assets/logo.png')),
+                        SizedBox(width: 10),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Advice for Business',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black),
+                            children: <TextSpan>[],
+                          ),
                         ),
                       ],
                     ),
-                    Recent(),
+                  ),
+                )
+              ];
+            },
+            body: LiquidPullToRefresh(
+                showChildOpacityTransition: false,
+                height: 50,
+                color: ThemeColors.primaryColor.withOpacity(0.8),
+                animSpeedFactor: 2,
+                borderWidth: 1,
+                springAnimationDurationInMilliseconds: 100,
+                onRefresh: _handleRefresh,
+                child: TabBarView(
+                  children: <Widget>[
+                    Consumer<CategoryBloc>(
+                      builder: (context, data, child) {
+                        if (data.sphereData.data.isEmpty) return child;
+                        return buildCategoryList(data.sphereData.data);
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: LoadingSphereWidget(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ReacentHome()
                   ],
-                ),
-              ),
-            )));
+                )),
+            controller: _scrollController,
+          )),
+    );
   }
 
   Widget buildCategoryList(List<MyCategory> data) {
@@ -329,43 +349,42 @@ class _HomePageState extends State<HomePage> {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              if (index == 0) {
-                return Container(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 30,
-                        width: 4,
-                        decoration: BoxDecoration(
-                            color: ThemeColors.primaryColor,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(LocaleKeys.spheresList.tr(), //title Сферы
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w600))
-                          .tr(),
-                      Spacer(),
-                    ],
-                  ),
-                );
-              }
+              // if (index == 0) {
+              //   return Container(
+              //     padding: EdgeInsets.all(10),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       children: <Widget>[
+              //         Container(
+              //           height: 30,
+              //           width: 4,
+              //           decoration: BoxDecoration(
+              //               color: ThemeColors.primaryColor,
+              //               borderRadius: BorderRadius.circular(10)),
+              //         ),
+              //         SizedBox(
+              //           width: 5,
+              //         ),
+              //         Text(LocaleKeys.spheresList.tr(), //title Сферы
+              //                 style: TextStyle(
+              //                     fontSize: 18,
+              //                     color: Colors.black87,
+              //                     fontWeight: FontWeight.w600))
+              //             .tr(),
+              //         Spacer(),
+              //       ],
+              //     ),
+              //   );
+              // }
               return Sphere(
                 categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
                 data: data,
-                index: index - 1,
+                index: index,
               );
             },
-            childCount: data.length + 1,
+            childCount: data.length,
           ),
         ),
-        ReacentHome()
       ]),
     );
   }
