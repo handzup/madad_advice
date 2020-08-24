@@ -64,7 +64,6 @@ class SignUpBloc extends ChangeNotifier {
   Future<String> sendVerificationCode(String phone) async {
     final result = await apiService.fetchGetSmsCode(
         reqUrl: '$restUrl/mobapi.checktelephone', phoneNumber: phone);
-
     var code = result['result']['code'].toString();
     return code;
   }
@@ -77,7 +76,7 @@ class SignUpBloc extends ChangeNotifier {
   }
 
   final firebaseBloc = FirebaseBloc();
-  Future<bool> recoverPass({String pass}) async {
+  Future<bool> recoverPass({String pass,String confirmPass}) async {
     return await Future.delayed(Duration(milliseconds: 1000))
         .then((value) => true);
   }

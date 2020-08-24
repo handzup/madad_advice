@@ -101,3 +101,5 @@ noSuchNumber,There is no such number in the system,Нет такого номе�
 restorePass,Restore password,Восстановить пароль,Паролни тиклаш
 createNewPass,Create a new password,Придумайте новый пароль,Янги парол яратинг
 errDuringRecoverPass,An error occurred while recovering your password,Произошла ошибка при восстановлении пароля,Паролингизни тиклашда хатолик юз берди
+reEnterPassword,Confirm password,Повторите пароль,Паролни қайта киритинг
+passMissmatch,Password mismatch,Пароли не совпадают,Пароллар мос келмаяпти

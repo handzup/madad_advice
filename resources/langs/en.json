@@ -100,5 +100,7 @@
     "noSuchNumber": "There is no such number in the system",
     "restorePass": "Restore password",
     "createNewPass": "Create a new password",
-    "errDuringRecoverPass": "An error occurred while recovering your password"
+    "errDuringRecoverPass": "An error occurred while recovering your password",
+    "reEnterPassword": "Confirm password",
+    "passMissmatch": "Password mismatch"
 }

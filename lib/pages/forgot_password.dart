@@ -30,6 +30,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   var formKeyValidateCode = GlobalKey<FormState>();
   var formKeyRegister = GlobalKey<FormState>();
   String _pass;
+  String _uPassComfirm;
 
   var _scaffoldKey = GlobalKey<ScaffoldState>();
   var phoneNumberCtrl = TextEditingController();
@@ -413,7 +414,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
             TextFormField(
               obscureText: offsecureText,
-
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                     icon: lockIcon,
@@ -438,6 +438,35 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               onChanged: (String value) {
                 setState(() {
                   _pass = value;
+                });
+              },
+            ),
+            TextFormField(
+              obscureText: offsecureText,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                    icon: lockIcon,
+                    onPressed: () {
+                      lockPressed();
+                    }),
+
+                labelText: LocaleKeys.reEnterPassword.tr(),
+                hintText: LocaleKeys.reEnterPassword.tr(),
+                //prefixIcon: Icon(Icons.vpn_key),
+              ),
+              //controller: passCtrl,
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.passwordCantBe.tr();
+                }
+                if (_pass != value) {
+                  return LocaleKeys.passMissmatch.tr();
+                }
+                return null;
+              },
+              onChanged: (String value) {
+                setState(() {
+                  _uPassComfirm = value;
                 });
               },
             ),
@@ -483,6 +512,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         });
         if (await signUp.recoverPass(
           pass: _pass,
+          confirmPass: _uPassComfirm
         )) {
           setState(() {
             signUpCompleted = true;

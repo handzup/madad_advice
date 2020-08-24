@@ -116,7 +116,9 @@ class CodegenLoader extends AssetLoader{
   "noSuchNumber": "Нет такого номера в системе",
   "restorePass": "Восстановить пароль",
   "createNewPass": "Придумайте новый пароль",
-  "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля"
+  "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля",
+  "reEnterPassword": "Повторите пароль",
+  "passMissmatch": "Пароли не совпадают"
 };
 static const Map<String,dynamic> en = {
   "spheresList": "List of spheres",
@@ -220,7 +222,9 @@ static const Map<String,dynamic> en = {
   "noSuchNumber": "There is no such number in the system",
   "restorePass": "Restore password",
   "createNewPass": "Create a new password",
-  "errDuringRecoverPass": "An error occurred while recovering your password"
+  "errDuringRecoverPass": "An error occurred while recovering your password",
+  "reEnterPassword": "Confirm password",
+  "passMissmatch": "Password mismatch"
 };
 static const Map<String,dynamic> uz_UZ = {
   "spheresList": "Сохалар рўйхати",
@@ -324,7 +328,9 @@ static const Map<String,dynamic> uz_UZ = {
   "noSuchNumber": "Тизимда бундай рақам ёъқ",
   "restorePass": "Паролни тиклаш",
   "createNewPass": "Янги парол яратинг",
-  "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди"
+  "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди",
+  "reEnterPassword": "Паролни қайта киритинг",
+  "passMissmatch": "Пароллар мос келмаяпти"
 };
 static const Map<String,dynamic> ru_RU = {
   "spheresList": "Список сфер",
@@ -428,7 +434,9 @@ static const Map<String,dynamic> ru_RU = {
   "noSuchNumber": "Нет такого номера в системе",
   "restorePass": "Восстановить пароль",
   "createNewPass": "Придумайте новый пароль",
-  "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля"
+  "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля",
+  "reEnterPassword": "Повторите пароль",
+  "passMissmatch": "Пароли не совпадают"
 };
 static const Map<String,dynamic> uz = {
   "spheresList": "Сохалар рўйхати",
@@ -532,7 +540,9 @@ static const Map<String,dynamic> uz = {
   "noSuchNumber": "Тизимда бундай рақам ёъқ",
   "restorePass": "Паролни тиклаш",
   "createNewPass": "Янги парол яратинг",
-  "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди"
+  "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди",
+  "reEnterPassword": "Паролни қайта киритинг",
+  "passMissmatch": "Пароллар мос келмаяпти"
 };
 static const Map<String,dynamic> en_US = {
   "spheresList": "List of spheres",
@@ -636,7 +646,9 @@ static const Map<String,dynamic> en_US = {
   "noSuchNumber": "There is no such number in the system",
   "restorePass": "Restore password",
   "createNewPass": "Create a new password",
-  "errDuringRecoverPass": "An error occurred while recovering your password"
+  "errDuringRecoverPass": "An error occurred while recovering your password",
+  "reEnterPassword": "Confirm password",
+  "passMissmatch": "Password mismatch"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz_UZ": uz_UZ, "ru_RU": ru_RU, "uz": uz, "en_US": en_US};
 }

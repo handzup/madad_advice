@@ -100,5 +100,7 @@
     "noSuchNumber": "Нет такого номера в системе",
     "restorePass": "Восстановить пароль",
     "createNewPass": "Придумайте новый пароль",
-    "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля"
+    "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля",
+    "reEnterPassword": "Повторите пароль",
+    "passMissmatch": "Пароли не совпадают"
 }

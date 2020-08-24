@@ -103,5 +103,7 @@ abstract class  LocaleKeys {
   static const restorePass = 'restorePass';
   static const createNewPass = 'createNewPass';
   static const errDuringRecoverPass = 'errDuringRecoverPass';
+  static const reEnterPassword = 'reEnterPassword';
+  static const passMissmatch = 'passMissmatch';
 
 }

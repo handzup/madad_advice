@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/config.dart';
+import 'package:madad_advice/models/icons_data.dart';
 import 'package:madad_advice/pages/data_usage.dart';
 import 'package:madad_advice/pages/language.dart';
 import 'package:madad_advice/pages/sign_in.dart';
@@ -329,11 +330,12 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
   String uName;
   String uLastName;
   String uPass;
+  String uPassComfirm;
   String uEmail;
   final _cuperScffold = GlobalKey<ScaffoldState>();
   String phoneNumberMasked;
   String phoneNumber;
-
+  bool offsecureText = true;
   var phoneCtrl = TextEditingController();
   var label = LocaleKeys.phoneNumber.tr();
   String prefix = '+';
@@ -359,6 +361,22 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
     });
   }
 
+  Icon lockIcon = LockIcon().lock;
+
+  void lockPressed() {
+    if (offsecureText == true) {
+      setState(() {
+        offsecureText = false;
+        lockIcon = LockIcon().open;
+      });
+    } else {
+      setState(() {
+        offsecureText = true;
+        lockIcon = LockIcon().lock;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ub = Provider.of<UserBloc>(context);
@@ -378,7 +396,7 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                 context: context,
                 builder: (context) => CupertinoAlertDialog(
                       title: Text(
-                       LocaleKeys.cancelChanges.tr(),
+                        LocaleKeys.cancelChanges.tr(),
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       actions: <Widget>[
@@ -521,7 +539,14 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                       ),
                       TextFormField(
                         enabled: !ub.inProgress,
+                        obscureText: offsecureText,
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              icon: lockIcon,
+                              onPressed: () {
+                                lockPressed();
+                              }),
+
                           labelText: LocaleKeys.enterPassword.tr(),
                           hintText: LocaleKeys.enterPassword.tr(),
                           //prefixIcon: Icon(Icons.vpn_key),
@@ -536,6 +561,35 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                         onChanged: (String value) {
                           setState(() {
                             uPass = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        enabled: !ub.inProgress,
+                        obscureText: offsecureText,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              icon: lockIcon,
+                              onPressed: () {
+                                lockPressed();
+                              }),
+
+                          labelText: LocaleKeys.reEnterPassword.tr(),
+                          hintText: LocaleKeys.reEnterPassword.tr(),
+                          //prefixIcon: Icon(Icons.vpn_key),
+                        ),
+                        //controller: passCtrl,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.passwordCantBe.tr();
+                          }if(uPass != value){
+                            return LocaleKeys.passMissmatch.tr();
+                          }
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          setState(() {
+                            uPassComfirm = value;
                           });
                         },
                       ),
@@ -567,14 +621,14 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                         autocorrect: false,
                         validator: (String value) {
                           if (value.isEmpty) {
-                            return 'Номер телефона не может быть пустым!';
+                            return LocaleKeys.phoneNumCantBe.tr();
                           } else {
                             if (value.length >= 8) {
                               if (phoneExists) {
-                                return 'Такой номер уже зарегистрирован в системе';
+                                return LocaleKeys.phNumAlrdyRegistered.tr();
                               }
                             } else {
-                              return 'Введите корректный номер';
+                              return LocaleKeys.enterCorrectPhNum.tr();
                             }
                           }
 
