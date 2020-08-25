@@ -175,7 +175,9 @@ class ApiService {
 
   Future<APIResponse<SphereModel>> fetchApiGetRecent() async {
     try {
-      return dio.get('$restUrl/mobapi.lastelements?lang=${lang.lang.toString()}').then((result) {
+      return dio
+          .get('$restUrl/mobapi.lastelements?lang=${lang.lang.toString()}')
+          .then((result) {
         if (result.statusCode != 200) {
           return APIResponse<SphereModel>(
               error: true, errorMessage: 'Service error');
@@ -340,7 +342,7 @@ class ApiService {
           return APIResponse(data: User(), error: true);
         }
         return APIResponse(data: User.fromJson(result.data['result']));
-      }).catchError((onError)=>APIResponse(data: User(), error: true));
+      }).catchError((onError) => APIResponse(data: User(), error: true));
     } catch (e) {
       return APIResponse(data: User(), error: true);
     }
@@ -461,17 +463,31 @@ class ApiService {
     return response.data;
   }
 
-  Future fetchGetSmsCode({String reqUrl, String phoneNumber}) async {
+  Future<APIResponse<String>> fetchGetSmsCode({String phoneNumber}) async {
     var formData = FormData.fromMap({
       'telephone': phoneNumber,
       'withsms': 'Y',
     });
-    var response = await dio.post(reqUrl, data: formData);
-
-    if (response.statusCode != 200) {
-      throw 'Err';
+    try {
+      return dio
+          .post('$restUrl//mobapi.checktelephone', data: formData)
+          .then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse(data: null, error: true);
+        }
+        if (result.data['result']['code'] != null) {
+          var code = result.data['result']['code'].toString();
+          return APIResponse(data: code);
+        }
+        return APIResponse(data: null, error: true, errorMessage: 'err');
+      }).catchError((onError) {
+        if (onError is DioError) {
+          return APIResponse(data: null, errorMessage: 'internet', error: true);
+        }
+        return APIResponse(data: null, error: true);
+      });
+    } catch (e) {
+      return APIResponse(data: null, error: true);
     }
-
-    return response.data;
   }
 }

@@ -183,7 +183,7 @@ class _SignUpPageState extends State<SignUpPage> {
               animationDuration: Duration(milliseconds: 300),
               validator: (v) {
                 if (v.length != 6) {
-                  return  LocaleKeys.enterVerificationCode.tr();
+                  return LocaleKeys.enterVerificationCode.tr();
                 } else {
                   if (hasError) {
                     return LocaleKeys.incorrectCode.tr();
@@ -238,7 +238,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   color: ThemeColors.primaryColor,
                   child: signUpStarted == false
                       ? Text(
-                         LocaleKeys.next.tr(),  // LocaleKeys.signUp.tr(),
+                          LocaleKeys.next.tr(), // LocaleKeys.signUp.tr(),
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         )
                       : signUpCompleted == false
@@ -427,7 +427,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   }),
             ),
             Text(
-             LocaleKeys.fillReqFields.tr() ,
+              LocaleKeys.fillReqFields.tr(),
               softWrap: true,
               textAlign: TextAlign.center,
             ),
@@ -511,7 +511,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   if (value.length >= 8) {
                     return null;
                   }
-                  return  LocaleKeys.minPasslength.tr();
+                  return LocaleKeys.minPasslength.tr();
                 }
                 return LocaleKeys.passwordCantBe.tr();
               },
@@ -615,12 +615,21 @@ class _SignUpPageState extends State<SignUpPage> {
         });
         if (await signUp.checkPhone(phoneNumber)) {
           var code = await signUp.sendVerificationCode(phoneNumber);
-          setState(() {
-            signUpCompleted = true;
-            smsCode = code;
-          });
-          await _controller.nextPage(
-              duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+          if (code == null) {
+            setState(() {
+              hasError = true;
+              signUpStarted = false;
+            });
+            openSnacbarQ(_scaffoldKey, LocaleKeys.serviceUnavailable.tr(),
+                alert: true);
+          } else {
+            setState(() {
+              signUpCompleted = true;
+              smsCode = code;
+            });
+            await _controller.nextPage(
+                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+          }
         } else {
           setState(() {
             phoneExists = true;
@@ -631,6 +640,4 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     }
   }
-
-
 }
