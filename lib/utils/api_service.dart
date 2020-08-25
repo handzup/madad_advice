@@ -319,7 +319,11 @@ class ApiService {
       'email': email,
       'login': phoneNumber,
       'password': password,
-      'photo': imageUrl != null ? MultipartFile.fromFile(imageUrl) : null
+      'photo': imageUrl != null
+          ? await MultipartFile.fromFile(
+              imageUrl,
+            )
+          : null
     });
     var formData = FormData.fromMap({
       'id': uid,
@@ -332,16 +336,20 @@ class ApiService {
 
     try {
       return dio
-          .post('$restUrl/mobapi.updateuser',
+          .post('$restUrl/mobapi.saveprofile',
               data: imageUrl == null ? formData : formDataHasPhoto)
           .then((result) {
         if (result.statusCode != 200) {
           return APIResponse(data: User(), error: true);
         }
         if (result.data['result'] is bool) {
-          return APIResponse(data: User(), error: true);
+          if (result.data['result']) {
+            return APIResponse(data: User());
+          } else {
+            return APIResponse(data: User(), error: true);
+          }
         }
-        return APIResponse(data: User.fromJson(result.data['result']));
+        return APIResponse(data: User(), error: true);
       }).catchError((onError) => APIResponse(data: User(), error: true));
     } catch (e) {
       return APIResponse(data: User(), error: true);
@@ -488,6 +496,59 @@ class ApiService {
       });
     } catch (e) {
       return APIResponse(data: null, error: true);
+    }
+  }
+
+  Future<APIResponse<User>> getUserDataFromApi({String uid}) async {
+    var formData = FormData.fromMap({
+      'uid': uid,
+    });
+    try {
+      return dio
+          .post('$restUrl/mobapi.getuserbyid', data: formData)
+          .then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<User>(error: true, errorMessage: 'Service error');
+        }
+        if ((result.data['result'] is String)) {
+          return APIResponse<User>(
+              error: true, errorMessage: 'Login or Password wrong');
+        }
+        var data = User.fromJson(result.data['result']);
+        return APIResponse<User>(data: data, error: false);
+      }).catchError((onError) => APIResponse<User>(error: true));
+    } catch (e) {
+      return APIResponse<User>(error: true);
+    }
+  }
+
+  Future<APIResponse<bool>> resetPasswordFromApi(
+      {String telephone, String pass, String comfrimPass}) async {
+    var formData = FormData.fromMap({
+      'telephone': telephone,
+      'password': pass,
+      'confirm_password': comfrimPass,
+    });
+    try {
+      return dio
+          .post('$restUrl/mobapi.changepassword', data: formData)
+          .then((result) {
+        if (result.statusCode != 200) {
+          return APIResponse<bool>(error: true, errorMessage: 'Service error');
+        }
+        if ((result.data['result'] is String)) {
+          return APIResponse<bool>(
+              error: true, errorMessage: 'Login or Password wrong');
+        }
+        if (result.data['result'] is bool) {
+          if (result.data['result']) {
+            return APIResponse<bool>(data: true, error: false);
+          }
+        }
+        return APIResponse<bool>(data: false, error: false);
+      }).catchError((onError) => APIResponse<User>(error: true));
+    } catch (e) {
+      return APIResponse<bool>(error: true);
     }
   }
 }

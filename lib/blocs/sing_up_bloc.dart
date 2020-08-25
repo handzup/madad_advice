@@ -8,6 +8,7 @@ import 'package:madad_advice/blocs/firebase_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/pages/home.dart';
+import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +59,6 @@ class SignUpBloc extends ChangeNotifier {
     if ((result['result'] is bool)) {
       return false;
     }
-
     return true;
   }
 
@@ -75,9 +75,11 @@ class SignUpBloc extends ChangeNotifier {
   }
 
   final firebaseBloc = FirebaseBloc();
-  Future<bool> recoverPass({String pass, String confirmPass}) async {
-    return await Future.delayed(Duration(milliseconds: 1000))
-        .then((value) => true);
+  Future<bool> recoverPass(
+      {String telephone, String pass, String confirmPass}) async {
+    var result = await apiService.resetPasswordFromApi(
+        telephone: telephone, comfrimPass: confirmPass, pass: pass);
+    return result.data;
   }
 
   Future<bool> register({
@@ -117,7 +119,8 @@ class SignUpBloc extends ChangeNotifier {
     await sharedPreferences.setString('lastName', _lastName);
     await sharedPreferences.setString('phone', _phone);
     await sharedPreferences.setString('email', _email);
-    await sharedPreferences.setString('image url', _imageUrl);
+    await sharedPreferences.setString(
+        'image url', _imageUrl != null ? '${Config().url}$_imageUrl' : null);
     await sharedPreferences.setString('uid', _uid);
   }
 

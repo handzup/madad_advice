@@ -14,7 +14,6 @@ final restUrl = Config().resturl;
 class SignInBloc extends ChangeNotifier {
   SignInBloc() {
     checkSignIn();
-    
   }
 
   //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -115,7 +114,8 @@ class SignInBloc extends ChangeNotifier {
     await sharedPreferences.setString('lastName', _lastName);
     await sharedPreferences.setString('phone', _phone);
     await sharedPreferences.setString('email', _email);
-    await sharedPreferences.setString('image url', _imageUrl);
+    await sharedPreferences.setString(
+        'image url', _imageUrl != null ? '${Config().url}$_imageUrl' : null);
     await sharedPreferences.setString('uid', _uid);
     await sharedPreferences.setBool('guest', false);
   }
@@ -162,7 +162,7 @@ class SignInBloc extends ChangeNotifier {
 
   void checkSignIn() async {
     final sp = await SharedPreferences.getInstance();
-     _uid = sp.getString('uid');
+    _uid = sp.getString('uid');
     _isSignedIn = sp.getBool('signed in') ?? false;
     notifyListeners();
   }

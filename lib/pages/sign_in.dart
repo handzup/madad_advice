@@ -95,7 +95,7 @@ class _SignInPageState extends State<SignInPage> {
             setState(() {
               signInStart = false;
               hasError = true;
-              phoneHas = !check.error;
+              phoneHas = !check.data;
             });
             formKey.currentState.validate();
             // openSnacbar(_scaffoldKey, sb.errorCode);

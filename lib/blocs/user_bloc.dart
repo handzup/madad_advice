@@ -33,7 +33,8 @@ class UserBloc extends ChangeNotifier {
   String get email => _email;
   String get uid => _uid;
   String get imageUrl => _imageUrl;
-
+  String get pickeImageUrl => _pickeImageUrl;
+  String _pickeImageUrl = null;
   bool _isGuest;
   bool get isGuest => _isGuest;
   getUserData() async {
@@ -54,18 +55,19 @@ class UserBloc extends ChangeNotifier {
     if (imagePath == null) {
       _hasError = true;
     } else {
-      _imageUrl = imagePath;
+      _pickeImageUrl = imagePath;
     }
     _hasError = false;
   }
-  setClose(bool cond){
+
+  setClose(bool cond) {
     _shouldClose = cond;
   }
+
   Future<bool> updateUserProfileApi(
       {String userName,
       String lastName,
       String email,
-      String imageUrl,
       String phoneNumber,
       String password}) async {
     _inProgress = true;
@@ -74,24 +76,27 @@ class UserBloc extends ChangeNotifier {
     notifyListeners();
     final SharedPreferences sp = await SharedPreferences.getInstance();
     await Future.delayed(Duration(milliseconds: 1000));
-    var uid =   sp.getString('uid');
-   var data =  await apiService
+    var uid = sp.getString('uid');
+    print(uid);
+    var data = await apiService
         .updateUser(
             uid: uid,
             userName: userName ?? _userName,
             email: email ?? _email,
-            imageUrl: _imageUrl,
+            imageUrl: _pickeImageUrl,
             lastName: lastName ?? _userLastName,
             phoneNumber: phoneNumber ?? _phone,
             password: password)
         .then((result) async {
+      _pickeImageUrl = null;
       if (!result.error) {
+        var userResult = await apiService.getUserDataFromApi(uid: uid);
         await updateUserData(
-            userName: result.data.name,
-            email: result.data.email,
-            imageUrl: result.data.photo,
-            lastName: result.data.lastname,
-            phoneNumber: result.data.login);
+            userName: userResult.data.name,
+            email: userResult.data.email,
+            imageUrl: userResult.data.photo,
+            lastName: userResult.data.lastname,
+            phoneNumber: userResult.data.login);
         _inProgress = false;
         _succes = true;
         return true;
@@ -129,7 +134,8 @@ class UserBloc extends ChangeNotifier {
       await sp.setString('email', email);
     }
     if (_imageUrl != null) {
-      await sp.setString('image url', imageUrl ?? Config().uri);
+      await sp.setString(
+          'image url', _imageUrl != null ? '${Config().url}/$imageUrl' : null);
     }
     if (phoneNumber != null) {
       await sp.setString('phone', phoneNumber);

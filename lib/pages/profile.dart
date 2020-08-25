@@ -390,7 +390,7 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
         final isIos = Theme.of(context).platform == TargetPlatform.iOS;
         final ub = Provider.of<UserBloc>(context);
         ub.setClose(false);
-        if (!ub.inProgress && !ub.succes) {
+        if (!ub.inProgress) {
           if (isIos) {
             await showCupertinoDialog(
                 context: context,
@@ -582,7 +582,8 @@ class _ModalInsideModalState extends State<ModalInsideModal> {
                         validator: (String value) {
                           if (value.isEmpty) {
                             return LocaleKeys.passwordCantBe.tr();
-                          }if(uPass != value){
+                          }
+                          if (uPass != value) {
                             return LocaleKeys.passMissmatch.tr();
                           }
                           return null;
