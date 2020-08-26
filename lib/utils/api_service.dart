@@ -109,7 +109,11 @@ class ApiService {
 
   Future<APIResponse<List<MyCategory>>> fetchApiGetCategories() async {
     try {
-      return dio.get('$restUrl/mobapi.getscopes').then((result) {
+      return dio
+          .get(
+        '$restUrl/mobapi.getscopes',
+      )
+          .then((result) {
         if (result.statusCode != 200) {
           return APIResponse<List<MyCategory>>(
               error: true, errorMessage: 'Service error');
@@ -120,9 +124,9 @@ class ApiService {
         });
         return APIResponse<List<MyCategory>>(data: data, error: false);
       }).catchError((onError) => APIResponse<List<MyCategory>>(
-            data: [],
-            error: false,
-          ));
+                data: [],
+                error: true,
+              ));
     } catch (e) {
       return APIResponse<List<MyCategory>>(error: true);
     }

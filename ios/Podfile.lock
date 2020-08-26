@@ -131,8 +131,6 @@ PODS:
     - GoogleUtilities/Logger
   - image_picker (0.0.1):
     - Flutter
-  - in_app_review (0.2.0):
-    - Flutter
   - move_to_background (0.0.1):
     - Flutter
   - nanopb (1.30905.0):
@@ -141,8 +139,6 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - open_file (0.0.1):
-    - Flutter
-  - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
@@ -205,10 +201,8 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - move_to_background (from `.symlinks/plugins/move_to_background/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
-  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
@@ -275,14 +269,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  in_app_review:
-    :path: ".symlinks/plugins/in_app_review/ios"
   move_to_background:
     :path: ".symlinks/plugins/move_to_background/ios"
   open_file:
     :path: ".symlinks/plugins/open_file/ios"
-  package_info:
-    :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   path_provider_linux:
@@ -348,11 +338,9 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 8a40cb194ad242b6f6dfe72c14fe40fc67c4dcd7
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
-  in_app_review: 4a97249f7a2f539a0f294c2d9196b7fe35e49541
   move_to_background: 39a5b79b26d577b0372cbe8a8c55e7aa9fcd3a2d
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
-  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
