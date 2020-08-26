@@ -59,6 +59,7 @@ dependencies:
   firebase_core: ^0.4.5
   file_picker: ^1.13.2
   flutter_phoenix: ^0.1.0
+  rate_my_app: ^0.7.0+1
   font_awesome_flutter:
     git:
       url: https://github.com/handzup/font_awesome_flutter.git

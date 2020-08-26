@@ -33,6 +33,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -42,6 +43,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  RateMyApp _rateMyApp = RateMyApp(
+    preferencesPrefix: 'rateMyApp_',
+    minDays: 5,
+    minLaunches: 5,
+    remindDays: 2,
+    remindLaunches: 2,
+  );
+
   int currentIndex = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -182,6 +191,13 @@ class _HomePageState extends State<HomePage> {
     _firebaseMessaging.getToken().then((String token) {
       assert(token != null);
       print('Push Messaging token: $token');
+    });
+    Future.delayed(Duration(seconds: 1)).then((_) {
+      _rateMyApp.init().then((_) async {
+        if (_rateMyApp.shouldOpenDialog) {
+          _rateMyApp.launchNativeReviewDialog();
+        }
+      });
     });
 
     super.initState();

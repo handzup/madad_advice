@@ -17,6 +17,10 @@
 			<string>en</string>
 			<string>nb</string>
 		</array>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>itms</string>
+		</array>
 		<key>CFBundleName</key>
 		<string>Advice Business</string>
 		<key>CFBundlePackageType</key>
