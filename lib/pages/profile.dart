@@ -263,7 +263,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Colors.grey[800]),
                               ),
                               onTap: () {
-                                nextScreen(context, LanguageView());
+                                //nextScreenLang(context, LanguageView());
+                                Navigator.push( context, CupertinoPageRoute( builder: (context) => LanguageView()), ).then((value) => setState(() {}));
                               },
                             ),
                           ),

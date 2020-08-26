@@ -89,7 +89,8 @@ class LanguageView extends StatelessWidget {
             lang.setLang(locale.languageCode);
             Provider.of<CategoryBloc>(context).getCategoryData(force: true);
             Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
-            Provider.of<SectionBloc>(context, listen: false).getSectionData(force: true);
+            Provider.of<SectionBloc>(context, listen: false)
+                .getSectionData(force: true);
             Navigator.pop(context);
             // nextScreenCloseOthers(context, HomePage());
           }),

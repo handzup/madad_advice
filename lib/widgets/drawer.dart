@@ -207,6 +207,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
       default:
     }
   }
+
   bool isShow(APIResponse<List<Menu>> response) {
     if (response == null) {
       return true;
@@ -428,24 +429,33 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Spacer(flex: 1,),
-                      sp.isSignedIn ? singOut() : singIn(context),
-                      Spacer(flex: 1 ,),
-                      kReleaseMode ? SizedBox.shrink() : ClipOval(
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                              splashColor: Colors.grey,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                child: Icon(FontAwesome.question_circle),
-                              ),
-                              onTap: () => nextScreen(
-                                  context,
-                                  LanguageView())),
-                        ),
+                      Spacer(
+                        flex: 1,
                       ),
+                      sp.isSignedIn ? singOut() : singIn(context),
+                      Spacer(
+                        flex: 1,
+                      ),
+                      kReleaseMode
+                          ? SizedBox.shrink()
+                          : ClipOval(
+                              child: Material(
+                                color: Colors.white,
+                                child: InkWell(
+                                    splashColor: Colors.grey,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Icon(FontAwesome.question_circle),
+                                    ),
+                                    onTap: () => Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  LanguageView()),
+                                        ).then((value) => setState(() {}))),
+                              ),
+                            ),
                       Spacer(),
                     ],
                   ),
