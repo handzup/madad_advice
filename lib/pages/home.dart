@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
+            sound: true, badge: true, alert: true, provisional: false));
     _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
       print('Settings registered: $settings');
