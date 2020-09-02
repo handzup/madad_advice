@@ -54,12 +54,12 @@ class SignUpBloc extends ChangeNotifier {
   String timestamp;
   var apiService = ApiService();
   Future<bool> checkPhone(String phone) async {
-    final result = await apiService
-        .fetch('$restUrl/mobapi.checktelephone?telephone=$phone');
-    if ((result['result'] is bool)) {
+    final result = await apiService.fetchApiCheckPhone(phone);
+    if (!result.error) {
+      return !result.data;
+    } else {
       return false;
     }
-    return true;
   }
 
   Future<String> sendVerificationCode(String phone) async {
@@ -77,8 +77,11 @@ class SignUpBloc extends ChangeNotifier {
   final firebaseBloc = FirebaseBloc();
   Future<bool> recoverPass(
       {String telephone, String pass, String confirmPass}) async {
-    var result = await apiService.resetPasswordFromApi(
+    final result = await apiService.resetPasswordFromApi(
         telephone: telephone, comfrimPass: confirmPass, pass: pass);
+    if (result.error) {
+      return false;
+    }
     return result.data;
   }
 

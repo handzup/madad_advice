@@ -118,9 +118,6 @@ flutter:
     - assets/madad-logo.png
     - assets/loader.flr
     - assets/loading_rainbow.flr
-    - assets/userJson.json
-    - assets/MOCK_DATA.json
-    - assets/jj.json
     - assets/localization/
     - resources/langs/
   fonts:

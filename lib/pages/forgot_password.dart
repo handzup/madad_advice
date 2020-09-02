@@ -546,7 +546,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         setState(() {
           signUpStarted = true;
         });
-        if (await signUp.checkPhone(phoneNumber)) {
+        if (!await signUp.checkPhone(phoneNumber)) {
           var code = await signUp.sendVerificationCode(phoneNumber);
           setState(() {
             signUpCompleted = true;

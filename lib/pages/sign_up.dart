@@ -623,10 +623,13 @@ class _SignUpPageState extends State<SignUpPage> {
             openSnacbarQ(_scaffoldKey, LocaleKeys.serviceUnavailable.tr(),
                 alert: true);
           } else {
-            setState(() {
-              signUpCompleted = true;
-              smsCode = code;
-            });
+            if (mounted) {
+              setState(() {
+                signUpCompleted = true;
+                smsCode = code;
+              });
+            }
+
             await _controller.nextPage(
                 duration: Duration(milliseconds: 300), curve: Curves.easeIn);
           }

@@ -33,17 +33,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final List subtitles = [
-    Config().email,
-    'Rate this app on Google Play',
-    'App details',
-    'Get source code of app and admin panel'
-  ];
-
-  // final FirebaseAuth auth = FirebaseAuth.instance;
-  // final GoogleSignIn googleSignIn = GoogleSignIn();
-  //final FacebookLogin fbLogin = new FacebookLogin();
-
   handleLogout() async {
     final SignInBloc sb = Provider.of<SignInBloc>(context);
 
@@ -106,26 +95,6 @@ class _ProfilePageState extends State<ProfilePage> {
             );
           }
         });
-  }
-
-  openAboutDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AboutDialog(
-            applicationName: Config().appName,
-            applicationIcon: Image(
-              image: AssetImage(Config().splashIcon),
-              height: 30,
-              width: 30,
-            ),
-          );
-        });
-  }
-
-  openEmailPopup() async {
-    await launch(
-        'mailto:${Config().email}?subject=About ${Config().appName} App&body=');
   }
 
   bool checkUrl(url) {
@@ -264,7 +233,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               onTap: () {
                                 //nextScreenLang(context, LanguageView());
-                                Navigator.push( context, CupertinoPageRoute( builder: (context) => LanguageView()), ).then((value) => setState(() {}));
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => LanguageView()),
+                                ).then((value) => setState(() {}));
                               },
                             ),
                           ),

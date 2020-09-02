@@ -330,7 +330,7 @@ class ApiService {
           : null
     });
     var formData = FormData.fromMap({
-      'id': uid,
+      'uid': uid,
       'name': userName,
       'last_name': lastName,
       'email': email,
@@ -550,7 +550,7 @@ class ApiService {
           }
         }
         return APIResponse<bool>(data: false, error: false);
-      }).catchError((onError) => APIResponse<User>(error: true));
+      }).catchError((onError) => APIResponse<bool>(error: true));
     } catch (e) {
       return APIResponse<bool>(error: true);
     }
