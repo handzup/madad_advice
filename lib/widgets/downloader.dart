@@ -98,13 +98,19 @@ class _DownloaderState extends State<Downloader> {
 
   void showDownloadProgress(received, total) {
     if (total != -1) {
-      var a = (received / total * 100);
-      if (a == 100) {
+      var a = (received / total * 100) / 100;
+      if (a == 1.0) {
         setState(() {
           complete = true;
           percent = a;
           inProgress = false;
         });
+      } else {
+        if (mounted) {
+          setState(() {
+            percent = a;
+          });
+        }
       }
     }
   }
@@ -185,7 +191,7 @@ class _DownloaderState extends State<Downloader> {
         trailing: GestureDetector(
           onTap: () {
             setState(() {
-              percent += 0.05;
+              percent += 0.005;
             });
           },
           child: FaIcons(

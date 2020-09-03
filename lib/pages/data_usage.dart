@@ -88,7 +88,7 @@ class DataUsage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               content: Text(
-                '${LocaleKeys.rlyClearDb.tr()}?',
+                '${LocaleKeys.rlyClearDb.tr()}',
                 style: TextStyle(fontSize: 12),
               ),
               actions: <Widget>[
@@ -115,7 +115,7 @@ class DataUsage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               content: Text(
-                 '${LocaleKeys.rlyClearDb.tr()}?',
+                 '${LocaleKeys.rlyClearDb.tr()}',
                 style: TextStyle(fontSize: 14),
               ),
               actions: <Widget>[
