@@ -1,14 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
-import 'package:madad_advice/blocs/popular_bloc.dart';
 import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/blocs/search_bloc.dart';
 import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/menu.dart';
 import 'package:madad_advice/models/search_result.dart';
-import 'package:madad_advice/pages/details.dart';
 import 'package:madad_advice/pages/details_from_search.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +27,6 @@ class _SearchPageState extends State<SearchPage> {
   DateFormat format = DateFormat('dd.MM.yyyy');
   @override
   Widget build(BuildContext context) {
-    final pb = Provider.of<RecentDataBloc>(context);
     final searchBloc = Provider.of<SearchBloc>(context);
 
     return Scaffold(
@@ -142,7 +137,8 @@ class _SearchPageState extends State<SearchPage> {
                                   Spacer(),
                                   Container(
                                     child: Text(
-                                      pb.recentData.data.elements[index].preview_text
+                                      pb.recentData.data.elements[index]
+                                          .preview_text
                                           .replaceAll(
                                               RegExp(
                                                   '(&[A-Za-z]+?;)|(<.+?>)|([\w-]+)'),
@@ -189,6 +185,7 @@ class _SearchPageState extends State<SearchPage> {
           height: 10,
         );
       },
+      // ignore: missing_return
       itemBuilder: (BuildContext context, int index) {
         if (ableToshow(pb.searchData[index])) {
           return AnimationConfiguration.staggeredList(

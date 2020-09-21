@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/models/section.dart';
-import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/empty.dart';
 import 'package:madad_advice/widgets/section_sections.dart';
 import 'package:madad_advice/widgets/service_error_snackbar.dart';
@@ -21,7 +18,6 @@ class SectionPage extends StatefulWidget {
 }
 
 class _SectionPageState extends State<SectionPage> {
-  APIResponse<List<Section>> _apiResponse;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {

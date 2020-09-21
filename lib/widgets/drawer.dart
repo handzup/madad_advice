@@ -9,12 +9,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
+import 'package:madad_advice/blocs/soc_links_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/menu.dart';
 import 'package:madad_advice/pages/category_page.dart';
-import 'package:madad_advice/pages/help_page.dart';
 import 'package:madad_advice/pages/language.dart';
 import 'package:madad_advice/pages/profile.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
@@ -25,11 +24,13 @@ import 'package:madad_advice/pages/welcome_page.dart';
 import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:madad_advice/utils/next_screen.dart';
+import 'package:madad_advice/widgets/expandable.dart';
 import 'package:madad_advice/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../styles.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -46,6 +47,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
     return url != null ? url.contains('http') : false;
   }
 
+  bool isExpanded = false;
   @override
   initState() {
     Future.delayed(Duration(milliseconds: 0)).then((_) {
@@ -60,6 +62,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
     final ib = Provider.of<InternetBloc>(context);
 
     await ib.checkInternet();
+    // ignore: unnecessary_statements
     ib.hasInternet ? setData() : null;
   }
 
@@ -180,34 +183,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
         });
   }
 
-  void exitFromApp() async {
-    await MoveToBackground.moveTaskToBack();
-  }
-
-  void pageNavigator(String page) {
-    switch (page.replaceAll(RegExp('/'), '')) {
-      case 'sfery':
-        nextScreen(context, CategoryPage());
-        break;
-      case 'settings':
-        nextScreen(context, ProfilePage());
-        break;
-      case 'sections':
-        nextScreen(context, SectionPage());
-        break;
-      case 'history':
-        nextScreen(context, ViewedArticles()); //WebViewExample()
-        break;
-      case 'question':
-        nextScreen(context, QandAPage());
-        break;
-      case 'exit':
-        exitFromApp();
-        break;
-      default:
-    }
-  }
-
   bool isShow(APIResponse<List<Menu>> response) {
     if (response == null) {
       return true;
@@ -221,7 +196,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
     final cb = Provider.of<DrawerMenuBloc>(context);
 
     setState(() {
@@ -229,6 +203,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
     });
     _apiResponse != null
         ? _apiResponse.data.sort((a, b) => a.sort.compareTo(b.sort))
+        // ignore: unnecessary_statements
         : null;
     final ub = Provider.of<UserBloc>(context);
     final sp = Provider.of<SignInBloc>(context);
@@ -298,78 +273,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     Spacer(
                       flex: 3,
                     ),
-                    Container(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Spacer(),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(26),
-                            child: Container(
-                                width: 45,
-                                height: 45,
-                                child: Icon(
-                                  FontAwesome.facebook,
-                                  size: 20,
-                                  color: Colors.white,
-                                )),
-                            onTap: () {},
-                          ),
-                          Spacer(),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(26),
-                            child: Container(
-                                width: 45,
-                                height: 45,
-                                child: Icon(
-                                  FontAwesome.instagram,
-                                  size: 20,
-                                  color: Colors.white,
-                                )),
-                            onTap: () {},
-                          ),
-                          Spacer(),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(26),
-                            child: Container(
-                                width: 45,
-                                height: 45,
-                                child: Icon(
-                                  FontAwesome.twitter,
-                                  size: 20,
-                                  color: Colors.white,
-                                )),
-                            onTap: () {},
-                          ),
-                          Spacer(),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(26),
-                            child: Container(
-                                width: 45,
-                                height: 45,
-                                child: Icon(
-                                  FontAwesome.youtube_play,
-                                  size: 20,
-                                  color: Colors.white,
-                                )),
-                            onTap: () => print("youtube_play"),
-                          ),
-                          Spacer(),
-                          InkWell(
-                              borderRadius: BorderRadius.circular(26),
-                              child: Container(
-                                  width: 45,
-                                  height: 45,
-                                  child: Icon(
-                                    FontAwesome.telegram,
-                                    size: 20,
-                                    color: Colors.white,
-                                  )),
-                              onTap: () => print("telegram")),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
+                    _socMedia(context),
                     Spacer(
                       flex: 1,
                     ),
@@ -378,47 +282,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           SearchBar(),
           Flexible(
-            child: isShow(_apiResponse)
-                ? Container()
-                : ListView.builder(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(0),
-                    itemCount: _apiResponse.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (!isIos || _apiResponse.data[index].path != 'exit')
-                        return ListTile(
-                          title: Text(
-                            _apiResponse.data[index].title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                color: Colors.grey[700]),
-                          ),
-                          leading: CircleAvatar(
-                              backgroundColor: Colors.white12,
-                              child: Container(
-                                width: double.infinity,
-                                height: double.infinity,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.white,
-                                    border:
-                                        Border.all(color: Colors.grey[100])),
-                                child: FaIcons(
-                                  _apiResponse.data[index].icon.toString(),
-                                  color: Colors.blue.withOpacity(.4),
-                                  size: 20,
-                                ),
-                              )),
-                          onTap: () {
-                            Navigator.pop(context);
-                            pageNavigator(_apiResponse.data[index].path);
-                          },
-                        );
-                    },
-                  ),
-          ),
+              child: isShow(_apiResponse) ? Container() : buildList(context)),
           Container(
               color: Colors.grey[200],
               padding: EdgeInsets.all(5),
@@ -436,26 +300,26 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       Spacer(
                         flex: 1,
                       ),
-                      kReleaseMode
-                          ? SizedBox.shrink()
-                          : ClipOval(
-                              child: Material(
-                                color: Colors.white,
-                                child: InkWell(
-                                    splashColor: Colors.grey,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      child: Icon(FontAwesome.question_circle),
-                                    ),
-                                    onTap: () => Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                              builder: (context) =>
-                                                  LanguageView()),
-                                        ).then((value) => setState(() {}))),
+                      ClipOval(
+                        child: Material(
+                          color: Colors.white,
+                          child: InkWell(
+                              splashColor: Colors.grey,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Icon(Entypo.language),
                               ),
-                            ),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => LanguageView()),
+                                );
+                              }),
+                        ),
+                      ),
                       Spacer(),
                     ],
                   ),
@@ -465,5 +329,113 @@ class _DrawerMenuState extends State<DrawerMenu> {
         ],
       ),
     );
+  }
+
+  Widget buildList(context) {
+    bool isExpanded = false;
+    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    return ListView.builder(
+      physics: AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(0),
+      itemCount: _apiResponse.data.length,
+      // ignore: missing_return
+      itemBuilder: (BuildContext context, int index) {
+        if (!isIos || _apiResponse.data[index].path != 'exit')
+          return ExpandedList(
+            data: _apiResponse.data[index],
+          );
+      },
+    );
+  }
+}
+
+Widget _socMedia(context) {
+  final media = Provider.of<CosLinksBloc>(context);
+
+  return Container(
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Spacer(),
+        InkWell(
+          borderRadius: BorderRadius.circular(26),
+          child: Container(
+              width: 45,
+              height: 45,
+              child: Icon(
+                FontAwesome.facebook,
+                size: 20,
+                color: Colors.white,
+              )),
+          onTap: () {
+            _launchURL(media.media.facebook);
+          },
+        ),
+        Spacer(),
+        InkWell(
+          borderRadius: BorderRadius.circular(26),
+          child: Container(
+              width: 45,
+              height: 45,
+              child: Icon(
+                FontAwesome.instagram,
+                size: 20,
+                color: Colors.white,
+              )),
+          onTap: () {
+            _launchURL(media.media.instagram);
+          },
+        ),
+        Spacer(),
+        InkWell(
+          borderRadius: BorderRadius.circular(26),
+          child: Container(
+              width: 45,
+              height: 45,
+              child: Icon(
+                FontAwesome.twitter,
+                size: 20,
+                color: Colors.white,
+              )),
+          onTap: () {
+            _launchURL(media.media.twitter);
+          },
+        ),
+        Spacer(),
+        InkWell(
+          borderRadius: BorderRadius.circular(26),
+          child: Container(
+              width: 45,
+              height: 45,
+              child: Icon(
+                FontAwesome.youtube_play,
+                size: 20,
+                color: Colors.white,
+              )),
+          onTap: () => _launchURL(media.media.youtubel),
+        ),
+        Spacer(),
+        InkWell(
+            borderRadius: BorderRadius.circular(26),
+            child: Container(
+                width: 45,
+                height: 45,
+                child: Icon(
+                  FontAwesome.telegram,
+                  size: 20,
+                  color: Colors.white,
+                )),
+            onTap: () => _launchURL(media.media.telegram)),
+        Spacer(),
+      ],
+    ),
+  );
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

@@ -164,7 +164,6 @@ class _SignInPageState extends State<SignInPage> {
                   if (phoneHas) return 'Не правильный номер';
                   return null;
                 }
-                ;
                 return LocaleKeys.emailcant.tr();
               },
               onChanged: (String value) {
@@ -209,7 +208,6 @@ class _SignInPageState extends State<SignInPage> {
                   if (hasError) return 'Не правильный пароль';
                   return null;
                 }
-                ;
                 return LocaleKeys.passwordCantBe.tr();
               },
               onChanged: (String value) {

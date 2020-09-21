@@ -7,7 +7,6 @@ import 'package:madad_advice/blocs/search_bloc.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/pinned_file.dart';
 import 'package:madad_advice/models/scope.dart';
-import 'package:madad_advice/models/sphere_articel.dart';
 import 'package:madad_advice/pages/comments.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:madad_advice/utils/next_screen.dart';
@@ -477,7 +476,12 @@ class _DetailsFromSearchPageState extends State<DetailsFromSearchPage> {
                                 label: Text(LocaleKeys.comments.tr(),
                                     style: TextStyle(color: Colors.black87)),
                                 onPressed: () {
-                                  nextScreen(context, CommentsPage(code: article.article.code,topicId: article.article.forum_topic_id,));
+                                  nextScreen(
+                                      context,
+                                      CommentsPage(
+                                        code: article.article.code,
+                                        topicId: article.article.forum_topic_id,
+                                      ));
                                 },
                               )
                             ],

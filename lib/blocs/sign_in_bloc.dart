@@ -129,7 +129,7 @@ class SignInBloc extends ChangeNotifier {
   handleBack(context) async {
     final ub = Provider.of<UserBloc>(context);
     Navigator.pop(context);
-    await checkSignIn();
+    checkSignIn();
     ub.getUserData();
     notifyListeners();
   }

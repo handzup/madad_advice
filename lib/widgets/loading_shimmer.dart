@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../styles.dart';
-
+ 
 class FeaturedLoadingWidget extends StatelessWidget {
   const FeaturedLoadingWidget({Key key}) : super(key: key);
 

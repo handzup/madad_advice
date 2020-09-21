@@ -7,9 +7,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:madad_advice/blocs/articel_bloc.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/sphere.dart';
-import 'package:madad_advice/models/sphere_articel.dart';
 import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/empty.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/service_error_snackbar.dart';
@@ -64,8 +62,6 @@ class _CategoryItemPageState extends State<CategoryItemPage> {
     }
     return null;
   }
-
-
 
   Future<bool> clear() async {
     Provider.of<ArticleBloc>(context, listen: false).clearData();

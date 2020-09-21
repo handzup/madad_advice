@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/langs.dart';
-import 'dart:convert';
 import 'package:madad_advice/models/menu.dart';
 
 import 'package:madad_advice/utils/api_response.dart';

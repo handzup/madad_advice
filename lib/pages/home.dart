@@ -14,18 +14,14 @@ import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/recived_notification.dart';
-import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/api_service.dart';
-import 'package:madad_advice/utils/locator.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/drawer.dart';
 import 'package:madad_advice/widgets/loading_shimmer.dart';
+import 'package:madad_advice/widgets/main_page_block.dart';
 import 'package:madad_advice/widgets/reacent_home.dart';
-import 'package:madad_advice/widgets/recent_news.dart';
 import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:madad_advice/widgets/sphere.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
@@ -62,7 +58,6 @@ class _HomePageState extends State<HomePage> {
   final BehaviorSubject<String> selectNotificationSubject =
       BehaviorSubject<String>();
 
-  APIResponse<List<MyCategory>> _apiResponse;
   Widget snackBar({bool serviceError = false}) {
     return SnackBar(
       duration: Duration(minutes: 1),
@@ -124,14 +119,12 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> message) async {
     if (message.containsKey('data')) {
       // Handle data message
-      final dynamic data = message['data'];
       print('data 222');
     }
 
     if (message.containsKey('notification')) {
       print('noti 222');
       // Handle notification message
-      final dynamic notification = message['notification'];
     }
     print('data default');
     // Or do other work.
@@ -222,7 +215,7 @@ class _HomePageState extends State<HomePage> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
-      await nextScreen(context, QandAPage());
+      nextScreen(context, QandAPage());
     });
   }
 
@@ -235,6 +228,7 @@ class _HomePageState extends State<HomePage> {
     ib.checkInternet();
     ib.hasInternet == false
         ? _scaffoldKey.currentState.showSnackBar(snackBar())
+        // ignore: unnecessary_statements
         : null;
     final cb = Provider.of<CategoryBloc>(context);
     await Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
@@ -365,40 +359,16 @@ class _HomePageState extends State<HomePage> {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              // if (index == 0) {
-              //   return Container(
-              //     padding: EdgeInsets.all(10),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: <Widget>[
-              //         Container(
-              //           height: 30,
-              //           width: 4,
-              //           decoration: BoxDecoration(
-              //               color: ThemeColors.primaryColor,
-              //               borderRadius: BorderRadius.circular(10)),
-              //         ),
-              //         SizedBox(
-              //           width: 5,
-              //         ),
-              //         Text(LocaleKeys.spheresList.tr(), //title Сферы
-              //                 style: TextStyle(
-              //                     fontSize: 18,
-              //                     color: Colors.black87,
-              //                     fontWeight: FontWeight.w600))
-              //             .tr(),
-              //         Spacer(),
-              //       ],
-              //     ),
-              //   );
-              // }
-              return Sphere(
-                categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
-                data: data,
-                index: index,
-              );
+              // return Sphere(
+              //   categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
+              //   data: data,
+              //   index: index,
+              // );
+              return MainPageBlock();
             },
-            childCount: data.length,
+            childCount: 2,
+
+            ///sda
           ),
         ),
       ]),

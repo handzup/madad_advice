@@ -9,6 +9,7 @@ import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/menu.dart';
 import 'package:madad_advice/models/question.dart';
 import 'package:madad_advice/models/section.dart';
+import 'package:madad_advice/models/social.dart';
 import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/models/user.dart';
 import 'package:madad_advice/utils/api_response.dart';
@@ -524,6 +525,18 @@ class ApiService {
     } catch (e) {
       return APIResponse<User>(error: true);
     }
+  }
+
+  Future<APIResponse<SocMedia>> getLinks() {
+    return dio.get('$restUrl/mobapi.getsoclinks').then((result) {
+      if (result.statusCode != 200) {
+        return APIResponse<SocMedia>(
+            error: true, errorMessage: 'Service error');
+      }
+      final data = SocMedia.fromJson(result.data['result']);
+
+      return APIResponse<SocMedia>(data: data, error: false);
+    }).catchError((onError) => APIResponse<SocMedia>(error: true));
   }
 
   Future<APIResponse<bool>> resetPasswordFromApi(

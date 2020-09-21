@@ -58,7 +58,6 @@ dependencies:
   rxdart: ^0.24.1
   firebase_core: ^0.4.5
   file_picker: ^1.13.2
-  flutter_phoenix: ^0.1.0
   rate_my_app: ^0.7.0+1
   font_awesome_flutter:
     git:
@@ -118,7 +117,6 @@ flutter:
     - assets/madad-logo.png
     - assets/loader.flr
     - assets/loading_rainbow.flr
-    - assets/localization/
     - resources/langs/
   fonts:
     

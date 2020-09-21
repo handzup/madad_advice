@@ -6,17 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:madad_advice/blocs/comments_bloc.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/comment.dart';
 import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/pages/sign_in.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/utils/snacbar.dart';
-import 'package:madad_advice/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -162,7 +158,6 @@ class _CommentsPageState extends State<CommentsPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   void _onRefresh() async {
-     
     final cb = Provider.of<CommentsBloc>(context);
     cb.getCommens(code);
     // if failed,usce refreshFailed()

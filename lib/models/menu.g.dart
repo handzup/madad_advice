@@ -11,7 +11,11 @@ Menu _$MenuFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     icon: json['icon'] as String,
     path: json['path'] as String,
-    sort: int.parse(json['sort']),
+    sort: int.parse(json['sort'].toString()),
+    submenu: (json['submenu'] as List)
+        ?.map(
+            (e) => e == null ? null : Menu.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -20,4 +24,5 @@ Map<String, dynamic> _$MenuToJson(Menu instance) => <String, dynamic>{
       'path': instance.path,
       'icon': instance.icon,
       'sort': instance.sort,
+      'submenu': instance.submenu,
     };

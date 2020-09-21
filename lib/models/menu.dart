@@ -8,12 +8,8 @@ class Menu {
   final String path;
   final String icon;
   final int sort; // нужно парснуть в int в ручную
-  Menu({
-    this.title,
-    this.icon,
-    this.path,
-    this.sort
-  });
+  final List<Menu> submenu;
+  Menu({this.title, this.icon, this.path, this.sort, this.submenu});
 
   factory Menu.fromJson(Map<String, dynamic> json) => _$MenuFromJson(json);
 
