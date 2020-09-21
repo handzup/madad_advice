@@ -42,7 +42,7 @@ class _ReacentHomeState extends State<ReacentHome> {
               padding: const EdgeInsets.all(3.0),
               child: InkWell(
                 child: Container(
-                    height: 150,
+                    height: 120,
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         color: Colors.white,

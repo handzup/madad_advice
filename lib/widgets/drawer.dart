@@ -283,6 +283,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           SearchBar(),
           Flexible(
               child: isShow(_apiResponse) ? Container() : buildList(context)),
+          HorizontalLangView(),
           Container(
               color: Colors.grey[200],
               padding: EdgeInsets.all(5),
@@ -300,26 +301,27 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       Spacer(
                         flex: 1,
                       ),
-                      ClipOval(
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                              splashColor: Colors.grey,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                child: Icon(Entypo.language),
-                              ),
-                              onTap: () {
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => LanguageView()),
-                                );
-                              }),
-                        ),
-                      ),
+                      // ClipOval(
+                      //   child: Material(
+                      //     color: Colors.white,
+                      //     child: InkWell(
+                      //         splashColor: Colors.grey,
+                      //         child: Container(
+                      //           padding: const EdgeInsets.symmetric(
+                      //               horizontal: 10, vertical: 10),
+                      //           child: Icon(Entypo.language),
+                      //         ),
+                      //         onTap: () {
+                      //           Navigator.pop(context);
+                      //           Navigator.push(
+                      //             context,
+                      //             CupertinoPageRoute(
+                      //                 builder: (context) => LanguageView()),
+                      //           );
+                      //         }),
+                      //   ),
+                      // ),
+
                       Spacer(),
                     ],
                   ),
@@ -332,7 +334,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   Widget buildList(context) {
-    bool isExpanded = false;
     final isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return ListView.builder(
       physics: AlwaysScrollableScrollPhysics(),

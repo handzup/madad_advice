@@ -77,8 +77,8 @@ void main() async {
     ],
     // path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langscopy.csv',
     path: 'https://b-advice.uz/inc/langs.csv',
-    fallbackLocale: Locale('ru', "RU"),
-    startLocale: Locale('ru', "RU"),
+    fallbackLocale: Locale('uz', "UZ"),
+    startLocale: Locale('uz', "UZ"),
     assetLoader: CsvAssetLoader.CsvAssetLoader(),
     preloaderWidget: PreloadPage(),
   ));

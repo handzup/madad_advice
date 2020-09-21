@@ -21,6 +21,7 @@ class DrawerMenuBloc extends ChangeNotifier {
 
   // ignore: missing_return
   Future<List<Menu>> getMenuData() async {
+    _menuData = null;
     _menuData = await updateFromApi();
     notifyListeners();
   }

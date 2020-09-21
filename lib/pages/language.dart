@@ -9,6 +9,78 @@ import 'package:madad_advice/styles.dart';
 import 'package:madad_advice/utils/locator.dart';
 import 'package:provider/provider.dart';
 
+class HorizontalLangView extends StatefulWidget {
+  @override
+  _HorizontalLangViewState createState() => _HorizontalLangViewState();
+}
+
+class _HorizontalLangViewState extends State<HorizontalLangView> {
+  final lang = locator<Langs>();
+  bool disabled =
+      true; // Language panel если true доступен только узбексий язык
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: IntrinsicHeight(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FlatButton(
+            color: context.locale ==
+                    EasyLocalization.of(context).supportedLocales[2]
+                ? ThemeColors.primaryColor
+                : Colors.transparent,
+            child: Text('UZ'),
+            onPressed: () =>
+                changeLocale(EasyLocalization.of(context).supportedLocales[2]),
+          ),
+          VerticalDivider(
+            indent: 10,
+            endIndent: 10,
+            color: Colors.grey,
+          ),
+          FlatButton(
+            color: context.locale ==
+                    EasyLocalization.of(context).supportedLocales[1]
+                ? ThemeColors.primaryColor
+                : Colors.transparent,
+            child: Text('RU'),
+            onPressed: disabled
+                ? null
+                : () => changeLocale(
+                    EasyLocalization.of(context).supportedLocales[1]),
+          ),
+          VerticalDivider(
+            indent: 8,
+            endIndent: 8,
+            color: Colors.grey,
+          ),
+          FlatButton(
+            color: context.locale ==
+                    EasyLocalization.of(context).supportedLocales[0]
+                ? ThemeColors.primaryColor
+                : Colors.transparent,
+            child: Text('EN'),
+            onPressed: disabled
+                ? null
+                : () => changeLocale(
+                    EasyLocalization.of(context).supportedLocales[0]),
+          ),
+        ],
+      ),
+    ));
+  }
+
+  changeLocale(Locale locale) {
+    context.locale = locale; //BuildContext extension method
+    lang.setLang(locale.languageCode);
+    Provider.of<CategoryBloc>(context).getCategoryData(force: true);
+    Provider.of<DrawerMenuBloc>(context).getMenuData();
+    Provider.of<SectionBloc>(context, listen: false)
+        .getSectionData(force: true);
+  }
+}
+
 class LanguageView extends StatelessWidget {
   final lang = locator<Langs>();
 

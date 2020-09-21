@@ -51,6 +51,7 @@ class _SearchPageState extends State<SearchPage> {
                 controller: textFieldCtrl,
                 onChanged: (String value) {
                   searchBloc.afterSearch(value);
+                  print(value);
                 },
               ),
             )),
@@ -102,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
                 padding: const EdgeInsets.all(3.0),
                 child: InkWell(
                   child: Container(
-                      height: 110,
+                      height: 80,
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -115,7 +116,7 @@ class _SearchPageState extends State<SearchPage> {
                           ]),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Flexible(
                             flex: 4,

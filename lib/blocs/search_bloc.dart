@@ -37,6 +37,7 @@ class SearchBloc extends ChangeNotifier {
   void afterSearch(String value) async {
     if (value != "" && value.length >= 3) {
       _searchData = await search(value);
+      print(_searchData);
     }
 
     notifyListeners();
