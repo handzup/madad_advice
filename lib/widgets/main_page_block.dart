@@ -119,6 +119,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
   Widget _sectionBuilder(List<Subsection> list) {
     list.sort((a, b) => a.sort.compareTo(b.sort));
     return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.only(top: 10, bottom: 10),
       shrinkWrap: true,
       itemBuilder: (context, index) {

@@ -36,6 +36,7 @@ class _CategoryItemPageState extends State<CategoryItemPage>
   bool onBack = false;
   final String queryPath;
   final Color color;
+  SphereModel data;
   final String url = Config().url;
   _CategoryItemPageState(this.category, this.color, this.queryPath);
   DateFormat format = DateFormat('dd.MM.yyyy');
@@ -49,6 +50,10 @@ class _CategoryItemPageState extends State<CategoryItemPage>
         articleBlock.sectionData.errorMessage == 'internet'
             ? _scaffoldKey.currentState.showSnackBar(snackBar(_handleRefresh))
             : _scaffoldKey.currentState.showSnackBar(serviceError());
+      } else {
+        setState(() {
+          data = articleBlock.sectionData.data;
+        });
       }
     });
     super.initState();
@@ -95,31 +100,39 @@ class _CategoryItemPageState extends State<CategoryItemPage>
               borderWidth: 1,
               springAnimationDurationInMilliseconds: 100,
               onRefresh: _handleRefresh,
-              child: Consumer<ArticleBloc>(
-                builder: (context, data, child) {
-                  if (data.sectionData.data.elements.isEmpty &&
-                      data.sectionData.data.sections.isEmpty) return child;
-                  return onBack ? child : buildList(data.sectionData.data);
-                },
-                child: EmptyPage(
-                  icon: Icons.hourglass_empty,
-                  message: LocaleKeys.emptyPage.tr(),
-                  animate: true,
-                ),
-              ))),
+              child: data != null &&
+                      (data.elements.isNotEmpty || data.sections.isNotEmpty)
+                  ? buildList(data)
+                  : EmptyPage(
+                      icon: Icons.hourglass_empty,
+                      message: LocaleKeys.emptyPage.tr(),
+                      animate: true,
+                    )
+              //  Consumer<ArticleBloc>(
+              //   builder: (context, data, child) {
+              //     if (data.sectionData.data.elements.isEmpty &&
+              //         data.sectionData.data.sections.isEmpty) return child;
+              //     return onBack ? child : buildList(data.sectionData.data);
+              //   },
+              //   child: EmptyPage(
+              //     icon: Icons.hourglass_empty,
+              //     message: LocaleKeys.emptyPage.tr(),
+              //     animate: true,
+              //   ),
+              )),
     );
   }
 
   List<Widget> buildLiss(SphereModel data) {
     List<Widget> asd = List<Widget>();
-    for (var i = 0; i < data.sections.length; i++) {
+    for (var i = 0; i < data?.sections?.length; i++) {
       asd.add(Sphere(
         data: data.sections,
         index: i,
         categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
       ));
     }
-    for (var i = 0; i < data.elements.length; i++) {
+    for (var i = 0; i < data?.elements?.length; i++) {
       asd.add(card(data, i));
     }
 

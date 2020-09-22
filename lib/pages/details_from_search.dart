@@ -126,14 +126,14 @@ class _DetailsFromSearchPageState extends State<DetailsFromSearchPage> {
     final article = Provider.of<SearchBloc>(context);
 
     if (mounted) {
-      if (article.article.detail_text.length > 10000) {
+      if (article.article != null) if (article.article.detail_text.length >
+          10000) {
         setState(() {
           showHtml = false;
         });
       }
-
-      Navigator.pop(context);
     }
+    Navigator.pop(context);
     return false;
   }
 

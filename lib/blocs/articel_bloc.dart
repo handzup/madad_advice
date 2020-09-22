@@ -107,8 +107,8 @@ class ArticleBloc extends ChangeNotifier {
     _first = false;
     final lastFetch = await getLastFetch(code);
     if (force) {
-      _sphereData = APIResponse(data: SphereModel(elements: [], sections: []));
-      notifyListeners();
+      // _sphereData = APIResponse(data: SphereModel(elements: [], sections: []));
+      // notifyListeners();
       await update(code);
       _history.add(_sphereData.data);
     } else if (refresh) {

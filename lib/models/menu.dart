@@ -7,11 +7,16 @@ class Menu {
   final String title;
   final String path;
   final String icon;
-  final int sort; // нужно парснуть в int в ручную
+  @JsonKey(fromJson: _toInt)
+  final int sort;
   final List<Menu> submenu;
-  Menu({this.title, this.icon, this.path, this.sort, this.submenu});
+  @JsonKey(fromJson: _toString)
+  final String type;
+  Menu({this.title, this.icon, this.path, this.sort, this.submenu, this.type});
 
   factory Menu.fromJson(Map<String, dynamic> json) => _$MenuFromJson(json);
 
   Map<String, dynamic> toJson() => _$MenuToJson(this);
+  static int _toInt(dynamic answer) => int.parse(answer.toString());
+  static String _toString(dynamic type) => type.toString();
 }

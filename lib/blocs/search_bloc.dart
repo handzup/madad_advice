@@ -69,19 +69,21 @@ class SearchBloc extends ChangeNotifier {
     final result =
         await apiService.fetch('$restUrl/mobapi.getelements?path=$code');
     var data = SphereArticle.fromJson(result['result']['elements'][0]);
-    //     jsonData['result']['ru'].forEach((item) {
-    //   data.add(SphereArticle.fromJson(item));
-    // });
     await _writeBox(data);
     return data;
   }
 
   Future getArticle(String articleId, String code) async {
-    if (await isExists(articleId)) {
-      _article = await _readBox(articleId);
+    if (articleId != null) {
+      if (await isExists(articleId)) {
+        _article = await _readBox(articleId);
+      } else {
+        if (code != '') _article = await _getArticleFormApi(code);
+      }
     } else {
       if (code != '') _article = await _getArticleFormApi(code);
     }
+
     notifyListeners();
   }
 }

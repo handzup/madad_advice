@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:madad_advice/models/menu.dart';
+import 'package:madad_advice/pages/category_item_page.dart';
 import 'package:madad_advice/pages/category_page.dart';
+import 'package:madad_advice/pages/details_from_search.dart';
 import 'package:madad_advice/pages/profile.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/pages/sections_page.dart';
@@ -8,6 +10,7 @@ import 'package:madad_advice/pages/viewed_articles.dart';
 import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:move_to_background/move_to_background.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExpandedList extends StatefulWidget {
   final Menu data;
@@ -25,16 +28,18 @@ class _ExpandedListState extends State<ExpandedList> {
     await MoveToBackground.moveTaskToBack();
   }
 
-  void pageNavigator(String page) {
-    switch (page.replaceAll(RegExp('/'), '')) {
-      case 'sfery':
-        nextScreen(context, CategoryPage());
-        break;
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void pageNavigator(String path) {
+    switch (path.replaceAll(RegExp('/'), '')) {
       case 'settings':
         nextScreen(context, ProfilePage());
-        break;
-      case 'sections':
-        nextScreen(context, SectionPage());
         break;
       case 'history':
         nextScreen(context, ViewedArticles()); //WebViewExample()
@@ -49,6 +54,47 @@ class _ExpandedListState extends State<ExpandedList> {
     }
   }
 
+  void openLink(String url) {
+    _launchURL(url);
+  }
+
+  void openArticle(Menu data) {
+    nextScreen(
+        context,
+        DetailsFromSearchPage(
+          code: data.path,
+          title: data.title,
+        ));
+  }
+
+  void openSection(Menu data) {
+    nextScreen(
+        context,
+        CategoryItemPage(
+          category: data.title,
+          queryPath: data.path,
+        ));
+  }
+
+  void directionNavigator(Menu data) {
+    switch (data.type.replaceAll(RegExp('/'), '')) {
+      case 'static':
+        pageNavigator(data.path);
+        break;
+      case 'link':
+        openLink(data.path);
+        break;
+      case 'section':
+        openSection(data);
+        break;
+      case 'article':
+        openArticle(data);
+        break;
+      default:
+        nextScreen(context, ProfilePage());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,6 +106,10 @@ class _ExpandedListState extends State<ExpandedList> {
             // top: BorderSide(width: 1, color: Colors.grey[300]),
           )),
           child: ListTile(
+            trailing: data.submenu.isNotEmpty
+                ? Icon(
+                    !isExpanded ? Icons.arrow_drop_down : Icons.arrow_drop_up)
+                : SizedBox.shrink(),
             title: Text(
               data.title,
               style: TextStyle(
@@ -90,7 +140,7 @@ class _ExpandedListState extends State<ExpandedList> {
                 });
               } else {
                 Navigator.pop(context);
-                pageNavigator(data.path);
+                directionNavigator(data);
               }
             },
           ),
@@ -106,7 +156,7 @@ class _ExpandedListState extends State<ExpandedList> {
 
   Widget listTile(List<Menu> data) {
     return ListView.builder(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(0),
       itemCount: data.length,
       itemExtent: 50,
@@ -141,7 +191,7 @@ class _ExpandedListState extends State<ExpandedList> {
                 )),
             onTap: () {
               Navigator.pop(context);
-              pageNavigator(data[index].path);
+              directionNavigator(data[index]);
             },
           ),
         );
