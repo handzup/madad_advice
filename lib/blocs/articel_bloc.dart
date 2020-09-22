@@ -6,6 +6,7 @@ import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/utils/api_response.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
+import 'package:madad_advice/widgets/sphere.dart';
 
 const key = 'articles';
 
@@ -16,7 +17,9 @@ class ArticleBloc extends ChangeNotifier {
   bool get first => _first;
   String _lastCode = '';
   String get lastCode => _lastCode;
-  APIResponse<SphereModel> _sphereData = APIResponse(data: SphereModel(elements: []));
+  List<SphereModel> _history = List<SphereModel>();
+  APIResponse<SphereModel> _sphereData =
+      APIResponse(data: SphereModel(elements: [], sections: []));
   APIResponse<SphereModel> get sectionData => _sphereData;
   ApiService apiService = ApiService();
   Duration _cacheValidDuration;
@@ -40,7 +43,16 @@ class ArticleBloc extends ChangeNotifier {
   }
 
   clearData() {
-    _sphereData = APIResponse(data: SphereModel(elements: []));
+    if (_history.length == 0) {
+      _sphereData = APIResponse(data: SphereModel(elements: [], sections: []));
+    } else {
+      _sphereData = APIResponse(
+          data: _history[_history.length == 1
+              ? _history.length - 1
+              : _history.length - 2]);
+      _history.removeLast();
+    }
+    notifyListeners();
   }
 
   Future<bool> isExists(acticleKey) async {
@@ -74,6 +86,7 @@ class ArticleBloc extends ChangeNotifier {
     var lastData;
     if (!data.error) {
       lastData = SphereModel(
+          sections: data.data.sections,
           elements: data.data.elements,
           title: data.data.title,
           path: data.data.path,
@@ -82,15 +95,23 @@ class ArticleBloc extends ChangeNotifier {
     }
 
     _sphereData = APIResponse<SphereModel>(
-        data:lastData ?? SphereModel(elements: []), error: data.error,errorMessage: data.errorMessage);
+        data: lastData ?? SphereModel(elements: [], sections: []),
+        error: data.error,
+        errorMessage: data.errorMessage);
     if (!data.error) _writeBox(lastData);
   }
 
   // ignore: missing_return
-  Future<SphereModel> getSectionData({String code, bool force = false}) async {
+  Future<SphereModel> getSectionData(
+      {String code, bool force = false, refresh = false}) async {
     _first = false;
     final lastFetch = await getLastFetch(code);
     if (force) {
+      _sphereData = APIResponse(data: SphereModel(elements: [], sections: []));
+      notifyListeners();
+      await update(code);
+      _history.add(_sphereData.data);
+    } else if (refresh) {
       await update(code);
     } else {
       if (lastFetch) {

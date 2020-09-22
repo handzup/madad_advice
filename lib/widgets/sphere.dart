@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:madad_advice/pages/category_item_page.dart';
 import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:madad_advice/utils/next_screen.dart';
@@ -20,7 +21,6 @@ class Sphere extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        height: 100,
         padding: EdgeInsets.all(5),
         child: Material(
           color: categoryColor,
@@ -31,28 +31,34 @@ class Sphere extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                  height: 60,
-                  width: 60,
-                  child: FaIcons(  
-                   data[index].icon.toString()  ,
-                   color: Colors.blue.withOpacity(.4),
-                   
-                    size: 30  ,
-                  )
-                  ),
               SizedBox(
-                width: 5,
+                width: 10,
               ),
+              // Container(
+              //     alignment: Alignment.center,
+              //     height: 60,
+              //     width: 60,
+              //     child: FaIcons(
+              //       data[index].icon.toString(),
+              //       color: Colors.blue.withOpacity(.4),
+              //       size: 30,
+              //     )),
+              Icon(
+                FlutterIcons.angle_right_faw5s,
+                color: Colors.grey[600],
+              ),
+
               Expanded(
                 flex: 5,
-                child: Text(
-                  data[index].title,
-                  softWrap: true,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    data[index].title,
+                    softWrap: true,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
@@ -66,7 +72,7 @@ class Sphere extends StatelessWidget {
             context,
             CategoryItemPage(
               category: data[index].title,
-              queryPath:data[index].path,
+              queryPath: data[index].code,
               color: Colors.white,
             ));
       },

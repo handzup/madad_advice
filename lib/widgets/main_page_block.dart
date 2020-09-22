@@ -4,6 +4,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/models/subsection.dart';
+import 'package:madad_advice/pages/category_item_page.dart';
+import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../styles.dart';
@@ -25,26 +27,32 @@ class _MainPageBlockState extends State<MainPageBlock> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('tap');
+        nextScreen(
+            context,
+            CategoryItemPage(
+              category: data.title,
+              queryPath: data.path,
+              color: Colors.white,
+            ));
       },
-      onTapDown: (value) {
-        setState(() {
-          print('onTapDown');
-          hover = false;
-        });
-      },
-      onTapUp: (value) {
-        setState(() {
-          print('onTapUp');
-          hover = true;
-        });
-      },
-      onTapCancel: () {
-        setState(() {
-          print('onTapCancel');
-          hover = true;
-        });
-      },
+      // onTapDown: (value) {
+      //   setState(() {
+      //     print('onTapDown');
+      //     hover = false;
+      //   });
+      // },
+      // onTapUp: (value) {
+      //   setState(() {
+      //     print('onTapUp');
+      //     hover = true;
+      //   });
+      // },
+      // onTapCancel: () {
+      //   setState(() {
+      //     print('onTapCancel');
+      //     hover = true;
+      //   });
+      // },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AnimatedContainer(
@@ -116,7 +124,13 @@ class _MainPageBlockState extends State<MainPageBlock> {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            print('object');
+            nextScreen(
+                context,
+                CategoryItemPage(
+                  category: list[index].title,
+                  queryPath: list[index].path,
+                  color: Colors.white,
+                ));
           },
           child: Row(
             children: <Widget>[

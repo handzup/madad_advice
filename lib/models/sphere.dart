@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:madad_advice/models/subsection_2.dart';
 
 import 'sphere_articel.dart';
 
@@ -18,14 +19,16 @@ class SphereModel {
   final List<SphereArticle> elements;
   @HiveField(4)
   final DateTime lastFetch;
+  @HiveField(5)
+  final List<Subsection2> sections;
 
-  SphereModel({
-    this.path,
-    this.type,
-    this.title,
-    this.elements,
-    this.lastFetch,
-  });
+  SphereModel(
+      {this.path,
+      this.type,
+      this.title,
+      this.elements,
+      this.lastFetch,
+      this.sections});
 
   factory SphereModel.fromJson(Map<String, dynamic> json) =>
       _$SphereModelFromJson(json);
