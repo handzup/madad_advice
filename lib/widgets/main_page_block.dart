@@ -1,16 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:madad_advice/blocs/section_bloc.dart';
+import 'package:madad_advice/models/section.dart';
+import 'package:madad_advice/models/subsection.dart';
+import 'package:provider/provider.dart';
 
 import '../styles.dart';
 
 class MainPageBlock extends StatefulWidget {
+  final Section data;
+
+  const MainPageBlock({Key key, this.data}) : super(key: key);
   @override
-  _MainPageBlockState createState() => _MainPageBlockState();
+  _MainPageBlockState createState() => _MainPageBlockState(this.data);
 }
 
 class _MainPageBlockState extends State<MainPageBlock> {
+  final Section data;
   bool hover = true;
+
+  _MainPageBlockState(this.data);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -45,7 +55,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Start business',
+                Text(data.title,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.grey[600],
@@ -56,7 +66,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
                   children: <Widget>[
                     Flexible(
                       flex: 5,
-                      child: _sectionBuilder(['']),
+                      child: _sectionBuilder(data.subsections),
                     ),
                     Flexible(
                       flex: 2,
@@ -68,7 +78,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
                   ],
                 ),
                 Text(
-                  'Бўлимда солиқ тўлаш, банк билан ишлаш, ташқи иқтисодий фаолият ва бошқа молиявий масалалар кўрсатилган',
+                  data.desc,
                   style: TextStyle(fontStyle: FontStyle.italic),
                 )
               ],
@@ -98,7 +108,8 @@ class _MainPageBlockState extends State<MainPageBlock> {
     );
   }
 
-  Widget _sectionBuilder(List<String> list) {
+  Widget _sectionBuilder(List<Subsection> list) {
+    list.sort((a, b) => a.sort.compareTo(b.sort));
     return ListView.builder(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       shrinkWrap: true,
@@ -115,7 +126,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
               ),
               Expanded(
                 child: Text(
-                  'Низоларни ҳал этиш (суд жараёни)',
+                  list[index].title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
@@ -129,7 +140,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
           ),
         );
       },
-      itemCount: 5,
+      itemCount: list.length,
     );
   }
 }

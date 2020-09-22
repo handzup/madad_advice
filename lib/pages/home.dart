@@ -14,6 +14,7 @@ import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
 import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/recived_notification.dart';
+import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -331,10 +332,10 @@ class _HomePageState extends State<HomePage> {
                 onRefresh: _handleRefresh,
                 child: TabBarView(
                   children: <Widget>[
-                    Consumer<CategoryBloc>(
+                    Consumer<SectionBloc>(
                       builder: (context, data, child) {
-                        if (data.sphereData.data.isEmpty) return child;
-                        return buildCategoryList(data.sphereData.data);
+                        if (data.sectionData.data.isEmpty) return child;
+                        return buildCategoryList(data.sectionData.data);
                       },
                       child: Column(
                         children: <Widget>[
@@ -352,7 +353,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildCategoryList(List<MyCategory> data) {
+  Widget buildCategoryList(List<Section> data) {
     return Container(
       child:
           CustomScrollView(physics: ClampingScrollPhysics(), slivers: <Widget>[
@@ -364,9 +365,9 @@ class _HomePageState extends State<HomePage> {
               //   data: data,
               //   index: index,
               // );
-              return MainPageBlock();
+              return MainPageBlock(data: data[index]);
             },
-            childCount: 2,
+            childCount: data.length,
 
             ///sda
           ),
