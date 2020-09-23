@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,6 @@ import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/recived_notification.dart';
 import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
@@ -22,6 +22,7 @@ import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/drawer.dart';
 import 'package:madad_advice/widgets/loading_shimmer.dart';
 import 'package:madad_advice/widgets/main_page_block.dart';
+import 'package:madad_advice/widgets/no_internet_connection.dart';
 import 'package:madad_advice/widgets/reacent_home.dart';
 import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:madad_advice/widgets/sphere.dart';
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     remindDays: 2,
     remindLaunches: 2,
   );
-
+  var subscription;
   int currentIndex = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -76,18 +77,10 @@ class _HomePageState extends State<HomePage> {
         label: serviceError ? 'Servcie Error' : LocaleKeys.tryAgain.tr(),
         textColor: Colors.blueAccent,
         onPressed: () {
-          checkInternet();
+          _handleRefresh();
         },
       ),
     );
-  }
-
-  void checkInternet() async {
-    final ib = Provider.of<InternetBloc>(context, listen: false);
-    await ib.checkInternet();
-    ib.hasInternet == false
-        ? _scaffoldKey.currentState.showSnackBar(snackBar())
-        : _handleRefresh();
   }
 
   Future<void> _showNotification({message}) async {
@@ -131,12 +124,25 @@ class _HomePageState extends State<HomePage> {
     // Or do other work.
   }
 
+  internetlisener() {
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        _scaffoldKey.currentState.showSnackBar(snackBar());
+      } else {
+        _scaffoldKey.currentState.hideCurrentSnackBar();
+        _handleRefresh();
+      }
+    });
+  }
+
   final _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat');
-
+    internetlisener();
     var initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
@@ -158,7 +164,6 @@ class _HomePageState extends State<HomePage> {
       Provider.of<SignInBloc>(context, listen: false).checkSignIn();
       _requestIOSPermissions();
       _configureSelectNotificationSubject();
-      checkInternet();
     });
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -200,6 +205,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     selectNotificationSubject.close();
+    subscription.close();
     super.dispose();
   }
 
@@ -225,21 +231,15 @@ class _HomePageState extends State<HomePage> {
   TabController _tabController;
 
   Future<Null> _handleRefresh() async {
-    final ib = Provider.of<InternetBloc>(context, listen: false);
-    ib.checkInternet();
-    ib.hasInternet == false
-        ? _scaffoldKey.currentState.showSnackBar(snackBar())
-        // ignore: unnecessary_statements
-        : null;
-    final cb = Provider.of<CategoryBloc>(context);
+    //final cb = Provider.of<CategoryBloc>(context);
     await Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
     await Provider.of<SectionBloc>(context, listen: false)
         .getSectionData(force: true);
 
-    await cb.getCategoryData(force: true);
-    if (cb.sphereData.error) {
-      _scaffoldKey.currentState.showSnackBar(serviceError());
-    }
+    // await cb.getCategoryData(force: true);
+    // if (cb.sphereData.error) {
+    //   _scaffoldKey.currentState.showSnackBar(serviceError());
+    // }
     return null;
   }
 
@@ -261,9 +261,6 @@ class _HomePageState extends State<HomePage> {
                       labelColor: ThemeColors.primaryColor,
                       unselectedLabelColor: Color(0xff5f6368), //niceish grey
                       isScrollable: false,
-                      onTap: (index) {
-                        checkInternet();
-                      },
                       indicator: MD2Indicator(
                           //it begins here
                           indicatorHeight: 5,
@@ -340,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: <Widget>[
                           Expanded(
-                            child: LoadingSphereWidget(),
+                            child: NoInternetConnection(),
                           ),
                         ],
                       ),

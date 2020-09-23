@@ -40,11 +40,9 @@ import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'models/menu.dart';
 import 'models/subsection.dart';
 import 'models/subsection_2.dart';
-
-const section = 'section';
-const category = 'category';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -64,6 +62,7 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(SectionAdapter());
+  Hive.registerAdapter(MenuAdapter());
   Hive.registerAdapter(SubsectionAdapter());
   Hive.registerAdapter(Subsection2Adapter());
   Hive.registerAdapter(MyCategoryAdapter());

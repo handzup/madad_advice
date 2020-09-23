@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/section.dart';
@@ -25,9 +26,10 @@ class SectionBloc extends ChangeNotifier {
   }
 
   Future<bool> isExists() async {
-    final openBox = await Hive.openBox<Section>('section');
-    int length = openBox.length;
-    return length != 0;
+    final openBox =
+        await Hive.openBox<Section>('section').then((value) => value.length);
+
+    return openBox != 0;
   }
 
   Future _writeBox(List<Section> items) async {
@@ -49,22 +51,35 @@ class SectionBloc extends ChangeNotifier {
         data: data.data ?? [],
         error: data.error,
         errorMessage: data.errorMessage);
-    if (!data.error) _writeBox(data.data);
+    // ignore: null_aware_in_logical_operator
+    if (!data.error && data?.data?.isNotEmpty) _writeBox(data.data);
+  }
+
+  Future<List<Section>> getFromHive() async {
+    final ex = await isExists();
+    if (ex) {
+      _sectionData.data = await _readBox();
+    } else {
+      _sectionData.data = await _readBox();
+      print(_sectionData.data);
+      await update();
+    }
+  }
+
+  Future<bool> checkInterner() async {
+    final InternetBloc internetBloc = InternetBloc();
+    await internetBloc.checkInternet();
+    return internetBloc.hasInternet;
   }
 
   APIResponse<List<Section>> _sectionData = APIResponse(data: []);
   APIResponse<List<Section>> get sectionData => _sectionData;
   // ignore: missing_return
   Future<List<Section>> getSectionData({force = false}) async {
-    if (force) {
+    if (force && await checkInterner()) {
       await update();
     } else {
-      bool ex = await isExists();
-      if (ex) {
-        _sectionData.data = await _readBox();
-      } else {
-        await update();
-      }
+      await getFromHive();
     }
 
     notifyListeners();

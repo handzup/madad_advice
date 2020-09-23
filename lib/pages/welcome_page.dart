@@ -44,12 +44,12 @@ class _WelcomePageState extends State<WelcomePage>
       final dw = Provider.of<DrawerMenuBloc>(context);
       final sectionBloc = Provider.of<SectionBloc>(context);
 
-      await ib.checkInternet();
-      if (ib.hasInternet) {
-        await dw.getMenuData();
-        await cb.getCategoryData(force: true);
-        await sectionBloc.getSectionData(force: true);
-      }
+      // await ib.checkInternet();
+      // if (ib.hasInternet) {
+      await dw.getMenuData();
+      //  await cb.getCategoryData(force: true);
+      await sectionBloc.getSectionData(force: true);
+      // }
     });
     Future.delayed(Duration(milliseconds: 300), () {
       setState(() {

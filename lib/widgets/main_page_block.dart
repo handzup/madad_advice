@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/models/subsection.dart';
 import 'package:madad_advice/pages/category_item_page.dart';
+import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -77,12 +80,14 @@ class _MainPageBlockState extends State<MainPageBlock> {
                       child: _sectionBuilder(data.subsections),
                     ),
                     Flexible(
-                      flex: 2,
-                      child: CachedNetworkImage(
-                        imageUrl: 'https://picsum.photos/200',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                        flex: 2,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: FaIcons(
+                            data.icon,
+                            size: 80,
+                          ),
+                        ))
                   ],
                 ),
                 Text(

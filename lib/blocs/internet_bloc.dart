@@ -1,33 +1,25 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
-class InternetBloc extends ChangeNotifier{
-
-
+class InternetBloc extends ChangeNotifier {
   bool _hasInternet = false;
   bool get hasInternet => _hasInternet;
 
-
-  InternetBloc(){
+  InternetBloc() {
     checkInternet();
   }
-
-
-  
 
   // ignore: always_declare_return_types
   checkInternet() async {
     var result = await (Connectivity().checkConnectivity());
     if (result == ConnectivityResult.none) {
       _hasInternet = false;
-      
+      notifyListeners();
     } else {
       _hasInternet = true;
-      
+      notifyListeners();
     }
 
     notifyListeners();
   }
-
-
 }

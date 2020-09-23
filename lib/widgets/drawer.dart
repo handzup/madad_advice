@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
@@ -74,46 +75,66 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   Widget singOut() {
-    return ClipOval(
+    return FlatButton(
+      onPressed: () => handleLogout(),
       child: Material(
         color: Colors.white,
         child: InkWell(
           splashColor: Colors.grey,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.rotationY(pi),
-              child: Icon(
-                MaterialCommunityIcons.logout_variant,
-              ),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  LocaleKeys.signOut.tr(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  FontAwesomeIcons.duotoneSignIn,
+                  color: Colors.grey,
+                )
+              ],
             ),
           ),
-          onTap: () => handleLogout(),
         ),
       ),
     );
   }
 
   Widget singIn(BuildContext context) {
-    return ClipOval(
+    return FlatButton(
+      onPressed: () => nextScreen(
+          context,
+          SignInPage(
+            firstSingIn: false,
+          )),
       child: Material(
         color: Colors.white,
         child: InkWell(
           splashColor: Colors.grey,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.rotationY(0),
-              child: Icon(MaterialCommunityIcons.login_variant),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  LocaleKeys.signIn.tr(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  FontAwesomeIcons.duotoneSignIn,
+                  color: Colors.grey,
+                )
+              ],
             ),
           ),
-          onTap: () => nextScreen(
-              context,
-              SignInPage(
-                firstSingIn: false,
-              )),
         ),
       ),
     );
@@ -294,34 +315,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Spacer(
-                        flex: 1,
-                      ),
+                      Spacer(),
                       sp.isSignedIn ? singOut() : singIn(context),
-                      Spacer(
-                        flex: 1,
-                      ),
-                      // ClipOval(
-                      //   child: Material(
-                      //     color: Colors.white,
-                      //     child: InkWell(
-                      //         splashColor: Colors.grey,
-                      //         child: Container(
-                      //           padding: const EdgeInsets.symmetric(
-                      //               horizontal: 10, vertical: 10),
-                      //           child: Icon(Entypo.language),
-                      //         ),
-                      //         onTap: () {
-                      //           Navigator.pop(context);
-                      //           Navigator.push(
-                      //             context,
-                      //             CupertinoPageRoute(
-                      //                 builder: (context) => LanguageView()),
-                      //           );
-                      //         }),
-                      //   ),
-                      // ),
-
                       Spacer(),
                     ],
                   ),
