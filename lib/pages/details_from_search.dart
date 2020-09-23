@@ -9,6 +9,7 @@ import 'package:madad_advice/models/pinned_file.dart';
 import 'package:madad_advice/models/scope.dart';
 import 'package:madad_advice/pages/comments.dart';
 import 'package:madad_advice/styles.dart';
+import 'package:madad_advice/utils/empty.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/downloader.dart';
 import 'package:madad_advice/widgets/tag.dart';
@@ -81,13 +82,15 @@ class _DetailsFromSearchPageState extends State<DetailsFromSearchPage> {
     Future.delayed(Duration(milliseconds: 0)).then((value) async {
       final article = Provider.of<SearchBloc>(context);
       await article.getArticle(id, code);
-      if (article.article.detail_text.length > 10000) {
-        showDelayed();
-      } else {
-        if (mounted) {
-          setState(() {
-            showHtml = true;
-          });
+      if (article.article != null) {
+        if (article.article.detail_text.length > 10000) {
+          showDelayed();
+        } else {
+          if (mounted) {
+            setState(() {
+              showHtml = true;
+            });
+          }
         }
       }
     });
@@ -497,7 +500,11 @@ class _DetailsFromSearchPageState extends State<DetailsFromSearchPage> {
                     // )
                   ],
                 ))
-              : SizedBox.shrink()),
+              : EmptyPage(
+                  icon: Icons.hourglass_empty,
+                  message: LocaleKeys.emptyPage.tr(),
+                  animate: true,
+                )),
     );
   }
 

@@ -68,8 +68,13 @@ class SearchBloc extends ChangeNotifier {
   Future<SphereArticle> _getArticleFormApi(String code) async {
     final result =
         await apiService.fetch('$restUrl/mobapi.getelements?path=$code');
-    var data = SphereArticle.fromJson(result['result']['elements'][0]);
-    await _writeBox(data);
+    SphereArticle data;
+    try {
+      data = SphereArticle.fromJson(result['result']['elements'][0]);
+    } catch (e) {
+      data = null;
+    }
+    if (data != null) await _writeBox(data);
     return data;
   }
 

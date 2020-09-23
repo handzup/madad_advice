@@ -42,7 +42,7 @@ class _ExpandedListState extends State<ExpandedList> {
         nextScreen(context, ProfilePage());
         break;
       case 'history':
-        nextScreen(context, ViewedArticles()); //WebViewExample()
+        nextScreen(context, ViewedArticles());  
         break;
       case 'question':
         nextScreen(context, QandAPage());

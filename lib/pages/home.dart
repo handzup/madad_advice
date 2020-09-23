@@ -10,6 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:madad_advice/blocs/category_bloc.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
+import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
@@ -205,7 +206,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     selectNotificationSubject.close();
-    subscription.close();
+    subscription.cancel();
     super.dispose();
   }
 
@@ -235,7 +236,7 @@ class _HomePageState extends State<HomePage> {
     await Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
     await Provider.of<SectionBloc>(context, listen: false)
         .getSectionData(force: true);
-
+    await Provider.of<RecentDataBloc>(context).getRecentData(force: true);
     // await cb.getCategoryData(force: true);
     // if (cb.sphereData.error) {
     //   _scaffoldKey.currentState.showSnackBar(serviceError());

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/models/config.dart';
+import 'package:madad_advice/models/langs.dart';
 import 'package:madad_advice/models/menu.dart';
 
 import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/utils/api_service.dart';
+import 'package:madad_advice/utils/locator.dart';
 
 final restUrl = Config().resturl;
 
@@ -16,13 +18,13 @@ class DrawerMenuBloc extends ChangeNotifier {
   // bool _hasError = false;
   // bool get hasError => _hasError;
   ApiService apiService = ApiService();
+  //var box = locator<MenuHive>();
 
   Future<APIResponse<List<Menu>>> updateFromApi() async {
     return await apiService.fetchApiGetMenu();
   }
-
-  Future<List<Menu>> _readBox() async {
-    final box = await Hive.openBox<Menu>('Menu');
+ Future<List<Menu>> _readBox() async {
+    final box = await Hive.openBox<Menu>('menu');
     var secData = <Menu>[];
     for (var i = 0; i < box.length; i++) {
       secData.add(box.getAt(i));
@@ -30,25 +32,53 @@ class DrawerMenuBloc extends ChangeNotifier {
     return secData;
   }
 
-  Future<bool> isExists() async {
-    final openBox = await Hive.openBox<Menu>('Menu');
+  // Future<List<Menu>> _readBox() async {
+  //   if (hiveIsOpen()) {
+  //     var secData = <Menu>[];
+  //     for (var i = 0; i < box.box.length; i++) {
+  //       secData.add(box.box.getAt(i));
+  //     }
+  //     return secData;
+  //   } else {
+  //     // openBox();
+  //   }
+  // }
+
+  // bool hiveIsOpen() {
+  //   final dasd = Hive.isBoxOpen('menu');
+  //   print('dasrt $dasd');
+  //   return Hive.isBoxOpen('menu');
+  // }
+ Future<bool> isExists() async {
+    final openBox = await Hive.openBox<Menu>('menu');
     int length = openBox.length;
     return length != 0;
   }
-
+  // Future<bool> isExists() async {
+  //   return box.box.length != 0;
+  // }
   Future _writeBox(List<Menu> items) async {
-    final openBox = await Hive.openBox<Menu>('Menu');
-    openBox.clear();
+    final openBox = await Hive.openBox<Menu>('menu');
     for (var item in items) {
-      openBox.add(item);
+      openBox.put(item.path.hashCode, item);
     }
   }
+
+  // Future _writeBox(List<Menu> items) async {
+  //   if (hiveIsOpen()) {
+  //     for (var item in items) {
+  //       box.box.put(item.path.hashCode, item);
+  //     }
+  //   } else {
+  //     // openBox();
+  //   }
+  // }
 
   Future<void> update() async {
     _menuData = null;
     final data = await updateFromApi();
 
-    if (!data.error) {
+    if (!data.error && data?.data?.isNotEmpty) {
       _menuData = data;
       _writeBox(data.data);
     }
@@ -61,8 +91,7 @@ class DrawerMenuBloc extends ChangeNotifier {
   }
 
   Future<List<Menu>> getFromHive() async {
-    bool ex = await isExists();
-    if (ex) {
+    if (await isExists()) {
       _menuData.data = await _readBox();
     } else {
       await update();

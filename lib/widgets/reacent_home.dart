@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/models/config.dart';
@@ -20,14 +21,32 @@ class ReacentHome extends StatefulWidget {
 
 class _ReacentHomeState extends State<ReacentHome> {
   final String url = Config().url;
-
+  var subscription;
   DateFormat format = DateFormat("dd.MM.yyyy");
   @override
   void initState() {
+    internetlisener();
     Future.delayed(Duration(milliseconds: 0)).then((_) async {
       await Provider.of<RecentDataBloc>(context).getRecentData(force: true);
     });
     super.initState();
+  }
+
+  internetlisener() {
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+      } else {
+        Provider.of<RecentDataBloc>(context).getRecentData(force: true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override

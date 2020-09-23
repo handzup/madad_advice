@@ -83,7 +83,7 @@ class _HorizontalLangViewState extends State<HorizontalLangView> {
 
 class LanguageView extends StatelessWidget {
   final lang = locator<Langs>();
-
+   // Language panel если true доступен только узбексий язык
   @override
   Widget build(BuildContext context) {
     print(context.locale.countryCode);
@@ -101,16 +101,19 @@ class LanguageView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildSwitchListTileMenuItem(
+                enabled: false,// Language panel если true для включения этого языка
                 context: context,
                 title: 'English',
                 subtitle: 'English',
                 locale: EasyLocalization.of(context).supportedLocales[0]),
             buildSwitchListTileMenuItem(
+                 enabled: false,// Language panel если true для включения этого языка
                 context: context,
                 title: 'Русский',
                 subtitle: 'Русский',
                 locale: EasyLocalization.of(context).supportedLocales[1]),
             buildSwitchListTileMenuItem(
+                enabled: true, // Language panel если true для включения этого языка
                 context: context,
                 title: 'Ўзбекча',
                 subtitle: 'Ўзбекча',
@@ -128,12 +131,17 @@ class LanguageView extends StatelessWidget {
       );
 
   Container buildSwitchListTileMenuItem(
-      {BuildContext context, String title, String subtitle, Locale locale}) {
+      {BuildContext context,
+      String title,
+      String subtitle,
+      Locale locale,
+      bool enabled}) {
     return Container(
       decoration: BoxDecoration(
           border:
               Border(bottom: BorderSide(width: 1, color: Colors.grey[300]))),
       child: ListTile(
+          enabled: enabled,
           dense: true,
           contentPadding: const EdgeInsets.all(0),
           title: Text(

@@ -15,6 +15,11 @@ final restUrl = Config().resturl;
 class SectionBloc extends ChangeNotifier {
   ApiService apiService = ApiService();
   var lang = locator<Langs>();
+  // var box = locator<SectionHive>();
+
+  // SectionBloc() {
+  //   openBox();
+  // }
 
   Future<List<Section>> _readBox() async {
     final box = await Hive.openBox<Section>('section');
@@ -25,18 +30,25 @@ class SectionBloc extends ChangeNotifier {
     return secData;
   }
 
-  Future<bool> isExists() async {
-    final openBox =
-        await Hive.openBox<Section>('section').then((value) => value.length);
+  // void openBox() async {
+  //   if (hiveIsOpen()) {
+  //     box.box = Hive.box('section');
+  //   } else {
+  //     await Hive.openBox('section');
+  //     box.box = Hive.box('section');
+  //   }
+  // }
 
-    return openBox != 0;
+  Future<bool> isExists() async {
+    final openBox = await Hive.openBox<Section>('section');
+    int length = openBox.length;
+    return length != 0;
   }
 
   Future _writeBox(List<Section> items) async {
     final openBox = await Hive.openBox<Section>('section');
-    openBox.clear();
     for (var item in items) {
-      openBox.add(item);
+      openBox.put(item.id, item);
     }
   }
 
@@ -51,17 +63,13 @@ class SectionBloc extends ChangeNotifier {
         data: data.data ?? [],
         error: data.error,
         errorMessage: data.errorMessage);
-    // ignore: null_aware_in_logical_operator
     if (!data.error && data?.data?.isNotEmpty) _writeBox(data.data);
   }
 
   Future<List<Section>> getFromHive() async {
-    final ex = await isExists();
-    if (ex) {
+    if (await isExists()) {
       _sectionData.data = await _readBox();
     } else {
-      _sectionData.data = await _readBox();
-      print(_sectionData.data);
       await update();
     }
   }

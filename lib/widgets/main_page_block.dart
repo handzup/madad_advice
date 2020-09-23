@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
+import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/models/subsection.dart';
 import 'package:madad_advice/pages/category_item_page.dart';
@@ -24,7 +25,7 @@ class MainPageBlock extends StatefulWidget {
 class _MainPageBlockState extends State<MainPageBlock> {
   final Section data;
   bool hover = true;
-
+  final restUrl = Config().url;
   _MainPageBlockState(this.data);
   @override
   Widget build(BuildContext context) {
@@ -80,14 +81,23 @@ class _MainPageBlockState extends State<MainPageBlock> {
                       child: _sectionBuilder(data.subsections),
                     ),
                     Flexible(
+                      
                         flex: 2,
                         child: Container(
-                          alignment: Alignment.center,
-                          child: FaIcons(
-                            data.icon,
-                            size: 80,
-                          ),
-                        ))
+                            alignment: Alignment.center,
+                            child:  
+                            //SvgPicture.asset('assets/calendar_start_icon.svg',color: Colors.white,)
+                            SvgPicture.network(
+                              
+                              data.pic != null
+                                  ? restUrl + data.pic
+                                  : 'https://b-advice.uz/upload/uf/565/calendar_start_icon.svg',height: 100,
+                            )
+                            //  FaIcons(
+                            //   data.icon,
+                            //   size: 80,
+                            // ),
+                            ))
                   ],
                 ),
                 Text(
@@ -113,7 +123,7 @@ class _MainPageBlockState extends State<MainPageBlock> {
                         offset: Offset(0, 3), // changes position of shadow
                       ),
               ],
-              color: Colors.grey[200],
+              color: Colors.white,
               border: Border(
                   top: BorderSide(width: 5, color: ThemeColors.primaryColor))),
         ),

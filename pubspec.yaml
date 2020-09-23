@@ -42,7 +42,7 @@ dependencies:
   #toggle_switch: "^0.1.5"
   image_picker: ^0.6.7+4
   expandable: ^4.1.4
-  webview_flutter: ^0.3.22+1
+  #webview_flutter: ^0.3.22+1
   dio: ^3.0.9
   json_annotation: ^3.0.1
   move_to_background: ^1.0.1
