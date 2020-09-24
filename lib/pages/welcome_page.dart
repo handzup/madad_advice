@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:madad_advice/blocs/category_bloc.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
+import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/models/config.dart';
@@ -39,17 +40,11 @@ class _WelcomePageState extends State<WelcomePage>
     Future.delayed(Duration(milliseconds: 0)).then((_) async {
       final sb = Provider.of<SignInBloc>(context);
       sb.checkSignIn();
-      final cb = Provider.of<CategoryBloc>(context);
-      final ib = Provider.of<InternetBloc>(context);
-      final dw = Provider.of<DrawerMenuBloc>(context);
-      final sectionBloc = Provider.of<SectionBloc>(context);
 
-      // await ib.checkInternet();
-      // if (ib.hasInternet) {
-      await dw.getMenuData();
-      //  await cb.getCategoryData(force: true);
-      await sectionBloc.getSectionData(force: true);
-      // }
+      await Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
+      await Provider.of<SectionBloc>(context, listen: false)
+          .getSectionData(force: true);
+      await Provider.of<RecentDataBloc>(context).getRecentData(force: true);
     });
     Future.delayed(Duration(milliseconds: 300), () {
       setState(() {
