@@ -22,13 +22,14 @@ class SphereModelAdapter extends TypeAdapter<SphereModel> {
       title: fields[2] as String,
       elements: (fields[3] as List)?.cast<SphereArticle>(),
       lastFetch: fields[4] as DateTime,
+      sections: (fields[5] as List)?.cast<Subsection2>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, SphereModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.path)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class SphereModelAdapter extends TypeAdapter<SphereModel> {
       ..writeByte(3)
       ..write(obj.elements)
       ..writeByte(4)
-      ..write(obj.lastFetch);
+      ..write(obj.lastFetch)
+      ..writeByte(5)
+      ..write(obj.sections);
   }
 
   @override
@@ -58,7 +61,7 @@ class SphereModelAdapter extends TypeAdapter<SphereModel> {
 
 SphereModel _$SphereModelFromJson(Map<String, dynamic> json) {
   return SphereModel(
-    path: (json['query'] is List ) ? null :json['query']['path']  as String,
+    path: (json['query'] is List) ? null : json['query']['path'] as String,
     type: json['type'] as String,
     title: json['title'] as String,
     elements: (json['elements'] as List)
@@ -69,6 +72,10 @@ SphereModel _$SphereModelFromJson(Map<String, dynamic> json) {
     lastFetch: json['lastFetch'] == null
         ? null
         : DateTime.parse(json['lastFetch'] as String),
+    sections: (json['sections'] as List)
+        ?.map((e) =>
+            e == null ? null : Subsection2.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -79,4 +86,5 @@ Map<String, dynamic> _$SphereModelToJson(SphereModel instance) =>
       'title': instance.title,
       'elements': instance.elements,
       'lastFetch': instance.lastFetch?.toIso8601String(),
+      'sections': instance.sections,
     };

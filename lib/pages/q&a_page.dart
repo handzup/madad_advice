@@ -163,7 +163,7 @@ class _QandAPageState extends State<QandAPage> {
               child: Provider.of<SignInBloc>(context).isSignedIn
                   ? Consumer<QuestionBloc>(
                       builder: (context, data, child) {
-                        if (data.questions.data.isEmpty) return child;
+                        if (data.questions.data == null && data.questions.data.isEmpty) return child;
                         return _buildList(data.questions.data);
                       },
                       child: EmptyPage(

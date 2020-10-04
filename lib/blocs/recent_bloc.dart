@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/models/config.dart';
-import 'dart:convert';
 import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/utils/api_response.dart';
 
@@ -30,10 +30,8 @@ class RecentDataBloc extends ChangeNotifier {
 
   Future _writeBox(SphereModel item) async {
     final openBox = await Hive.openBox<SphereModel>(key);
-    openBox.clear();
-
     //final arKey = item.path.toString();
-    openBox.add(item);
+    openBox.put(item.path.hashCode, item);
 
     // notifyListeners();
   }
@@ -73,22 +71,45 @@ class RecentDataBloc extends ChangeNotifier {
     if (!data.error) _writeBox(data.data);
   }
 
-  // ignore: missing_return
-  Future<SphereModel> getRecentData({bool force = false}) async {
-    if (force) {
+  Future<bool> checkInterner() async {
+    final InternetBloc internetBloc = InternetBloc();
+    await internetBloc.checkInternet();
+    return internetBloc.hasInternet;
+  }
+
+  Future<SphereModel> getRecentData({force = false}) async {
+    if (force && await checkInterner()) {
       await update();
     } else {
-      bool ex = await isExists();
-      if (ex) {
-        _recentData = APIResponse(data: await _readBox());
-        notifyListeners();
-      } else {
-        await update();
-      }
+      await getFromHive();
     }
 
     notifyListeners();
   }
+
+  Future<SphereModel> getFromHive() async {
+    if (await isExists()) {
+      _recentData = APIResponse(data: await _readBox());
+    } else {
+      await update();
+    }
+  }
+  // ignore: missing_return
+  // Future<SphereModel> getRecentData({bool force = false}) async {
+  //   if (force && await checkInterner()) {
+  //     await update();
+  //   } else {
+  //     bool ex = await isExists();
+  //     if (ex) {
+  //       _recentData = APIResponse(data: await _readBox());
+  //       notifyListeners();
+  //     } else {
+  //       await update();
+  //     }
+  //   }
+
+  //   notifyListeners();
+  // }
 
   // var _filteredData;
   // List get filteredData => _filteredData;

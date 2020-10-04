@@ -1,16 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/sphere.dart';
 import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/pages/more_news.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:madad_advice/widgets/recent_news.dart';
 import 'package:provider/provider.dart';
-import '../styles.dart';
 
 class ReacentHome extends StatefulWidget {
   ReacentHome({
@@ -23,14 +21,32 @@ class ReacentHome extends StatefulWidget {
 
 class _ReacentHomeState extends State<ReacentHome> {
   final String url = Config().url;
-
+  var subscription;
   DateFormat format = DateFormat("dd.MM.yyyy");
   @override
   void initState() {
+    internetlisener();
     Future.delayed(Duration(milliseconds: 0)).then((_) async {
       await Provider.of<RecentDataBloc>(context).getRecentData(force: true);
     });
     super.initState();
+  }
+
+  internetlisener() {
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+      } else {
+        Provider.of<RecentDataBloc>(context).getRecentData(force: true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -45,7 +61,7 @@ class _ReacentHomeState extends State<ReacentHome> {
               padding: const EdgeInsets.all(3.0),
               child: InkWell(
                 child: Container(
-                    height: 150,
+                    height: 120,
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         color: Colors.white,

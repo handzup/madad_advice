@@ -445,13 +445,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.9"
-  flutter_phoenix:
-    dependency: "direct main"
-    description:
-      name: flutter_phoenix
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -467,7 +460,7 @@ packages:
     source: hosted
     version: "0.1.2"
   flutter_svg:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_svg
       url: "https://pub.dartlang.org"
@@ -519,7 +512,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.3"
+    version: "1.4.4"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -1163,7 +1156,7 @@ packages:
     source: hosted
     version: "1.1.0"
   webview_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"

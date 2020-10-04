@@ -1,7 +1,3 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/utils/api_service.dart';
@@ -34,7 +30,7 @@ class UserBloc extends ChangeNotifier {
   String get uid => _uid;
   String get imageUrl => _imageUrl;
   String get pickeImageUrl => _pickeImageUrl;
-  String _pickeImageUrl = null;
+  String _pickeImageUrl;
   bool _isGuest;
   bool get isGuest => _isGuest;
   getUserData() async {
@@ -49,7 +45,6 @@ class UserBloc extends ChangeNotifier {
     _isGuest = sp.getBool('guest') ?? true;
     notifyListeners();
   }
-  //TODO upload image to server and recive update here
 
   Future setImage(String imagePath) async {
     if (imagePath == null) {
@@ -144,6 +139,7 @@ class UserBloc extends ChangeNotifier {
     getUserData();
   }
 
+  // ignore: missing_return
   Future removeUserPhoto() {
     //TODO:remove user photo;
   }

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/search_result.dart';
-import 'dart:convert';
-import 'package:madad_advice/models/sphere.dart';
 
 import 'package:madad_advice/utils/api_service.dart';
 import 'package:madad_advice/models/sphere_articel.dart';
@@ -22,12 +20,11 @@ class SearchBloc extends ChangeNotifier {
   List<SearchResult> get searchData => _searchData;
 
   var apiService = ApiService();
-  Duration _cacheValidDuration;
 
   Future<List<SearchResult>> search(value) async {
     var data = <SearchResult>[];
-    final result = await apiService.fetch(
-        '$restUrl/mobapi.getelements?q=$value');
+    final result =
+        await apiService.fetch('$restUrl/mobapi.getelements?q=$value');
     result['result']['elements'].forEach((item) {
       data.add(SearchResult.fromJson(item));
     });
@@ -40,6 +37,7 @@ class SearchBloc extends ChangeNotifier {
   void afterSearch(String value) async {
     if (value != "" && value.length >= 3) {
       _searchData = await search(value);
+      print(_searchData);
     }
 
     notifyListeners();
@@ -68,22 +66,29 @@ class SearchBloc extends ChangeNotifier {
   }
 
   Future<SphereArticle> _getArticleFormApi(String code) async {
-    final result = await apiService.fetch(
-        '$restUrl/mobapi.getelements?path=$code');
-    var data = SphereArticle.fromJson(result['result']['elements'][0]);
-    //     jsonData['result']['ru'].forEach((item) {
-    //   data.add(SphereArticle.fromJson(item));
-    // });
-    await _writeBox(data);
+    final result =
+        await apiService.fetch('$restUrl/mobapi.getelements?path=$code');
+    SphereArticle data;
+    try {
+      data = SphereArticle.fromJson(result['result']['elements'][0]);
+    } catch (e) {
+      data = null;
+    }
+    if (data != null) await _writeBox(data);
     return data;
   }
 
   Future getArticle(String articleId, String code) async {
-    if (await isExists(articleId)) {
-      _article = await _readBox(articleId);
+    if (articleId != null) {
+      if (await isExists(articleId)) {
+        _article = await _readBox(articleId);
+      } else {
+        if (code != '') _article = await _getArticleFormApi(code);
+      }
     } else {
       if (code != '') _article = await _getArticleFormApi(code);
     }
+
     notifyListeners();
   }
 }

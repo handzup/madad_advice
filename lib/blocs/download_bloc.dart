@@ -70,7 +70,7 @@ class DownloadBloc extends ChangeNotifier {
 
   Future getAllFiles() async {
     _allFiles = await _readBoxAll();
-   notifyListeners();
+    notifyListeners();
   }
 
   Future writeFile(name, item) async {

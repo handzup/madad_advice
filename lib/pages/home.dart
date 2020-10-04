@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -9,23 +10,21 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:madad_advice/blocs/category_bloc.dart';
 import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
+import 'package:madad_advice/blocs/recent_bloc.dart';
 import 'package:madad_advice/blocs/section_bloc.dart';
 import 'package:madad_advice/blocs/sign_in_bloc.dart';
 import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/category.dart';
 import 'package:madad_advice/models/recived_notification.dart';
-import 'package:madad_advice/models/sphere.dart';
+import 'package:madad_advice/models/section.dart';
 import 'package:madad_advice/pages/q&a_page.dart';
 import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/api_service.dart';
-import 'package:madad_advice/utils/locator.dart';
 import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/drawer.dart';
 import 'package:madad_advice/widgets/loading_shimmer.dart';
+import 'package:madad_advice/widgets/main_page_block.dart';
+import 'package:madad_advice/widgets/no_internet_connection.dart';
 import 'package:madad_advice/widgets/reacent_home.dart';
-import 'package:madad_advice/widgets/recent_news.dart';
 import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:madad_advice/widgets/sphere.dart';
 import 'package:madad_advice/generated/locale_keys.g.dart';
@@ -50,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     remindDays: 2,
     remindLaunches: 2,
   );
-
+  var subscription;
   int currentIndex = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -62,7 +61,6 @@ class _HomePageState extends State<HomePage> {
   final BehaviorSubject<String> selectNotificationSubject =
       BehaviorSubject<String>();
 
-  APIResponse<List<MyCategory>> _apiResponse;
   Widget snackBar({bool serviceError = false}) {
     return SnackBar(
       duration: Duration(minutes: 1),
@@ -80,18 +78,10 @@ class _HomePageState extends State<HomePage> {
         label: serviceError ? 'Servcie Error' : LocaleKeys.tryAgain.tr(),
         textColor: Colors.blueAccent,
         onPressed: () {
-          checkInternet();
+          _handleRefresh();
         },
       ),
     );
-  }
-
-  void checkInternet() async {
-    final ib = Provider.of<InternetBloc>(context, listen: false);
-    await ib.checkInternet();
-    ib.hasInternet == false
-        ? _scaffoldKey.currentState.showSnackBar(snackBar())
-        : _handleRefresh();
   }
 
   Future<void> _showNotification({message}) async {
@@ -124,17 +114,28 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> message) async {
     if (message.containsKey('data')) {
       // Handle data message
-      final dynamic data = message['data'];
       print('data 222');
     }
 
     if (message.containsKey('notification')) {
       print('noti 222');
       // Handle notification message
-      final dynamic notification = message['notification'];
     }
     print('data default');
     // Or do other work.
+  }
+
+  internetlisener() {
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        _scaffoldKey.currentState.showSnackBar(snackBar());
+      } else {
+        _scaffoldKey.currentState.hideCurrentSnackBar();
+        _handleRefresh();
+      }
+    });
   }
 
   final _firebaseMessaging = FirebaseMessaging();
@@ -142,7 +143,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat');
-
+    internetlisener();
     var initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
@@ -164,7 +165,6 @@ class _HomePageState extends State<HomePage> {
       Provider.of<SignInBloc>(context, listen: false).checkSignIn();
       _requestIOSPermissions();
       _configureSelectNotificationSubject();
-      checkInternet();
     });
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -206,6 +206,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     selectNotificationSubject.close();
+    subscription.cancel();
     super.dispose();
   }
 
@@ -222,7 +223,7 @@ class _HomePageState extends State<HomePage> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
-      await nextScreen(context, QandAPage());
+      nextScreen(context, QandAPage());
     });
   }
 
@@ -231,20 +232,15 @@ class _HomePageState extends State<HomePage> {
   TabController _tabController;
 
   Future<Null> _handleRefresh() async {
-    final ib = Provider.of<InternetBloc>(context, listen: false);
-    ib.checkInternet();
-    ib.hasInternet == false
-        ? _scaffoldKey.currentState.showSnackBar(snackBar())
-        : null;
-    final cb = Provider.of<CategoryBloc>(context);
+    //final cb = Provider.of<CategoryBloc>(context);
     await Provider.of<DrawerMenuBloc>(context, listen: false).getMenuData();
     await Provider.of<SectionBloc>(context, listen: false)
         .getSectionData(force: true);
-
-    await cb.getCategoryData(force: true);
-    if (cb.sphereData.error) {
-      _scaffoldKey.currentState.showSnackBar(serviceError());
-    }
+    await Provider.of<RecentDataBloc>(context).getRecentData(force: true);
+    // await cb.getCategoryData(force: true);
+    // if (cb.sphereData.error) {
+    //   _scaffoldKey.currentState.showSnackBar(serviceError());
+    // }
     return null;
   }
 
@@ -266,9 +262,6 @@ class _HomePageState extends State<HomePage> {
                       labelColor: ThemeColors.primaryColor,
                       unselectedLabelColor: Color(0xff5f6368), //niceish grey
                       isScrollable: false,
-                      onTap: (index) {
-                        checkInternet();
-                      },
                       indicator: MD2Indicator(
                           //it begins here
                           indicatorHeight: 5,
@@ -337,15 +330,15 @@ class _HomePageState extends State<HomePage> {
                 onRefresh: _handleRefresh,
                 child: TabBarView(
                   children: <Widget>[
-                    Consumer<CategoryBloc>(
+                    Consumer<SectionBloc>(
                       builder: (context, data, child) {
-                        if (data.sphereData.data.isEmpty) return child;
-                        return buildCategoryList(data.sphereData.data);
+                        if (data.sectionData.data.isEmpty) return child;
+                        return buildCategoryList(data.sectionData.data);
                       },
                       child: Column(
                         children: <Widget>[
                           Expanded(
-                            child: LoadingSphereWidget(),
+                            child: NoInternetConnection(),
                           ),
                         ],
                       ),
@@ -358,47 +351,23 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildCategoryList(List<MyCategory> data) {
+  Widget buildCategoryList(List<Section> data) {
     return Container(
       child:
           CustomScrollView(physics: ClampingScrollPhysics(), slivers: <Widget>[
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              // if (index == 0) {
-              //   return Container(
-              //     padding: EdgeInsets.all(10),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: <Widget>[
-              //         Container(
-              //           height: 30,
-              //           width: 4,
-              //           decoration: BoxDecoration(
-              //               color: ThemeColors.primaryColor,
-              //               borderRadius: BorderRadius.circular(10)),
-              //         ),
-              //         SizedBox(
-              //           width: 5,
-              //         ),
-              //         Text(LocaleKeys.spheresList.tr(), //title Сферы
-              //                 style: TextStyle(
-              //                     fontSize: 18,
-              //                     color: Colors.black87,
-              //                     fontWeight: FontWeight.w600))
-              //             .tr(),
-              //         Spacer(),
-              //       ],
-              //     ),
-              //   );
-              // }
-              return Sphere(
-                categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
-                data: data,
-                index: index,
-              );
+              // return Sphere(
+              //   categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
+              //   data: data,
+              //   index: index,
+              // );
+              return MainPageBlock(data: data[index]);
             },
             childCount: data.length,
+
+            ///sda
           ),
         ),
       ]),

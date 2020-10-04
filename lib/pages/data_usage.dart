@@ -13,12 +13,12 @@ class DataUsage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataBase = Provider.of<DownloadBloc>(context);
+    final dataBase = Provider.of<DownloadBloc>(context,listen: false);
     dataBase.getSize();
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          LocaleKeys.memoryUsage.tr(),//datausage
+          LocaleKeys.memoryUsage.tr(), //datausage
         ),
         elevation: 1,
       ),
@@ -30,10 +30,8 @@ class DataUsage extends StatelessWidget {
             SizedBox(
               height: 60,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    LocaleKeys.dmAndOthers.tr())
-              ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(LocaleKeys.dmAndOthers.tr())),
             ),
             Container(
               decoration: BoxDecoration(
@@ -115,7 +113,7 @@ class DataUsage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               content: Text(
-                 '${LocaleKeys.rlyClearDb.tr()}',
+                '${LocaleKeys.rlyClearDb.tr()}',
                 style: TextStyle(fontSize: 14),
               ),
               actions: <Widget>[

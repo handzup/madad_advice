@@ -1,38 +1,74 @@
 {
   "project_info": {
-    "project_number": "262293506219",
-    "firebase_url": "https://madadadvice4business.firebaseio.com",
-    "project_id": "madadadvice4business",
-    "storage_bucket": "madadadvice4business.appspot.com"
+    "project_number": "68144912699",
+    "firebase_url": "https://advicebusiness-3c82a.firebaseio.com",
+    "project_id": "advicebusiness-3c82a",
+    "storage_bucket": "advicebusiness-3c82a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:262293506219:android:22b1ed886a76b893998fee",
+        "mobilesdk_app_id": "1:68144912699:android:4a844548ff36012b63bf1e",
         "android_client_info": {
           "package_name": "madad.advice4business"
         }
       },
       "oauth_client": [
         {
-          "client_id": "262293506219-lp34msssmr7fjiihqkm3hblupjke3p3k.apps.googleusercontent.com",
+          "client_id": "68144912699-3q6jgb5v0hfdn41ucke3k7iakm456itt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4z08CeUG288l2A5YKN5O14Fdvssv4Jhk"
+          "current_key": "AIzaSyBHssf1guCCuZJp3_d3nWdD1DzRUD6hiVM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "262293506219-lp34msssmr7fjiihqkm3hblupjke3p3k.apps.googleusercontent.com",
+              "client_id": "68144912699-3q6jgb5v0hfdn41ucke3k7iakm456itt.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "262293506219-qls1co2tutdhc29ls14voivtiir8bntk.apps.googleusercontent.com",
+              "client_id": "68144912699-v2269h45hvm3moqa5spigu898tnq2gpo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "madad.advice4business"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68144912699:android:27ec86425fcee9be63bf1e",
+        "android_client_info": {
+          "package_name": "uz.tug.adviceforbusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68144912699-3q6jgb5v0hfdn41ucke3k7iakm456itt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHssf1guCCuZJp3_d3nWdD1DzRUD6hiVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68144912699-3q6jgb5v0hfdn41ucke3k7iakm456itt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "68144912699-v2269h45hvm3moqa5spigu898tnq2gpo.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "madad.advice4business"

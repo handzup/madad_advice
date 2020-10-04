@@ -3,7 +3,7 @@ description: A new Flutter project.
  
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
  
-version: 1.0.0+1
+version: 1.0.0+10
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -42,11 +42,11 @@ dependencies:
   #toggle_switch: "^0.1.5"
   image_picker: ^0.6.7+4
   expandable: ^4.1.4
-  webview_flutter: ^0.3.22+1
+  #webview_flutter: ^0.3.22+1
   dio: ^3.0.9
   json_annotation: ^3.0.1
   move_to_background: ^1.0.1
-  hive: ^1.4.2
+  hive: ^1.4.4
   hive_flutter: ^0.3.1
   liquid_pull_to_refresh: ^2.0.0
   open_file: ^3.0.1
@@ -58,7 +58,7 @@ dependencies:
   rxdart: ^0.24.1
   firebase_core: ^0.4.5
   file_picker: ^1.13.2
-  flutter_phoenix: ^0.1.0
+  flutter_svg: ^0.17.4
   rate_my_app: ^0.7.0+1
   font_awesome_flutter:
     git:
@@ -118,7 +118,6 @@ flutter:
     - assets/madad-logo.png
     - assets/loader.flr
     - assets/loading_rainbow.flr
-    - assets/localization/
     - resources/langs/
   fonts:
     

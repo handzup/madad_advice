@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -35,16 +33,16 @@ import 'package:madad_advice/models/sphere_articel.dart';
 import 'package:madad_advice/pages/welcome_page.dart';
 import 'package:madad_advice/utils/locator.dart';
 import 'package:madad_advice/widgets/preload.dart';
+import 'blocs/soc_links_bloc.dart';
 import 'httpcsv.dart' as CsvAssetLoader;
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 
-const section = 'section';
-const category = 'category';
+import 'models/menu.dart';
+import 'models/subsection.dart';
+import 'models/subsection_2.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -64,29 +62,29 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(SectionAdapter());
+  Hive.registerAdapter(MenuAdapter());
+  Hive.registerAdapter(SubsectionAdapter());
+  Hive.registerAdapter(Subsection2Adapter());
   Hive.registerAdapter(MyCategoryAdapter());
   Hive.registerAdapter(SphereModelAdapter());
   Hive.registerAdapter(SphereArticleAdapter());
   Hive.registerAdapter(PinnedFileAdapter());
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(Phoenix(
-    child: EasyLocalization(
-      child: MyApp(),
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('ru', 'RU'),
-        Locale('uz', 'UZ'),
-        // Locale('uz-UZ', "uz-Uz"),
-      ],
-     // path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langscopy.csv',
-        path: 'https://b-advice.uz/inc/langs.csv',
-      fallbackLocale: Locale('ru', "RU"),
-      startLocale: Locale('ru', "RU"),
-      assetLoader: CsvAssetLoader.CsvAssetLoader(),
-      preloaderWidget: PreloadPage(),
-
-     ),
+  runApp(EasyLocalization(
+    child: MyApp(),
+    supportedLocales: [
+      Locale('en', 'US'),
+      Locale('ru', 'RU'),
+      Locale('uz', 'UZ'),
+      // Locale('uz-UZ', "uz-Uz"),
+    ],
+    // path: 'https://raw.githubusercontent.com/handzup/madad_advice/master/resources/langs/langscopy.csv',
+    path: 'https://b-advice.uz/inc/langs.csv',
+    fallbackLocale: Locale('uz', "UZ"),
+    startLocale: Locale('uz', "UZ"),
+    assetLoader: CsvAssetLoader.CsvAssetLoader(),
+    preloaderWidget: PreloadPage(),
   ));
 }
 
@@ -158,6 +156,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<QuestionBloc>(
           create: (context) => QuestionBloc(),
+        ),
+        ChangeNotifierProvider<CosLinksBloc>(
+          create: (context) => CosLinksBloc(),
         ),
       ],
       child: MaterialApp(

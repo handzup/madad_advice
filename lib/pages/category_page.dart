@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:madad_advice/blocs/category_bloc.dart';
 import 'package:madad_advice/models/category.dart';
-import 'package:madad_advice/utils/api_response.dart';
 import 'package:madad_advice/widgets/loading_shimmer.dart';
 import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:madad_advice/widgets/sphere.dart';
