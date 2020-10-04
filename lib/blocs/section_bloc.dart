@@ -68,7 +68,7 @@ class SectionBloc extends ChangeNotifier {
 
   Future<List<Section>> getFromHive() async {
     if (await isExists()) {
-      _sectionData.data = await _readBox();
+      _sectionData = APIResponse(data: await _readBox());
     } else {
       await update();
     }

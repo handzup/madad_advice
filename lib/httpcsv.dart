@@ -25,10 +25,16 @@ class CsvAssetLoader extends AssetLoader {
     if (result == ConnectivityResult.none) {
       dioresult = await rootBundle.loadString('resources/langs/langs.csv');
     } else {
-      dioresult = await Dio().download(url, fullPath).then((value) async {
-        File file = File(fullPath);
-        return await file.readAsString();
-      });
+      try {
+        dioresult = await Dio().download(url, fullPath).then((value) async {
+          File file = File(fullPath);
+          return await file.readAsString();
+        }).catchError((onError) async {
+          dioresult = await rootBundle.loadString('resources/langs/langs.csv');
+        });
+      } catch (e) {
+        dioresult = await rootBundle.loadString('resources/langs/langs.csv');
+      }
     }
 
     return dioresult;

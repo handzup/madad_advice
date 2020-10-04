@@ -1,4 +1,4 @@
-package madad.advice4business;
+package uz.tug.adviceforbusiness;
 import io.flutter.app.FlutterApplication
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback

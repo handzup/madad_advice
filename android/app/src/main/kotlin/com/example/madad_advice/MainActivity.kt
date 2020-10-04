@@ -1,4 +1,4 @@
-package madad.advice4business
+package uz.tug.adviceforbusiness
 
 import io.flutter.embedding.android.FlutterActivity
 

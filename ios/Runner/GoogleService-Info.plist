@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>262293506219-qls1co2tutdhc29ls14voivtiir8bntk.apps.googleusercontent.com</string>
+	<string>68144912699-v2269h45hvm3moqa5spigu898tnq2gpo.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.262293506219-qls1co2tutdhc29ls14voivtiir8bntk</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>262293506219-8hjhraji7nmbv6nr0unuihtjbdf0k9d8.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.68144912699-v2269h45hvm3moqa5spigu898tnq2gpo</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCxn4LvlJ54WzM-gkSKFQIJcwf4s0H3m8M</string>
+	<string>AIzaSyBlJ5maVB6QWijOx0tV7XWWgh4gQWJpRVY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>262293506219</string>
+	<string>68144912699</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>madad.advice4business</string>
 	<key>PROJECT_ID</key>
-	<string>madadadvice4business</string>
+	<string>advicebusiness-3c82a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>madadadvice4business.appspot.com</string>
+	<string>advicebusiness-3c82a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:262293506219:ios:068675ac4fd188fe998fee</string>
+	<string>1:68144912699:ios:5c458914086eb6b263bf1e</string>
 	<key>DATABASE_URL</key>
-	<string>https://madadadvice4business.firebaseio.com</string>
+	<string>https://advicebusiness-3c82a.firebaseio.com</string>
 </dict>
 </plist>

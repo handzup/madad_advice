@@ -81,6 +81,7 @@ class DrawerMenuBloc extends ChangeNotifier {
     if (!data.error && data?.data?.isNotEmpty) {
       _menuData = data;
       _writeBox(data.data);
+      notifyListeners();
     }
   }
 
@@ -92,7 +93,8 @@ class DrawerMenuBloc extends ChangeNotifier {
 
   Future<List<Menu>> getFromHive() async {
     if (await isExists()) {
-      _menuData.data = await _readBox();
+      _menuData = APIResponse(data: await _readBox());
+      notifyListeners();
     } else {
       await update();
     }

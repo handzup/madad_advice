@@ -89,7 +89,7 @@ class RecentDataBloc extends ChangeNotifier {
 
   Future<SphereModel> getFromHive() async {
     if (await isExists()) {
-      _recentData.data = await _readBox();
+      _recentData = APIResponse(data: await _readBox());
     } else {
       await update();
     }

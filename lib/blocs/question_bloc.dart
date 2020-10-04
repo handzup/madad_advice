@@ -62,7 +62,7 @@ class QuestionBloc extends ChangeNotifier {
     await getUid();
     _questions = await apiService.fetchApiGetAllQuestions(uid: _uid);
     print('ds');
-    _questions.data = List.from(_questions.data.reversed);
+    _questions = APIResponse(data: List.from(_questions.data.reversed));
     notifyListeners();
   }
 

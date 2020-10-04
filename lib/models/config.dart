@@ -2,7 +2,7 @@ class Config {
   final String appName = 'Advice Business'; //app name
   final splashIcon = 'assets/logo.png'; //splash image and other used image
   final String androidPacakageName =
-      'madad.advice4business'; //Replace by your package name (android)
+      'uz.tug.adviceforbusiness'; //Replace by your package name (android)
   final String iOSAppId = '0000000';
 
   final String uri =

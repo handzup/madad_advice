@@ -60,7 +60,7 @@ class CategoryBloc extends ChangeNotifier {
     } else {
       var ex = await isExists();
       if (ex) {
-        _sphereData.data = await _readBox();
+        _sphereData  = APIResponse(data: await _readBox());
         notifyListeners();
       } else {
         await update();
