@@ -103,3 +103,7 @@ createNewPass,Create a new password,Придумайте новый пароль
 errDuringRecoverPass,An error occurred while recovering your password,Произошла ошибка при восстановлении пароля,Паролингизни тиклашда хатолик юз берди
 reEnterPassword,Confirm password,Повторите  пароль,Паролни қайта киритинг
 passMissmatch,Password mismatch,Пароли не совпадают,Пароллар мос келмаяпти
+chooseQuestionCategory,Select question category,Выберите категорию вопроса,Савол туркумини танланг
+other,Other,Другое,Бошка
+successSend,Your question has been delivered,Ваш вопрос был доставлен,Саволингиз этказилди
+errorWhenSend,An error occurred while sending,Произошла ошибка при отпавке,Юбориш пайтида хатолик юз берди

@@ -113,13 +113,13 @@ class _QandAPageState extends State<QandAPage> {
                     WidgetsBinding.instance
                         .addPostFrameCallback((_) => openToastRed(
                               context,
-                              'Произошла ошибка при отпавке',
+                              LocaleKeys.errorWhenSend.tr(),
                             ));
                   } else if (data.response.data != -1) {
                     WidgetsBinding.instance
                         .addPostFrameCallback((_) => openToast(
                               context,
-                              'Ваш вопрос был доставлен',
+                              LocaleKeys.successSend.tr(),
                             ));
                   }
                   data.setDefault();
@@ -485,7 +485,7 @@ handleSubmit(context, QuestionBloc questionBloc) {
     if (questionBloc.drDownItem == null) {
       openToastRed(
         context,
-        'Выберите категорию вопроса',
+        LocaleKeys.chooseQuestionCategory.tr(),
       );
     }
   }

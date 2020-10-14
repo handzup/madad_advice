@@ -2,7 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../models/file.dart';
 import '../models/question.dart';
@@ -39,7 +41,7 @@ class QuestionBloc extends ChangeNotifier {
        drDownItem = value;
       notifyListeners();
   }
-  SectionInterm _currentitem = SectionInterm(id: null, title: 'Бошка');
+  SectionInterm _currentitem = SectionInterm(id: null, title: LocaleKeys.other.tr());
   SectionInterm get currentItem => _currentitem;
   List<SectionInterm> _items;
   List<SectionInterm> get items => _items;

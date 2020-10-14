@@ -102,5 +102,9 @@
     "createNewPass": "Янги парол яратинг",
     "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди",
     "reEnterPassword": "Паролни қайта киритинг",
-    "passMissmatch": "Пароллар мос келмаяпти"
+    "passMissmatch": "Пароллар мос келмаяпти",
+    "chooseQuestionCategory": "Савол туркумини танланг",
+    "other": "Бошка",
+    "successSend": "Саволингиз этказилди",
+    "errorWhenSend": "Юбориш пайтида хатолик юз берди"
 }

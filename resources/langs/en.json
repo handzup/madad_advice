@@ -102,5 +102,9 @@
     "createNewPass": "Create a new password",
     "errDuringRecoverPass": "An error occurred while recovering your password",
     "reEnterPassword": "Confirm password",
-    "passMissmatch": "Password mismatch"
+    "passMissmatch": "Password mismatch",
+    "chooseQuestionCategory": "Select question category",
+    "other": "Other",
+    "successSend": "Your question has been delivered",
+    "errorWhenSend": "An error occurred while sending"
 }

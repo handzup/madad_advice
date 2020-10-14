@@ -118,7 +118,11 @@ class CodegenLoader extends AssetLoader{
   "createNewPass": "Придумайте новый пароль",
   "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля",
   "reEnterPassword": "Повторите пароль",
-  "passMissmatch": "Пароли не совпадают"
+  "passMissmatch": "Пароли не совпадают",
+  "chooseQuestionCategory": "Выберите категорию вопроса",
+  "other": "Дургое",
+  "successSend": "Ваш вопрос был доставлен",
+  "errorWhenSend": "Произошла ошибка при отпавке"
 };
 static const Map<String,dynamic> en = {
   "spheresList": "List of spheres",
@@ -224,7 +228,11 @@ static const Map<String,dynamic> en = {
   "createNewPass": "Create a new password",
   "errDuringRecoverPass": "An error occurred while recovering your password",
   "reEnterPassword": "Confirm password",
-  "passMissmatch": "Password mismatch"
+  "passMissmatch": "Password mismatch",
+  "chooseQuestionCategory": "Select question category",
+  "other": "Other",
+  "successSend": "Your question has been delivered",
+  "errorWhenSend": "An error occurred while sending"
 };
 static const Map<String,dynamic> uz_UZ = {
   "spheresList": "Сохалар рўйхати",
@@ -330,7 +338,11 @@ static const Map<String,dynamic> uz_UZ = {
   "createNewPass": "Янги парол яратинг",
   "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди",
   "reEnterPassword": "Паролни қайта киритинг",
-  "passMissmatch": "Пароллар мос келмаяпти"
+  "passMissmatch": "Пароллар мос келмаяпти",
+  "chooseQuestionCategory": "Савол туркумини танланг",
+  "other": "Бошка",
+  "successSend": "Саволингиз этказилди",
+  "errorWhenSend": "Юбориш пайтида хатолик юз берди"
 };
 static const Map<String,dynamic> ru_RU = {
   "spheresList": "Список сфер",
@@ -436,7 +448,11 @@ static const Map<String,dynamic> ru_RU = {
   "createNewPass": "Придумайте новый пароль",
   "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля",
   "reEnterPassword": "Повторите пароль",
-  "passMissmatch": "Пароли не совпадают"
+  "passMissmatch": "Пароли не совпадают",
+  "chooseQuestionCategory": "Выберите категорию вопроса",
+  "other": "Дургое",
+  "successSend": "Ваш вопрос был доставлен",
+  "errorWhenSend": "Произошла ошибка при отпавке"
 };
 static const Map<String,dynamic> uz = {
   "spheresList": "Сохалар рўйхати",
@@ -542,7 +558,11 @@ static const Map<String,dynamic> uz = {
   "createNewPass": "Янги парол яратинг",
   "errDuringRecoverPass": "Паролингизни тиклашда хатолик юз берди",
   "reEnterPassword": "Паролни қайта киритинг",
-  "passMissmatch": "Пароллар мос келмаяпти"
+  "passMissmatch": "Пароллар мос келмаяпти",
+  "chooseQuestionCategory": "Савол туркумини танланг",
+  "other": "Бошка",
+  "successSend": "Саволингиз этказилди",
+  "errorWhenSend": "Юбориш пайтида хатолик юз берди"
 };
 static const Map<String,dynamic> en_US = {
   "spheresList": "List of spheres",
@@ -648,7 +668,11 @@ static const Map<String,dynamic> en_US = {
   "createNewPass": "Create a new password",
   "errDuringRecoverPass": "An error occurred while recovering your password",
   "reEnterPassword": "Confirm password",
-  "passMissmatch": "Password mismatch"
+  "passMissmatch": "Password mismatch",
+  "chooseQuestionCategory": "Select question category",
+  "other": "Other",
+  "successSend": "Your question has been delivered",
+  "errorWhenSend": "An error occurred while sending"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz_UZ": uz_UZ, "ru_RU": ru_RU, "uz": uz, "en_US": en_US};
 }

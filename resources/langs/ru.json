@@ -102,5 +102,9 @@
     "createNewPass": "Придумайте новый пароль",
     "errDuringRecoverPass": "Произошла ошибка при восстановлении пароля",
     "reEnterPassword": "Повторите пароль",
-    "passMissmatch": "Пароли не совпадают"
+    "passMissmatch": "Пароли не совпадают",
+    "chooseQuestionCategory": "Выберите категорию вопроса",
+    "other": "Дургое",
+    "successSend": "Ваш вопрос был доставлен",
+    "errorWhenSend": "Произошла ошибка при отпавке"
 }
