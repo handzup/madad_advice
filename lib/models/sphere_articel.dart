@@ -37,8 +37,10 @@ class SphereArticle {
   @HiveField(14)
   final String normativnye_akty; //вправить в ручную g файл!
   @HiveField(15)
+  @JsonKey(defaultValue: null)
   final List<PinnedFile> prikreplennye_fayly;
   @HiveField(16)
+  @JsonKey(defaultValue: null)
   final Map<String, String> scopes;
   @HiveField(17)
   final String forum_topic_id;
