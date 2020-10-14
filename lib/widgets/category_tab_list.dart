@@ -1,8 +1,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/next_screen.dart';
+import '../pages/details.dart';
+import '../utils/next_screen.dart';
 
 Widget categoryTabList(d, tag){
   return ListView.separated(

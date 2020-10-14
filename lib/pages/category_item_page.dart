@@ -1,21 +1,22 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:madad_advice/blocs/articel_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/sphere.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/widgets/service_error_snackbar.dart';
-import 'package:madad_advice/widgets/sphere.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import '../blocs/articel_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/config.dart';
+import '../models/sphere.dart';
 import '../styles.dart';
+import '../utils/empty.dart';
+import '../utils/next_screen.dart';
+import '../widgets/service_error_snackbar.dart';
+import '../widgets/sphere.dart';
+import 'details.dart';
 
 class CategoryItemPage extends StatefulWidget {
   final String category;
@@ -88,7 +89,7 @@ class _CategoryItemPageState extends State<CategoryItemPage>
           key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
-              category,
+              category ?? '',
               overflow: TextOverflow.fade,
             ),
           ),
@@ -101,7 +102,9 @@ class _CategoryItemPageState extends State<CategoryItemPage>
               springAnimationDurationInMilliseconds: 100,
               onRefresh: _handleRefresh,
               child: data != null &&
-                      (data.elements.isNotEmpty || data.sections.isNotEmpty)
+                      ((data?.elements != null
+                          ? data?.elements?.isNotEmpty
+                          : false) || data.sections.isNotEmpty)
                   ? buildList(data)
                   : EmptyPage(
                       icon: Icons.hourglass_empty,
@@ -125,13 +128,14 @@ class _CategoryItemPageState extends State<CategoryItemPage>
 
   List<Widget> buildLiss(SphereModel data) {
     List<Widget> asd = List<Widget>();
-    for (var i = 0; i < data?.sections?.length; i++) {
-      asd.add(Sphere(
-        data: data.sections,
-        index: i,
-        categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
-      ));
-    }
+    if (data.sections != null)
+      for (var i = 0; i < data?.sections?.length; i++) {
+        asd.add(Sphere(
+          data: data.sections,
+          index: i,
+          categoryColor: Color(0xfffdfdfd).withOpacity(0.9),
+        ));
+      }
     for (var i = 0; i < data?.elements?.length; i++) {
       asd.add(card(data, i));
     }
@@ -260,7 +264,7 @@ class _CategoryItemPageState extends State<CategoryItemPage>
               context,
               DetailsPage(
                 data: data.elements[index],
-                category: data.title,
+                category: data.title  ,
                 date: data.elements[index].datetime != null
                     ? format.format(
                         format.parse(data.elements[index].datetime.toString()))

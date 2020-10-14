@@ -118,8 +118,8 @@ SphereArticle _$SphereArticleFromJson(Map<String, dynamic> json) {
         ? null
         : ((json['normativnye_akty'] is List)
             ? null
-            : json['normativnye_akty']['TEXT'] as String),
-    prikreplennye_fayly: (json['prikreplennye_fayly'] as List)
+            : json['normativnye_akty'] !=null ? json['normativnye_akty']['TEXT'] as String:null),
+    prikreplennye_fayly:json['prikreplennye_fayly'] as List == null ? null : (json['prikreplennye_fayly'] as List) 
             ?.map((e) => e == null
                 ? null
                 : PinnedFile.fromJson(e as Map<String, dynamic>))
@@ -133,7 +133,7 @@ SphereArticle _$SphereArticleFromJson(Map<String, dynamic> json) {
             ?.toList(),
     scopes: (json['scopes'] is List)
         ? null
-        : (json['scopes'] as Map<String, dynamic>)?.map(
+        :json['scopes'] == null ? null: (json['scopes'] as Map<String, dynamic>)?.map(
             (k, e) => MapEntry(k, e as String),
           ),
     forum_topic_id: json['forum_topic_id'] as String,

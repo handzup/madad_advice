@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:madad_advice/models/subsection_2.dart';
 
 import 'sphere_articel.dart';
+import 'subsection_2.dart';
 
 part 'sphere.g.dart';
 

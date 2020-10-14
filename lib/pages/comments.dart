@@ -1,23 +1,24 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:madad_advice/blocs/comments_bloc.dart';
-import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/comment.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/styles.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/utils/snacbar.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import '../blocs/comments_bloc.dart';
+import '../blocs/internet_bloc.dart';
+import '../blocs/user_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/comment.dart';
+import '../models/config.dart';
+import '../styles.dart';
+import '../utils/api_response.dart';
+import '../utils/empty.dart';
+import '../utils/snacbar.dart';
 
 class CommentsPage extends StatefulWidget {
   final String code;

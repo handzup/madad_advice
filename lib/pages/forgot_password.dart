@@ -1,7 +1,7 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_multi_formatter/formatters/phone_input_formatter.dart';
 import 'package:madad_advice/blocs/internet_bloc.dart';
 import 'package:madad_advice/blocs/sing_up_bloc.dart';

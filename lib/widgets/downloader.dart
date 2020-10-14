@@ -1,16 +1,17 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:madad_advice/blocs/download_bloc.dart';
-import 'package:madad_advice/models/pinned_file.dart';
-import 'package:madad_advice/utils/fa_icon.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import '../blocs/download_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/pinned_file.dart';
+import '../utils/fa_icon.dart';
 
 class Downloader extends StatefulWidget {
   final fileUrl;

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:madad_advice/pages/category_item_page.dart';
-import 'package:madad_advice/utils/fa_icon.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 
+import '../pages/category_item_page.dart';
 import '../styles.dart';
+import '../utils/next_screen.dart';
 
 class Sphere extends StatelessWidget {
   const Sphere({

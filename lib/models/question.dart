@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'question.g.dart';
 
 @HiveType(typeId: 7)

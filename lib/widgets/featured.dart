@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:madad_advice/blocs/news_data_bloc.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/widgets/loading_shimmer.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/news_data_bloc.dart';
+import '../pages/details.dart';
+import '../utils/next_screen.dart';
+import 'loading_shimmer.dart';
 
 class Featured extends StatefulWidget {
   Featured({Key key}) : super(key: key);

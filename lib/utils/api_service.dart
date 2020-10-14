@@ -1,19 +1,20 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:madad_advice/models/category.dart';
-import 'package:madad_advice/models/comment.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/file.dart';
-import 'package:madad_advice/models/langs.dart';
-import 'package:madad_advice/models/menu.dart';
-import 'package:madad_advice/models/question.dart';
-import 'package:madad_advice/models/section.dart';
-import 'package:madad_advice/models/social.dart';
-import 'package:madad_advice/models/sphere.dart';
-import 'package:madad_advice/models/user.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/locator.dart';
+
+import '../models/category.dart';
+import '../models/comment.dart';
+import '../models/config.dart';
+import '../models/file.dart';
+import '../models/langs.dart';
+import '../models/menu.dart';
+import '../models/question.dart';
+import '../models/section.dart';
+import '../models/social.dart';
+import '../models/sphere.dart';
+import '../models/user.dart';
+import 'api_response.dart';
+import 'locator.dart';
 
 var dio = Dio();
 final restUrl = Config().resturl;
@@ -378,14 +379,14 @@ class ApiService {
   }
 
   Future<APIResponse<int>> sendQuestion(
-      {String reqUrl, String uid, String qMessage, List<FileTo> files}) async {
+      {String reqUrl, String uid, String qMessage, List<FileTo> files,String sid}) async {
     var mPartFIles = [];
     files.forEach((element) {
       mPartFIles
           .add(MultipartFile.fromFile(element.path, filename: element.name));
     });
     var formData = FormData.fromMap(
-        {'uid': uid, 'question': qMessage, 'files': mPartFIles});
+        {'uid': uid, 'question': qMessage, 'files': mPartFIles,'sid':sid});
     try {
       return dio
           .post('$restUrl/mobapi.sendquestion', data: formData)

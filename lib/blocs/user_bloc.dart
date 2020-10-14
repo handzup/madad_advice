@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/utils/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/config.dart';
+import '../utils/api_service.dart';
 
 ApiService apiService = ApiService();
 

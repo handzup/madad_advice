@@ -1,17 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:madad_advice/blocs/category_bloc.dart';
-import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
-import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/blocs/recent_bloc.dart';
-import 'package:madad_advice/blocs/section_bloc.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/pages/home.dart';
-import 'package:madad_advice/styles.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/drawer_menu_bloc.dart';
+import '../blocs/recent_bloc.dart';
+import '../blocs/section_bloc.dart';
+import '../blocs/sign_in_bloc.dart';
+import '../models/config.dart';
+import '../styles.dart';
+import '../utils/next_screen.dart';
+import 'home.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({

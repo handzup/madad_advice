@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:madad_advice/models/config.dart';
 import 'package:share/share.dart';
 
+import '../models/config.dart';
 import '../styles.dart';
 
 class HelpPage extends StatefulWidget {

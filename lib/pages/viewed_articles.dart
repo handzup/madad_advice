@@ -1,15 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
-import 'package:madad_advice/blocs/viewed_articles_bloc.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
+
+import '../blocs/viewed_articles_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/config.dart';
+import '../utils/empty.dart';
+import '../utils/next_screen.dart';
+import 'details.dart';
 
 final String url = Config().url;
 final String uri = Config().uri;

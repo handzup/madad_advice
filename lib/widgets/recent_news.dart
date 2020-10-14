@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:madad_advice/widgets/loading_shimmer.dart';
+
+import 'loading_shimmer.dart';
 
 class Recent extends StatelessWidget {
   const Recent({Key key}) : super(key: key);

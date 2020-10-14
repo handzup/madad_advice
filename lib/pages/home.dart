@@ -1,38 +1,35 @@
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:connectivity/connectivity.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:madad_advice/blocs/category_bloc.dart';
-import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
-import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/blocs/recent_bloc.dart';
-import 'package:madad_advice/blocs/section_bloc.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
-import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/recived_notification.dart';
-import 'package:madad_advice/models/section.dart';
-import 'package:madad_advice/pages/q&a_page.dart';
-import 'package:madad_advice/styles.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/widgets/drawer.dart';
-import 'package:madad_advice/widgets/loading_shimmer.dart';
-import 'package:madad_advice/widgets/main_page_block.dart';
-import 'package:madad_advice/widgets/no_internet_connection.dart';
-import 'package:madad_advice/widgets/reacent_home.dart';
-import 'package:madad_advice/widgets/service_error_snackbar.dart';
-import 'package:madad_advice/widgets/sphere.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:rxdart/subjects.dart';
+
+import '../blocs/drawer_menu_bloc.dart';
+import '../blocs/recent_bloc.dart';
+import '../blocs/section_bloc.dart';
+import '../blocs/sign_in_bloc.dart';
+import '../blocs/user_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/recived_notification.dart';
+import '../models/section.dart';
+import '../styles.dart';
+import '../utils/next_screen.dart';
+import '../widgets/drawer.dart';
+import '../widgets/main_page_block.dart';
+import '../widgets/no_internet_connection.dart';
+import '../widgets/reacent_home.dart';
+import 'q&a_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);

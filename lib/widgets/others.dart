@@ -2,10 +2,11 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:madad_advice/blocs/recommanded_bloc.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/recommanded_bloc.dart';
+import '../pages/details.dart';
+import '../utils/next_screen.dart';
 
 class Others extends StatelessWidget {
   final String timestamp;

@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:madad_advice/blocs/section_bloc.dart';
-import 'package:madad_advice/models/section.dart';
-import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/widgets/section_sections.dart';
-import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import '../blocs/section_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/section.dart';
 import '../styles.dart';
+import '../utils/empty.dart';
+import '../widgets/section_sections.dart';
+import '../widgets/service_error_snackbar.dart';
 
 class SectionPage extends StatefulWidget {
   const SectionPage({Key key}) : super(key: key);

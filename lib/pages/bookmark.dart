@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:madad_advice/blocs/bookmark_bloc.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/bookmark_bloc.dart';
+import '../utils/empty.dart';
+import '../utils/next_screen.dart';
+import 'details.dart';
 
 class BookmarkPage extends StatefulWidget {
   const BookmarkPage({Key key}) : super(key: key);

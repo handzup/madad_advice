@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:madad_advice/models/subsection.dart';
+
+import 'subsection.dart';
 
 part 'section.g.dart';
 

@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:madad_advice/models/pinned_file.dart';
+
 part 'sphere_article_short.g.dart';
 
 @HiveType(typeId: 9)
@@ -10,15 +10,15 @@ class SphereArticleShort {
   final String id;
   @HiveField(1)
   final String code;
-  @HiveField(6)
+  @HiveField(2)
   final String section_id;
-  @HiveField(9)
+  @HiveField(3)
   final String title;
-  @HiveField(12)
+  @HiveField(4)
   final String detail_text;
-  @HiveField(12)
+  @HiveField(5)
   final String sort;
-  @HiveField(12)
+  @HiveField(6)
   final String type;
 
   SphereArticleShort({

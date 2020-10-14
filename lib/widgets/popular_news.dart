@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:madad_advice/blocs/popular_bloc.dart';
-import 'package:madad_advice/pages/details.dart';
-import 'package:madad_advice/pages/more_news.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/widgets/loading_shimmer.dart';
-
 import 'package:provider/provider.dart';
+
+import '../blocs/popular_bloc.dart';
+import '../pages/details.dart';
+import '../pages/more_news.dart';
+import '../utils/next_screen.dart';
+import 'loading_shimmer.dart';
 
 class Popular extends StatelessWidget {
   const Popular({Key key}) : super(key: key);

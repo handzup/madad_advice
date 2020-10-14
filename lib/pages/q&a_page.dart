@@ -1,23 +1,24 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:madad_advice/blocs/question_bloc.dart';
-import 'package:madad_advice/blocs/sing_up_bloc.dart';
-import 'package:madad_advice/models/question.dart';
-import 'package:madad_advice/utils/empty.dart';
-import 'package:madad_advice/utils/toast.dart';
-import 'package:madad_advice/widgets/service_error_snackbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
-import 'package:madad_advice/pages/sign_in.dart';
-import 'package:madad_advice/styles.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
-import 'package:madad_advice/widgets/file_picker.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/question_bloc.dart';
+import '../blocs/sign_in_bloc.dart';
+import '../blocs/sing_up_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/question.dart';
+import '../styles.dart';
+import '../utils/empty.dart';
+import '../utils/next_screen.dart';
+import '../utils/toast.dart';
+import '../widgets/file_picker.dart';
+import '../widgets/service_error_snackbar.dart';
+import 'sign_in.dart';
 
 class QandAPage extends StatefulWidget {
   QandAPage({Key key}) : super(key: key);
@@ -27,6 +28,8 @@ class QandAPage extends StatefulWidget {
 }
 
 class _QandAPageState extends State<QandAPage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +40,7 @@ class _QandAPageState extends State<QandAPage> {
   ScrollController _scrollController =
       ScrollController(); // set controller on scrolling
   bool _show = true;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void dispose() {
     _scrollController.removeListener(() {});
@@ -86,8 +89,8 @@ class _QandAPageState extends State<QandAPage> {
 
       if (articleBlock.questions.error) {
         articleBlock.questions.errorMessage == 'internet'
-            ? _scaffoldKey.currentState.showSnackBar(snackBar(_handleRefresh))
-            : _scaffoldKey.currentState.showSnackBar(serviceError());
+            ? scaffoldKey.currentState.showSnackBar(snackBar(_handleRefresh))
+            : scaffoldKey.currentState.showSnackBar(serviceError());
       }
     }
     return null;
@@ -98,7 +101,7 @@ class _QandAPageState extends State<QandAPage> {
     return WillPopScope(
       onWillPop: blockBtn,
       child: Scaffold(
-          key: _scaffoldKey,
+          key: scaffoldKey,
           appBar: AppBar(
             centerTitle: true,
             title: Text(LocaleKeys.answersOnQuestions.tr()),
@@ -163,7 +166,8 @@ class _QandAPageState extends State<QandAPage> {
               child: Provider.of<SignInBloc>(context).isSignedIn
                   ? Consumer<QuestionBloc>(
                       builder: (context, data, child) {
-                        if (data.questions.data == null && data.questions.data.isEmpty) return child;
+                        if (data.questions.data == null &&
+                            data.questions.data.isEmpty) return child;
                         return _buildList(data.questions.data);
                       },
                       child: EmptyPage(
@@ -231,7 +235,10 @@ class QandACard extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w900, color: Colors.grey[500]),
                 ),
-                Text(answered ? LocaleKeys.answerReceived.tr() : LocaleKeys.waitForAnswer.tr(), 
+                Text(
+                    answered
+                        ? LocaleKeys.answerReceived.tr()
+                        : LocaleKeys.waitForAnswer.tr(),
                     style: TextStyle(
                         fontWeight: FontWeight.w900, color: Colors.grey[500]))
               ],
@@ -357,9 +364,8 @@ Widget singIn(context) {
 }
 
 var formKey = GlobalKey<FormState>();
-
 Widget ask(sc, context) {
-  final questionBloc = Provider.of<QuestionBloc>(context, listen: false);
+  final questionBloc = Provider.of<QuestionBloc>(context);
   return Material(
     child: CupertinoPageScaffold(
       child: SafeArea(
@@ -402,6 +408,36 @@ Widget ask(sc, context) {
                   SizedBox(
                     child: FilePickerDemo(),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: DropdownButton<String>(
+                        underline: Container(
+                          height: 2,
+                          color: questionBloc.drDownItem != null
+                              ? Colors.grey
+                              : Colors.red,
+                        ),
+                        isExpanded: true,
+                        hint: Text('Choose'),
+                        value: questionBloc.drDownItem,
+                        onChanged: (String newValue) {
+                          questionBloc.onChanged(newValue);
+                        },
+                        items: questionBloc.drDownItems
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -441,10 +477,17 @@ Widget ask(sc, context) {
   );
 }
 
-handleSubmit(context, questionBloc) {
-  if (formKey.currentState.validate()) {
+handleSubmit(context, QuestionBloc questionBloc) {
+  if (formKey.currentState.validate() && questionBloc.drDownItem != null) {
     questionBloc.sendQuestion();
     Navigator.pop(context);
+  } else {
+    if (questionBloc.drDownItem == null) {
+      openToastRed(
+        context,
+        'Выберите категорию вопроса',
+      );
+    }
   }
 }
 

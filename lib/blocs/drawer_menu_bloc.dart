@@ -1,14 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/langs.dart';
-import 'package:madad_advice/models/menu.dart';
 
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/api_service.dart';
-import 'package:madad_advice/utils/locator.dart';
+import '../models/config.dart';
+import '../models/menu.dart';
+import '../utils/api_response.dart';
+import '../utils/api_service.dart';
+import 'internet_bloc.dart';
 
 final restUrl = Config().resturl;
 

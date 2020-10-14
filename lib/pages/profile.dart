@@ -1,27 +1,28 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
-import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/icons_data.dart';
-import 'package:madad_advice/pages/data_usage.dart';
-import 'package:madad_advice/pages/language.dart';
-import 'package:madad_advice/pages/sign_in.dart';
-import 'package:madad_advice/pages/welcome_page.dart';
-import 'package:madad_advice/styles.dart';
-import 'package:madad_advice/utils/myicons.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/utils/toast.dart';
-import 'package:provider/provider.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
+
+import '../blocs/sign_in_bloc.dart';
+import '../blocs/user_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/icons_data.dart';
+import '../styles.dart';
+import '../utils/myicons.dart';
+import '../utils/next_screen.dart';
+import '../utils/toast.dart';
+import 'data_usage.dart';
+import 'language.dart';
+import 'sign_in.dart';
+import 'welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);

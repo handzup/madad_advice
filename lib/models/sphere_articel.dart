@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:madad_advice/models/pinned_file.dart';
+import 'pinned_file.dart';
 part 'sphere_articel.g.dart';
 
 @HiveType(typeId: 3)

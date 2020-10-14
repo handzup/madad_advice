@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:madad_advice/pages/category_item_page.dart';
-import 'package:madad_advice/utils/next_screen.dart';
+import '../pages/category_item_page.dart';
+import '../utils/next_screen.dart';
 
 import '../styles.dart';
 

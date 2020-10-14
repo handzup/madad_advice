@@ -1,18 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madad_advice/blocs/section_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/section.dart';
-import 'package:madad_advice/models/subsection.dart';
-import 'package:madad_advice/pages/category_item_page.dart';
-import 'package:madad_advice/utils/fa_icon.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:provider/provider.dart';
 
+import '../models/config.dart';
+import '../models/section.dart';
+import '../models/subsection.dart';
+import '../pages/category_item_page.dart';
 import '../styles.dart';
+import '../utils/next_screen.dart';
 
 class MainPageBlock extends StatefulWidget {
   final Section data;
@@ -39,24 +34,6 @@ class _MainPageBlockState extends State<MainPageBlock> {
               color: Colors.white,
             ));
       },
-      // onTapDown: (value) {
-      //   setState(() {
-      //     print('onTapDown');
-      //     hover = false;
-      //   });
-      // },
-      // onTapUp: (value) {
-      //   setState(() {
-      //     print('onTapUp');
-      //     hover = true;
-      //   });
-      // },
-      // onTapCancel: () {
-      //   setState(() {
-      //     print('onTapCancel');
-      //     hover = true;
-      //   });
-      // },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AnimatedContainer(
@@ -81,17 +58,16 @@ class _MainPageBlockState extends State<MainPageBlock> {
                       child: _sectionBuilder(data.subsections),
                     ),
                     Flexible(
-                      
                         flex: 2,
                         child: Container(
                             alignment: Alignment.center,
-                            child:  
-                            //SvgPicture.asset('assets/calendar_start_icon.svg',color: Colors.white,)
-                            SvgPicture.network(
-                              
+                            child:
+                                //SvgPicture.asset('assets/calendar_start_icon.svg',color: Colors.white,)
+                                SvgPicture.network(
                               data.pic != null
                                   ? restUrl + data.pic
-                                  : 'https://b-advice.uz/upload/uf/565/calendar_start_icon.svg',height: 100,
+                                  : 'https://b-advice.uz/upload/uf/565/calendar_start_icon.svg',
+                              height: 100,
                             )
                             //  FaIcons(
                             //   data.icon,

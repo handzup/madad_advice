@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:madad_advice/models/sphere_articel.dart';
+
+import '../models/sphere_articel.dart';
 
 const key = 'viewed';
 class ViewedArticlesBloc extends ChangeNotifier {

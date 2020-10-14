@@ -1,38 +1,32 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
-import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
-import 'package:madad_advice/blocs/soc_links_bloc.dart';
-import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/menu.dart';
-import 'package:madad_advice/pages/category_page.dart';
-import 'package:madad_advice/pages/language.dart';
-import 'package:madad_advice/pages/profile.dart';
-import 'package:madad_advice/pages/q&a_page.dart';
-import 'package:madad_advice/pages/sections_page.dart';
-import 'package:madad_advice/pages/sign_in.dart';
-import 'package:madad_advice/pages/viewed_articles.dart';
-import 'package:madad_advice/pages/welcome_page.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/fa_icon.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/widgets/expandable.dart';
-import 'package:madad_advice/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:move_to_background/move_to_background.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../blocs/drawer_menu_bloc.dart';
+import '../blocs/internet_bloc.dart';
+import '../blocs/sign_in_bloc.dart';
+import '../blocs/soc_links_bloc.dart';
+import '../blocs/user_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/config.dart';
+import '../models/menu.dart';
+import '../pages/language.dart';
+import '../pages/profile.dart';
+import '../pages/sign_in.dart';
+import '../pages/welcome_page.dart';
 import '../styles.dart';
+import '../utils/api_response.dart';
+import '../utils/next_screen.dart';
+import 'expandable.dart';
+import 'search_bar.dart';
 
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({Key key}) : super(key: key);

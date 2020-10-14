@@ -1,15 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:madad_advice/blocs/drawer_menu_bloc.dart';
-import 'package:madad_advice/blocs/recent_bloc.dart';
-import 'package:madad_advice/blocs/search_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/search_result.dart';
-import 'package:madad_advice/pages/details_from_search.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import '../blocs/drawer_menu_bloc.dart';
+import '../blocs/recent_bloc.dart';
+import '../blocs/search_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/config.dart';
+import '../models/search_result.dart';
+import '../utils/next_screen.dart';
+import 'details_from_search.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key key}) : super(key: key);

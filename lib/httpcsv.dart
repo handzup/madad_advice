@@ -3,11 +3,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
-
-import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
 
 //

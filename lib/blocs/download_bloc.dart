@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:madad_advice/models/pinned_file.dart';
+
+import '../models/pinned_file.dart';
 
 class DownloadBloc extends ChangeNotifier {
   List<String> _allPaths;

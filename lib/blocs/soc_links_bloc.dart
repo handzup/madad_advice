@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:madad_advice/models/social.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/api_service.dart';
+
+import '../models/social.dart';
+import '../utils/api_service.dart';
 
 final apiService = ApiService();
 

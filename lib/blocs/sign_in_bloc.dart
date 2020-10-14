@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:madad_advice/blocs/firebase_bloc.dart';
-import 'package:madad_advice/blocs/user_bloc.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/pages/home.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/api_service.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/config.dart';
+import '../pages/home.dart';
+import '../utils/api_response.dart';
+import '../utils/api_service.dart';
+import '../utils/next_screen.dart';
+import 'firebase_bloc.dart';
+import 'user_bloc.dart';
 
 final restUrl = Config().resturl;
 

@@ -1,9 +1,11 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:madad_advice/blocs/viewed_articles_bloc.dart';
+import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/pinned_file.dart';
 import 'package:madad_advice/models/scope.dart';
@@ -17,8 +19,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import 'category_item_page.dart';
 
 class DetailsPage extends StatefulWidget {
   final String category;
@@ -103,8 +105,19 @@ class _DetailsPageState extends State<DetailsPage> {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw 'Could not launch $url';
+      openSection(url);
     }
+  }
+
+  void openSection(String url) {
+    var pos = url.lastIndexOf('/');
+    String result = url.substring(pos + 1, url.length);
+    nextScreen(
+        context,
+        CategoryItemPage(
+          category: null,
+          queryPath: result,
+        ));
   }
 
   showDelayed() {
@@ -207,7 +220,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
+                   category != null ? Row(
                       children: <Widget>[
                         Container(
                             height: 28,
@@ -229,7 +242,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             )),
                         Spacer(),
                       ],
-                    ),
+                    ) : SizedBox.shrink(),
                     SizedBox(
                       height: 10,
                     ),

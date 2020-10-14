@@ -1,9 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/blocs/download_bloc.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:provider/provider.dart';
+
+import '../blocs/download_bloc.dart';
+import '../generated/locale_keys.g.dart';
 
 class DataUsage extends StatelessWidget {
   remove(context) async {

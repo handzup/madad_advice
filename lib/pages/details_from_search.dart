@@ -1,9 +1,11 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:madad_advice/blocs/search_bloc.dart';
+import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:madad_advice/models/config.dart';
 import 'package:madad_advice/models/pinned_file.dart';
 import 'package:madad_advice/models/scope.dart';
@@ -14,11 +16,9 @@ import 'package:madad_advice/utils/next_screen.dart';
 import 'package:madad_advice/widgets/downloader.dart';
 import 'package:madad_advice/widgets/tag.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
-import 'package:progress_indicators/progress_indicators.dart';
 
 class DetailsFromSearchPage extends StatefulWidget {
   final String category;

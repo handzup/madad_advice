@@ -1,19 +1,20 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/formatters/phone_input_formatter.dart';
-import 'package:madad_advice/blocs/internet_bloc.dart';
-import 'package:madad_advice/blocs/sign_in_bloc.dart';
-import 'package:madad_advice/models/icons_data.dart';
-import 'package:madad_advice/pages/forgot_password.dart';
-import 'package:madad_advice/pages/sign_up.dart';
-import 'package:madad_advice/styles.dart';
-import 'package:madad_advice/utils/api_response.dart';
-import 'package:madad_advice/utils/next_screen.dart';
-import 'package:madad_advice/utils/snacbar.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:madad_advice/generated/locale_keys.g.dart';
+
+import '../blocs/internet_bloc.dart';
+import '../blocs/sign_in_bloc.dart';
+import '../generated/locale_keys.g.dart';
+import '../models/icons_data.dart';
+import '../styles.dart';
+import '../utils/api_response.dart';
+import '../utils/next_screen.dart';
+import '../utils/snacbar.dart';
+import 'forgot_password.dart';
+import 'sign_up.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key key, this.firstSingIn = true}) : super(key: key);

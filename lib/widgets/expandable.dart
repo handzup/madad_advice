@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:madad_advice/models/menu.dart';
-import 'package:madad_advice/pages/category_item_page.dart';
-import 'package:madad_advice/pages/category_page.dart';
-import 'package:madad_advice/pages/details_from_search.dart';
-import 'package:madad_advice/pages/profile.dart';
-import 'package:madad_advice/pages/q&a_page.dart';
-import 'package:madad_advice/pages/sections_page.dart';
-import 'package:madad_advice/pages/viewed_articles.dart';
-import 'package:madad_advice/utils/fa_icon.dart';
-import 'package:madad_advice/utils/next_screen.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../models/menu.dart';
+import '../pages/category_item_page.dart';
+import '../pages/details_from_search.dart';
+import '../pages/profile.dart';
+import '../pages/q&a_page.dart';
+import '../pages/viewed_articles.dart';
+import '../utils/fa_icon.dart';
+import '../utils/next_screen.dart';
 
 class ExpandedList extends StatefulWidget {
   final Menu data;

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:madad_advice/models/config.dart';
-import 'package:madad_advice/models/search_result.dart';
 
-import 'package:madad_advice/utils/api_service.dart';
-import 'package:madad_advice/models/sphere_articel.dart';
+import '../models/config.dart';
+import '../models/search_result.dart';
+import '../models/sphere_articel.dart';
+import '../utils/api_service.dart';
 
 const key = 'articleById';
 final restUrl = Config().resturl;
