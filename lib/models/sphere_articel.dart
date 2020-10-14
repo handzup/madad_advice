@@ -35,6 +35,7 @@ class SphereArticle {
   @HiveField(13)
   final String show_counter;
   @HiveField(14)
+  @JsonKey(defaultValue: null)
   final String normativnye_akty; //вправить в ручную g файл!
   @HiveField(15)
   @JsonKey(defaultValue: null)
