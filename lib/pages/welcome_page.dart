@@ -124,7 +124,7 @@ class _WelcomePageState extends State<WelcomePage>
                                     color: Colors.grey[700]),
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: 'Advice Business',
+                                      text: 'Advice for business',
                                       style: TextStyle(
                                           color: ThemeColors.primaryColor,
                                           fontWeight: FontWeight.w600)),

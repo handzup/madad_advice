@@ -300,17 +300,32 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         Image(width: 30, image: AssetImage('assets/logo.png')),
                         SizedBox(width: 10),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Advice for Business',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black),
-                            children: <TextSpan>[],
-                          ),
-                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Text(
+                              LocaleKeys.appTitle.tr(),
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18,
+                                  decorationThickness: 0,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              LocaleKeys.appSubtitle.tr(),
+                              style: TextStyle(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 12,
+                                  height: 0.40,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            )
+                          ],
+                        )
+         
                       ],
                     ),
                   ),

@@ -106,8 +106,10 @@ abstract class  LocaleKeys {
   static const reEnterPassword = 'reEnterPassword';
   static const passMissmatch = 'passMissmatch';
   static const chooseQuestionCategory = 'chooseQuestionCategory';
-  static const other = 'other';
   static const successSend = 'successSend';
   static const errorWhenSend = 'errorWhenSend';
+  static const appTitle = 'appTitle';
+  static const appSubtitle = 'appSubtitle';
+  static const other = 'other';
 
 }

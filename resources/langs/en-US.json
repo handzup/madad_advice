@@ -106,5 +106,7 @@
     "chooseQuestionCategory": "Select question category",
     "other": "Other",
     "successSend": "Your question has been delivered",
-    "errorWhenSend": "An error occurred while sending"
+    "errorWhenSend": "An error occurred while sending",
+    "appTitle": "Advice for Business",
+    "appSubtitle": "Бизнесга маслаҳат"
 }

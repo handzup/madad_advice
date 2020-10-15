@@ -137,7 +137,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               text: TextSpan(
                 text: LocaleKeys.verifyCodeWasSend.tr(),
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Open Sans',
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[700],

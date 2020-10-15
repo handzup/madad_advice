@@ -122,7 +122,9 @@ class CodegenLoader extends AssetLoader{
   "chooseQuestionCategory": "Выберите категорию вопроса",
   "other": "Дургое",
   "successSend": "Ваш вопрос был доставлен",
-  "errorWhenSend": "Произошла ошибка при отпавке"
+  "errorWhenSend": "Произошла ошибка при отпавке",
+  "appTitle": "Advice for Business",
+  "appSubtitle": "Бизнесга маслаҳат"
 };
 static const Map<String,dynamic> en = {
   "spheresList": "List of spheres",
@@ -232,7 +234,9 @@ static const Map<String,dynamic> en = {
   "chooseQuestionCategory": "Select question category",
   "other": "Other",
   "successSend": "Your question has been delivered",
-  "errorWhenSend": "An error occurred while sending"
+  "errorWhenSend": "An error occurred while sending",
+  "appTitle": "Advice for Business",
+  "appSubtitle": "Бизнесга маслаҳат"
 };
 static const Map<String,dynamic> uz_UZ = {
   "spheresList": "Сохалар рўйхати",
@@ -342,7 +346,9 @@ static const Map<String,dynamic> uz_UZ = {
   "chooseQuestionCategory": "Савол туркумини танланг",
   "other": "Бошка",
   "successSend": "Саволингиз этказилди",
-  "errorWhenSend": "Юбориш пайтида хатолик юз берди"
+  "errorWhenSend": "Юбориш пайтида хатолик юз берди",
+  "appTitle": "Advice for Business",
+  "appSubtitle": "Бизнесга маслаҳат"
 };
 static const Map<String,dynamic> ru_RU = {
   "spheresList": "Список сфер",
@@ -452,7 +458,9 @@ static const Map<String,dynamic> ru_RU = {
   "chooseQuestionCategory": "Выберите категорию вопроса",
   "other": "Дургое",
   "successSend": "Ваш вопрос был доставлен",
-  "errorWhenSend": "Произошла ошибка при отпавке"
+  "errorWhenSend": "Произошла ошибка при отпавке",
+  "appTitle": "Advice for Business",
+  "appSubtitle": "Бизнесга маслаҳат"
 };
 static const Map<String,dynamic> uz = {
   "spheresList": "Сохалар рўйхати",
@@ -562,7 +570,9 @@ static const Map<String,dynamic> uz = {
   "chooseQuestionCategory": "Савол туркумини танланг",
   "other": "Бошка",
   "successSend": "Саволингиз этказилди",
-  "errorWhenSend": "Юбориш пайтида хатолик юз берди"
+  "errorWhenSend": "Юбориш пайтида хатолик юз берди",
+  "appTitle": "Advice for Business",
+  "appSubtitle": "Бизнесга маслаҳат"
 };
 static const Map<String,dynamic> en_US = {
   "spheresList": "List of spheres",
@@ -672,7 +682,9 @@ static const Map<String,dynamic> en_US = {
   "chooseQuestionCategory": "Select question category",
   "other": "Other",
   "successSend": "Your question has been delivered",
-  "errorWhenSend": "An error occurred while sending"
+  "errorWhenSend": "An error occurred while sending",
+  "appTitle": "Advice for Business",
+  "appSubtitle": "Бизнесга маслаҳат"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz_UZ": uz_UZ, "ru_RU": ru_RU, "uz": uz, "en_US": en_US};
 }
