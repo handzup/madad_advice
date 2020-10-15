@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:madad_advice/generated/locale_keys.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../models/config.dart';
 import '../utils/api_service.dart';
 
@@ -10,10 +11,10 @@ class UserBloc extends ChangeNotifier {
   String randomUserImageUrl =
       'https://img.pngio.com/avatar-business-face-people-icon-people-icon-png-512_512.png';
 
-  String _userName = 'Madad';
+  String _userName = LocaleKeys.appSubtitle.tr();
   String get userName => _userName;
   String _userLastName = "LastName";
-  String _email = 'Advice for Business';
+  String _email = LocaleKeys.appTitle.tr();
   String _uid = 'uid';
   String _imageUrl = Config().splashIcon;
   String _phone = '';
@@ -37,9 +38,9 @@ class UserBloc extends ChangeNotifier {
   getUserData() async {
     final sp = await SharedPreferences.getInstance();
 
-    _userName = sp.getString('name') ?? 'Madad';
+    _userName = sp.getString('name') ?? LocaleKeys.appSubtitle.tr();
     _userLastName = sp.getString('lastName') ?? 'LastName';
-    _email = sp.getString('email') ?? 'Advice for Business';
+    _email = sp.getString('email') ?? LocaleKeys.appTitle.tr();
     _uid = sp.getString('uid') ?? 'uid';
     _imageUrl = sp.getString('image url') ?? Config().uri;
     _phone = sp.getString('phone') ?? '';
