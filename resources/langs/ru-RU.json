@@ -108,5 +108,6 @@
     "successSend": "Ваш вопрос был доставлен",
     "errorWhenSend": "Произошла ошибка при отпавке",
     "appTitle": "Advice for Business",
-    "appSubtitle": "Бизнесга маслаҳат"
+    "appSubtitle": "Бизнесга маслаҳат",
+    "needSingIn": "Чтобы задать вопрос необходимо войти"
 }

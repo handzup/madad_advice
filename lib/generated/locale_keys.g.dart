@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const spheresList = 'spheresList';
   static const emptyPage = 'emptyPage';
   static const search = 'search';
@@ -110,6 +110,6 @@ abstract class  LocaleKeys {
   static const errorWhenSend = 'errorWhenSend';
   static const appTitle = 'appTitle';
   static const appSubtitle = 'appSubtitle';
+  static const needSingIn = 'needSingIn';
   static const other = 'other';
-
 }

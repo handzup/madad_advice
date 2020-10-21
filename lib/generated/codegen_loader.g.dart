@@ -124,7 +124,8 @@ class CodegenLoader extends AssetLoader{
   "successSend": "Ваш вопрос был доставлен",
   "errorWhenSend": "Произошла ошибка при отпавке",
   "appTitle": "Advice for Business",
-  "appSubtitle": "Бизнесга маслаҳат"
+  "appSubtitle": "Бизнесга маслаҳат",
+  "needSingIn": "Чтобы задать вопрос необходимо войти"
 };
 static const Map<String,dynamic> en = {
   "spheresList": "List of spheres",
@@ -236,7 +237,8 @@ static const Map<String,dynamic> en = {
   "successSend": "Your question has been delivered",
   "errorWhenSend": "An error occurred while sending",
   "appTitle": "Advice for Business",
-  "appSubtitle": "Бизнесга маслаҳат"
+  "appSubtitle": "Бизнесга маслаҳат",
+  "needSingIn": "To ask a question you must log in"
 };
 static const Map<String,dynamic> uz_UZ = {
   "spheresList": "Сохалар рўйхати",
@@ -348,7 +350,8 @@ static const Map<String,dynamic> uz_UZ = {
   "successSend": "Саволингиз этказилди",
   "errorWhenSend": "Юбориш пайтида хатолик юз берди",
   "appTitle": "Advice for Business",
-  "appSubtitle": "Бизнесга маслаҳат"
+  "appSubtitle": "Бизнесга маслаҳат",
+  "needSingIn": "Савол бериш учун сиз тизимга киришингиз лозим"
 };
 static const Map<String,dynamic> ru_RU = {
   "spheresList": "Список сфер",
@@ -460,7 +463,8 @@ static const Map<String,dynamic> ru_RU = {
   "successSend": "Ваш вопрос был доставлен",
   "errorWhenSend": "Произошла ошибка при отпавке",
   "appTitle": "Advice for Business",
-  "appSubtitle": "Бизнесга маслаҳат"
+  "appSubtitle": "Бизнесга маслаҳат",
+  "needSingIn": "Чтобы задать вопрос необходимо войти"
 };
 static const Map<String,dynamic> uz = {
   "spheresList": "Сохалар рўйхати",
@@ -572,7 +576,8 @@ static const Map<String,dynamic> uz = {
   "successSend": "Саволингиз этказилди",
   "errorWhenSend": "Юбориш пайтида хатолик юз берди",
   "appTitle": "Advice for Business",
-  "appSubtitle": "Бизнесга маслаҳат"
+  "appSubtitle": "Бизнесга маслаҳат",
+  "needSingIn": "Савол бериш учун сиз тизимга киришингиз лозим"
 };
 static const Map<String,dynamic> en_US = {
   "spheresList": "List of spheres",
@@ -684,7 +689,8 @@ static const Map<String,dynamic> en_US = {
   "successSend": "Your question has been delivered",
   "errorWhenSend": "An error occurred while sending",
   "appTitle": "Advice for Business",
-  "appSubtitle": "Бизнесга маслаҳат"
+  "appSubtitle": "Бизнесга маслаҳат",
+  "needSingIn": "To ask a question you must log in"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz_UZ": uz_UZ, "ru_RU": ru_RU, "uz": uz, "en_US": en_US};
 }
