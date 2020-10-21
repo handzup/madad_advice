@@ -41,7 +41,7 @@ class _ExpandedListState extends State<ExpandedList> {
         nextScreen(context, ProfilePage());
         break;
       case 'history':
-        nextScreen(context, ViewedArticles());  
+        nextScreen(context, ViewedArticles());
         break;
       case 'question':
         nextScreen(context, QandAPage());
@@ -102,46 +102,48 @@ class _ExpandedListState extends State<ExpandedList> {
           decoration: BoxDecoration(
               border: Border(
             bottom: BorderSide(width: 0.5, color: Colors.grey[400]),
-            // top: BorderSide(width: 1, color: Colors.grey[300]),
           )),
-          child: ListTile(
-            trailing: data.submenu.isNotEmpty
-                ? Icon(
-                    !isExpanded ? Icons.arrow_drop_down : Icons.arrow_drop_up)
-                : SizedBox.shrink(),
-            title: Text(
-              data.title,
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.grey[700]),
+          child: Container(
+            color: Colors.red,
+            child: ListTile(
+              trailing: data.submenu.isNotEmpty
+                  ? Icon(
+                      !isExpanded ? Icons.arrow_drop_down : Icons.arrow_drop_up)
+                  : SizedBox.shrink(),
+              title: Text(
+                data.title,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.grey[700]),
+              ),
+              leading: CircleAvatar(
+                  backgroundColor: Colors.white12,
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey[100])),
+                    child: FaIcons(
+                      data.icon.toString(),
+                      color: Colors.blue.withOpacity(.4),
+                      size: 20,
+                    ),
+                  )),
+              onTap: () {
+                if (data.submenu.isNotEmpty) {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                } else {
+                  Navigator.pop(context);
+                  directionNavigator(data);
+                }
+              },
             ),
-            leading: CircleAvatar(
-                backgroundColor: Colors.white12,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey[100])),
-                  child: FaIcons(
-                    data.icon.toString(),
-                    color: Colors.blue.withOpacity(.4),
-                    size: 20,
-                  ),
-                )),
-            onTap: () {
-              if (data.submenu.isNotEmpty) {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              } else {
-                Navigator.pop(context);
-                directionNavigator(data);
-              }
-            },
           ),
         ),
         ExpandableContainer(

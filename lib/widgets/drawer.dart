@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../blocs/drawer_menu_bloc.dart';
@@ -224,6 +225,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
     final sp = Provider.of<SignInBloc>(context);
 
     return Drawer(
+      
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -308,10 +310,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   Spacer(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Spacer(),
+                      IconButton(
+                        icon: Icon(Entypo.info_with_circle),
+                        onPressed: () => _showDisclaimer(context),
+                      ),
                       sp.isSignedIn ? singOut() : singIn(context),
-                      Spacer(),
                     ],
                   ),
                   Spacer(),
@@ -325,6 +330,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
   Widget buildList(context) {
     final isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return ListView.builder(
+      
       physics: AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(0),
       itemCount: _apiResponse.data.length,
@@ -337,6 +343,28 @@ class _DrawerMenuState extends State<DrawerMenu> {
       },
     );
   }
+}
+
+_showDisclaimer(context) {
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    isCloseButton: true,
+    alertPadding: EdgeInsets.only(left: 20, right: 20),
+    isOverlayTapDismiss: true,
+    titleStyle: TextStyle(color: Colors.red, fontSize: 16),
+    descStyle: TextStyle(fontSize: 12),
+  );
+  Alert(
+    style: alertStyle,
+    context: context,
+    title: "Disclaimer",
+    desc:
+        """This application is made possible by the support of the American People through the U.S. Agency for International Development (USAID). The contents are the sole responsibility of Tetra Tech DPK and do not necessarily reflect the views of USAID or the United States Government. 
+
+Данное приложение стал возможным благодаря помощи американского народа, оказанной через Агентство США по международному развитию (USAID). Tetra Tech DPK (Тетра Тек ДПК) несет ответственность за содержание публикации, которое не обязательно отражает позицию USAID или Правительства США.
+
+Мазкур дастур АҚШ Халқаро Тараққиёт Агентлиги (USAID) орқали кўрсатилган Америка халқининг ёрдами асосида яратилган. Маҳсулот мазмуни бўйича масъулият Tetra Tech DPK га юклатилади ва USAID ёки АҚШ ҳукумати расмий нуқтаи назарини акс эттириши шарт эмас.""",
+  ).show();
 }
 
 Widget _socMedia(context) {

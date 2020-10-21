@@ -66,6 +66,9 @@ class _WelcomePageState extends State<WelcomePage>
   @override
   Widget build(BuildContext context) {
     final sb = Provider.of<SignInBloc>(context);
+    ImageProvider downSide = AssetImage(Config().downSideSplashIcon);
+    ImageProvider upSide = AssetImage(Config().splashIcon);
+    // ImageProvider logo = AssetImage("images/logo_rienpa.png");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -84,17 +87,12 @@ class _WelcomePageState extends State<WelcomePage>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CircleAvatar(
-                          backgroundImage: sb.isSignedIn
-                              ? widget.url != null
-                                  ? CachedNetworkImageProvider(
-                                      widget.url,
-                                    )
-                                  : AssetImage(Config().splashIcon)
-                              : AssetImage(Config().splashIcon),
-                          radius: 45,
-                          backgroundColor: Colors.grey[200],
-                        ),
+                        Container(
+                            width: 120,
+                            height: 120,
+                            child: Image(
+                              image: upSide,
+                            )),
                         SizedBox(
                           height: 10,
                         ),
@@ -102,18 +100,6 @@ class _WelcomePageState extends State<WelcomePage>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            sb.isSignedIn
-                                ? (widget.name == null
-                                    ? Text('')
-                                    : Text(
-                                        widget.name,
-                                        style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.grey[700]),
-                                      ))
-                                : SizedBox(),
                             RichText(
                               text: TextSpan(
                                 text: 'Welcome to ',
@@ -147,6 +133,14 @@ class _WelcomePageState extends State<WelcomePage>
                   child: FlareActor('assets/loader.flr',
                       fit: BoxFit.contain, animation: 'defauld')),
             ),
+            Align(
+                alignment: Alignment(0, .5),
+                child: Container(
+                    width: 150,
+                    height: 150,
+                    child: Image(
+                      image: downSide,
+                    ))),
             // sb.isSignedIn != true
             //     ? Align(
             //         alignment: Alignment.bottomCenter,

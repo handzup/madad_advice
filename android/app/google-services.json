@@ -44,6 +44,42 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:68144912699:android:f73419a7f2b8619363bf1e",
+        "android_client_info": {
+          "package_name": "uz.business.advice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68144912699-3q6jgb5v0hfdn41ucke3k7iakm456itt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHssf1guCCuZJp3_d3nWdD1DzRUD6hiVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68144912699-3q6jgb5v0hfdn41ucke3k7iakm456itt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "68144912699-v2269h45hvm3moqa5spigu898tnq2gpo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "madad.advice4business"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:68144912699:android:27ec86425fcee9be63bf1e",
         "android_client_info": {
           "package_name": "uz.tug.adviceforbusiness"
