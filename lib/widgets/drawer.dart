@@ -225,7 +225,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
     final sp = Provider.of<SignInBloc>(context);
 
     return Drawer(
-      
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -330,7 +329,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
   Widget buildList(context) {
     final isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return ListView.builder(
-      
       physics: AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(0),
       itemCount: _apiResponse.data.length,

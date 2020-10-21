@@ -104,7 +104,7 @@ class _ExpandedListState extends State<ExpandedList> {
             bottom: BorderSide(width: 0.5, color: Colors.grey[400]),
           )),
           child: Container(
-            color: Colors.red,
+            color: data.bgColor ?? null,
             child: ListTile(
               trailing: data.submenu.isNotEmpty
                   ? Icon(
@@ -115,7 +115,7 @@ class _ExpandedListState extends State<ExpandedList> {
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
-                    color: Colors.grey[700]),
+                    color: data.textColor ?? Colors.grey[700]),
               ),
               leading: CircleAvatar(
                   backgroundColor: Colors.white12,
@@ -163,37 +163,40 @@ class _ExpandedListState extends State<ExpandedList> {
       itemExtent: 50,
       // ignore: missing_return
       itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child: ListTile(
-            contentPadding: EdgeInsets.all(0.0),
-            title: Text(
-              data[index].title,
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.grey[700]),
+        return Container(
+          color: data[index].bgColor ?? null,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: ListTile(
+              contentPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data[index].title,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: data[index].textColor ?? Colors.grey[700]),
+              ),
+              leading: CircleAvatar(
+                  backgroundColor: Colors.white12,
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey[100])),
+                    child: FaIcons(
+                      data[index].icon.toString(),
+                      color: Colors.blue.withOpacity(.4),
+                      size: 20,
+                    ),
+                  )),
+              onTap: () {
+                Navigator.pop(context);
+                directionNavigator(data[index]);
+              },
             ),
-            leading: CircleAvatar(
-                backgroundColor: Colors.white12,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey[100])),
-                  child: FaIcons(
-                    data[index].icon.toString(),
-                    color: Colors.blue.withOpacity(.4),
-                    size: 20,
-                  ),
-                )),
-            onTap: () {
-              Navigator.pop(context);
-              directionNavigator(data[index]);
-            },
           ),
         );
       },

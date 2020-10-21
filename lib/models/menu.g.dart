@@ -17,6 +17,8 @@ class MenuAdapter extends TypeAdapter<Menu> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Menu(
+      bgColor: fields[7] as Color,
+      textColor: fields[6] as Color,
       title: fields[0] as String,
       icon: fields[2] as String,
       path: fields[1] as String,
@@ -29,7 +31,7 @@ class MenuAdapter extends TypeAdapter<Menu> {
   @override
   void write(BinaryWriter writer, Menu obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -41,7 +43,11 @@ class MenuAdapter extends TypeAdapter<Menu> {
       ..writeByte(4)
       ..write(obj.submenu)
       ..writeByte(5)
-      ..write(obj.type);
+      ..write(obj.type)
+      ..writeByte(6)
+      ..write(obj.textColor)
+      ..writeByte(7)
+      ..write(obj.bgColor);
   }
 
   @override
@@ -61,6 +67,8 @@ class MenuAdapter extends TypeAdapter<Menu> {
 
 Menu _$MenuFromJson(Map<String, dynamic> json) {
   return Menu(
+    bgColor: Menu._toColor(json['bg_color'] as String),
+    textColor: Menu._toColor(json['text_color'] as String),
     title: json['title'] as String,
     icon: json['icon'] as String,
     path: json['path'] as String,
@@ -80,4 +88,6 @@ Map<String, dynamic> _$MenuToJson(Menu instance) => <String, dynamic>{
       'sort': instance.sort,
       'submenu': instance.submenu,
       'type': instance.type,
+      'text_color': Menu._toString(instance.textColor),
+      'bg_color': Menu._toString(instance.bgColor),
     };
