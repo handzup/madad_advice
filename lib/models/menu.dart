@@ -21,12 +21,12 @@ class Menu {
   @JsonKey(fromJson: _toString)
   @HiveField(5)
   final String type;
-  @JsonKey(fromJson: _toColor, name: 'text_color',toJson: _toString)
+  @JsonKey(fromJson: _toColor, name: 'text_color', toJson: _toString)
   @HiveField(6)
-  final Color textColor;
-  @JsonKey(fromJson: _toColor, name: 'bg_color',toJson: _toString)
+  final int textColor;
+  @JsonKey(fromJson: _toColor, name: 'bg_color', toJson: _toString)
   @HiveField(7)
-  final Color bgColor;
+  final int bgColor;
 
   Menu(
       {this.bgColor,
@@ -43,11 +43,10 @@ class Menu {
   Map<String, dynamic> toJson() => _$MenuToJson(this);
   static int _toInt(dynamic answer) => int.parse(answer.toString());
   static String _toString(dynamic type) => type.toString();
-  static Color _toColor(String type) {
-    if ( type != null && type.isNotEmpty) {
+  static int _toColor(String type) {
+    if (type != null && type.isNotEmpty) {
       var str = type.replaceAll('#', '');
-
-      return Color(int.parse('0xFF$str'));
+      return (int.parse('0xFF$str'));
     } else {
       return null;
     }

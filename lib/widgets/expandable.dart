@@ -104,7 +104,7 @@ class _ExpandedListState extends State<ExpandedList> {
             bottom: BorderSide(width: 0.5, color: Colors.grey[400]),
           )),
           child: Container(
-            color: data.bgColor ?? null,
+            color: Color(data.bgColor ?? 0x00FFFFFF),
             child: ListTile(
               trailing: data.submenu.isNotEmpty
                   ? Icon(
@@ -115,7 +115,9 @@ class _ExpandedListState extends State<ExpandedList> {
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
-                    color: data.textColor ?? Colors.grey[700]),
+                    color: data.textColor != null
+                        ? Color(data.textColor)
+                        : Colors.grey[700]),
               ),
               leading: CircleAvatar(
                   backgroundColor: Colors.white12,
@@ -164,7 +166,7 @@ class _ExpandedListState extends State<ExpandedList> {
       // ignore: missing_return
       itemBuilder: (BuildContext context, int index) {
         return Container(
-          color: data[index].bgColor ?? null,
+          color: Color(data[index].bgColor ?? 0x00FFFFFF),
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: ListTile(
@@ -174,7 +176,9 @@ class _ExpandedListState extends State<ExpandedList> {
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
-                    color: data[index].textColor ?? Colors.grey[700]),
+                    color: data[index].textColor != null
+                        ? Color(data[index].textColor)
+                        : Colors.grey[700]),
               ),
               leading: CircleAvatar(
                   backgroundColor: Colors.white12,
