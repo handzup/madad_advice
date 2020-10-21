@@ -178,7 +178,7 @@ class _QandAPageState extends State<QandAPage> {
                     )
                   : EmptyPage(
                       icon: Icons.hourglass_empty,
-                      message: ' Чтобы задать вопрос необходимо войти  ',
+                      message: LocaleKeys.needSingIn.tr(),
                       animate: true,
                     ))),
     );
